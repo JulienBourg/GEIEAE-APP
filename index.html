@@ -210,6 +210,8 @@ textarea.form-c{resize:vertical;min-height:60px;line-height:1.5}
 .stat-value{font-size:20px;font-weight:600;color:var(--navy);font-family:'DM Mono',monospace;margin-top:2px}
 .stat-sub{font-size:10px;color:var(--grey-500);margin-top:1px}
 </style>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
@@ -1032,15 +1034,29 @@ async function initFirebase() {
   return { db, doc, getDoc, setDoc };
 }
 
+// ── Init Firebase (compat SDK chargé dans le head) ──────────
+function initFirebase() {
+  if (firebase.apps.length === 0) {
+    firebase.initializeApp({
+      apiKey: "AIzaSyC6bDVXj4RoSeO4DFyyAg2wdHz1NM2c2BM",
+      authDomain: "geieae-app.firebaseapp.com",
+      projectId: "geieae-app",
+      storageBucket: "geieae-app.firebasestorage.app",
+      messagingSenderId: "64387735349",
+      appId: "1:64387735349:web:7eedb0d8845cecd39c767c"
+    });
+  }
+  return firebase.firestore();
+}
+
 // ── Charger toutes les données depuis Firestore ──────────────
 async function loadAllData() {
   showLoading(true);
   try {
-    const { db, doc, getDoc } = await initFirebase();
-    const docRef = doc(db, 'geieae', 'appdata');
-    const docSnap = await getDoc(docRef);
+    const db = initFirebase();
+    const docSnap = await db.collection('geieae').doc('appdata').get();
 
-    if (docSnap.exists()) {
+    if (docSnap.exists) {
       const data = docSnap.data();
       ressources    = data.ressources    || [];
       projets       = data.projets       || [];
@@ -1056,12 +1072,10 @@ async function loadAllData() {
       nextId = allIds.length > 0 ? Math.max(...allIds) + 1 : 1;
       showToast('Données chargées ✓', 'ok');
     } else {
-      // Première utilisation — données vides
       ressources=[]; projets=[]; absences=[]; horsProjets=[];
       ganttTaches=[]; lignesProjets=[]; heuresProjets=[]; joursFeries=[];
-      showToast('Démarrage — données vides', '');
+      showToast('Première utilisation — données vides', '');
     }
-
     showLoading(false);
     renderAll();
   } catch(e) {
@@ -1076,17 +1090,16 @@ async function loadAllData() {
 
 // ── Sauvegarder toutes les données dans Firestore ───────────
 let saveTimeout = null;
-async function saveAllData() {
-  // Debounce : attendre 500ms avant de sauvegarder pour regrouper les appels
+function saveAllData() {
   clearTimeout(saveTimeout);
   saveTimeout = setTimeout(async () => {
     try {
-      const { db: firedb, doc, setDoc } = await initFirebase();
-      const docRef = doc(firedb, 'geieae', 'appdata');
-      await setDoc(docRef, {
+      const db = initFirebase();
+      await db.collection('geieae').doc('appdata').set({
         ressources, projets, absences, horsProjets,
         ganttTaches, lignesProjets, heuresProjets, joursFeries
       });
+      console.log('Données sauvegardées ✓');
     } catch(e) {
       showToast('Erreur sauvegarde: ' + e.message, 'err');
       console.error('saveAllData:', e);
