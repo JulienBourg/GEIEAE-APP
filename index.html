@@ -1827,6 +1827,7 @@ function saveAbsence(){
 function deleteAbsence(){
   if(!curAbsId)return;
   absences=absences.filter(a=>a.id!==curAbsId);
+  saveAllData();
   closeOverlay('absOverlay');renderAbs();showToast('Supprimé','ok');
 }
 
@@ -1916,6 +1917,7 @@ function saveHP(){
 function deleteHP(){
   if(!curHPId)return;
   horsProjets=horsProjets.filter(a=>a.id!==curHPId);
+  saveAllData();
   closeOverlay('hpOverlay');renderHP();showToast('Supprimé','ok');
 }
 
@@ -2186,6 +2188,7 @@ function saveRsc(){
   if(!obj.Nom||!obj.Prenom){showToast('Nom et prénom requis','err');return;}
   if(curRscId){const i=ressources.findIndex(r=>r.id===curRscId);ressources[i]={...ressources[i],...obj};}
   else ressources.push({id:nextId++,...obj});
+  saveAllData();
   showToast('Enregistré','ok');closeOverlay('rscOverlay');renderRsc();
 }
 
