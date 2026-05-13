@@ -1908,6 +1908,7 @@ function saveHP(){
   } else {
     horsProjets.push({id:nextId++,Ressource:rsc,Date:date,Nature:nat,Heures:h,Commentaire:comment});
   }
+  saveAllData();
   showToast('Enregistré','ok');closeOverlay('hpOverlay');renderHP();
 }
 
@@ -2006,6 +2007,7 @@ function saveProj(){
   if(!obj.Nom){showToast('Nom requis','err');return;}
   if(curProjId){const i=projets.findIndex(p=>p.id===curProjId);projets[i]={...projets[i],...obj};}
   else projets.push({id:nextId++,...obj});
+  saveAllData();
   showToast('Enregistré','ok');closeOverlay('projOverlay');renderProj();
 }
 
@@ -2017,7 +2019,7 @@ function deleteProj(){
 
 function deleteProjDirect(id){
   if(!confirm('Supprimer ce projet ?'))return;
-  projets=projets.filter(p=>p.id!==id);renderProj();showToast('Supprimé','ok');
+  projets=projets.filter(p=>p.id!==id);saveAllData();renderProj();showToast('Supprimé','ok');
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -2854,6 +2856,7 @@ function commitPPH(inp) {
   if (!inp.value || heures <= 0) {
     const idx = heuresProjets.findIndex(x => x.ligneId === ligneId && x.date === date);
     if (idx >= 0) heuresProjets.splice(idx, 1);
+    saveAllData();
     renderPP();
     return;
   }
@@ -2873,6 +2876,7 @@ function commitPPH(inp) {
   const idx = heuresProjets.findIndex(x => x.ligneId === ligneId && x.date === date);
   if (idx >= 0) heuresProjets[idx].heures = heures;
   else heuresProjets.push({id: nextId++, ligneId, projetId: currentProjId, date, heures});
+  saveAllData();
   renderPP();
 }
 
