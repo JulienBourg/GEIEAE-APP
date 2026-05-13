@@ -672,8 +672,12 @@ textarea.form-c{resize:vertical;min-height:60px;line-height:1.5}
       </div>
     </div>
     <div class="planning-wrap" id="ganttWrap">
-      <div class="planning-head-wrap" id="ganttHeadWrap"><table class="planning-table" id="ganttHeadTable"><thead id="ganttHead"></thead></table></div>
-      <div class="planning-body-wrap" id="ganttBodyWrap"><table class="planning-table" id="ganttTable"><tbody id="ganttBody"></tbody></table></div>
+      <div class="planning-body-wrap" id="ganttBodyWrap" style="overflow:auto;flex:1;height:0">
+        <table class="planning-table" id="ganttTable">
+          <thead id="ganttHead" style="position:sticky;top:0;z-index:15"></thead>
+          <tbody id="ganttBody"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -2371,6 +2375,7 @@ function renderGantt() {
 
   const COL_TASK = 200;
   const COL_DATE = 110;
+  window._ganttCols = { TASK: COL_TASK, DATE: COL_DATE };
 
   // ── Groupes de mois pour la ligne de titre ──────────────────
   let mRow = `<tr class="month-hdr">
@@ -4074,7 +4079,7 @@ async function exportRTEXlsx() {
 
 // INIT
 // Synchronisation scroll horizontal : head suit le body pour les 4 vues
-['abs','hp','pc','ph','gantt','pp'].forEach(id => {
+['abs','hp','pc','ph','pp'].forEach(id => {
   const hw = document.getElementById(id+'HeadWrap');
   const bw = document.getElementById(id+'BodyWrap');
   if (!hw || !bw) return;
