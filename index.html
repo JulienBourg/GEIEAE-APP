@@ -3176,6 +3176,28 @@ async function exportPlanningPDF(headTableId, bodyTableId, title, subtitle, file
     // Mesurer la hauteur réelle de chaque row en px CSS (avant capture)
     const rowHeights_px = rows.map(r => r.getBoundingClientRect().height);
 
+    // ── Fix html2canvas : les éléments sticky perdent leur border-right ──
+    // On neutralise le sticky temporairement et on force la bordure en inline
+    const stickyHeadCells = Array.from(headTable.querySelectorAll('th.col-ressource'));
+    const stickyBodyCells = Array.from(bodyTable.querySelectorAll('td.td-ressource'));
+    const allStickyCells  = [...stickyHeadCells, ...stickyBodyCells];
+    allStickyCells.forEach(el => {
+      el.style.position  = 'relative';
+      el.style.borderRight = '2px solid #d1d5db';
+    });
+
+    // ── Fix html2canvas : border-bottom sur <tr> ignorée par html2canvas ──
+    // On reporte la bordure sur les <td> de chaque ligne
+    const bodyRows = Array.from(bodyTable.querySelectorAll('tbody tr'));
+    const lastBodyRow = bodyRows[bodyRows.length - 1];
+    bodyRows.forEach(tr => {
+      const tds = Array.from(tr.querySelectorAll('td'));
+      const isLast = tr === lastBodyRow;
+      tds.forEach(td => {
+        td.style.borderBottom = isLast ? 'none' : '1px solid #d1d5db';
+      });
+    });
+
     // Capturer thead et tbody
     const canvasHead = await html2canvas(headTable, {
       scale: SCALE, useCORS: true, backgroundColor: '#ffffff',
@@ -3184,6 +3206,18 @@ async function exportPlanningPDF(headTableId, bodyTableId, title, subtitle, file
     const canvasBody = await html2canvas(bodyTable, {
       scale: SCALE, useCORS: true, backgroundColor: '#ffffff',
       width: bodyTable.scrollWidth, height: bodyTable.scrollHeight,
+    });
+
+    // Restaurer le sticky après capture
+    allStickyCells.forEach(el => {
+      el.style.position  = '';
+      el.style.borderRight = '';
+    });
+    // Restaurer les border-bottom des td
+    bodyRows.forEach(tr => {
+      Array.from(tr.querySelectorAll('td')).forEach(td => {
+        td.style.borderBottom = '';
+      });
     });
 
     const availW   = pageW - margin * 2;
