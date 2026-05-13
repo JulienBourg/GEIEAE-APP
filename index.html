@@ -1007,63 +1007,91 @@ textarea.form-c{resize:vertical;min-height:60px;line-height:1.5}
 // DONNÉES FICTIVES
 // ═══════════════════════════════════════════════════════════════
 // ═══════════════════════════════════════════════════════════════
-// COUCHE NETLIFY BLOBS — Lecture/Écriture des données
+// COUCHE FIREBASE FIRESTORE — Lecture/Écriture des données
 // ═══════════════════════════════════════════════════════════════
-const API_URL = '/.netlify/functions/data';
 
-// ── Charger toutes les données depuis Netlify Blobs ──────────
+// Firebase SDK (chargé depuis CDN dans le head)
+let db = null;
+
+async function initFirebase() {
+  // Importer Firebase depuis CDN
+  const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
+  const { getFirestore, doc, getDoc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC6bDVXj4RoSeO4DFyyAg2wdHz1NM2c2BM",
+    authDomain: "geieae-app.firebaseapp.com",
+    projectId: "geieae-app",
+    storageBucket: "geieae-app.firebasestorage.app",
+    messagingSenderId: "64387735349",
+    appId: "1:64387735349:web:7eedb0d8845cecd39c767c"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  db = getFirestore(app);
+  return { db, doc, getDoc, setDoc };
+}
+
+// ── Charger toutes les données depuis Firestore ──────────────
 async function loadAllData() {
   showLoading(true);
   try {
-    const resp = await fetch(API_URL);
-    if (!resp.ok) throw new Error('Erreur chargement données: ' + resp.status);
-    const data = await resp.json();
+    const { db, doc, getDoc } = await initFirebase();
+    const docRef = doc(db, 'geieae', 'appdata');
+    const docSnap = await getDoc(docRef);
 
-    ressources    = data.ressources    || [];
-    projets       = data.projets       || [];
-    absences      = data.absences      || [];
-    horsProjets   = data.horsProjets   || [];
-    ganttTaches   = data.ganttTaches   || [];
-    lignesProjets = data.lignesProjets || [];
-    heuresProjets = data.heuresProjets || [];
-    joursFeries   = data.joursFeries   || [];
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      ressources    = data.ressources    || [];
+      projets       = data.projets       || [];
+      absences      = data.absences      || [];
+      horsProjets   = data.horsProjets   || [];
+      ganttTaches   = data.ganttTaches   || [];
+      lignesProjets = data.lignesProjets || [];
+      heuresProjets = data.heuresProjets || [];
+      joursFeries   = data.joursFeries   || [];
 
-    // nextId basé sur le max des IDs
-    const allIds = [...ressources,...projets,...absences,...horsProjets,
-      ...ganttTaches,...lignesProjets,...heuresProjets,...joursFeries].map(x=>x.id||0);
-    nextId = allIds.length > 0 ? Math.max(...allIds) + 1 : 1;
+      const allIds = [...ressources,...projets,...absences,...horsProjets,
+        ...ganttTaches,...lignesProjets,...heuresProjets,...joursFeries].map(x=>x.id||0);
+      nextId = allIds.length > 0 ? Math.max(...allIds) + 1 : 1;
+      showToast('Données chargées ✓', 'ok');
+    } else {
+      // Première utilisation — données vides
+      ressources=[]; projets=[]; absences=[]; horsProjets=[];
+      ganttTaches=[]; lignesProjets=[]; heuresProjets=[]; joursFeries=[];
+      showToast('Démarrage — données vides', '');
+    }
 
     showLoading(false);
     renderAll();
-    showToast('Données chargées ✓', 'ok');
   } catch(e) {
     showLoading(false);
-    // Si erreur (première utilisation), démarrer avec données vides
     ressources=[]; projets=[]; absences=[]; horsProjets=[];
     ganttTaches=[]; lignesProjets=[]; heuresProjets=[]; joursFeries=[];
     renderAll();
-    showToast('Démarrage avec données vides', '');
-    console.warn('loadAllData:', e.message);
+    showToast('Erreur Firebase: ' + e.message, 'err');
+    console.error('loadAllData:', e);
   }
 }
 
-// ── Sauvegarder toutes les données ───────────────────────────
+// ── Sauvegarder toutes les données dans Firestore ───────────
+let saveTimeout = null;
 async function saveAllData() {
-  try {
-    const payload = JSON.stringify({
-      ressources, projets, absences, horsProjets,
-      ganttTaches, lignesProjets, heuresProjets, joursFeries
-    });
-    const resp = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: payload
-    });
-    if (!resp.ok) throw new Error('Erreur sauvegarde: ' + resp.status);
-  } catch(e) {
-    showToast('Erreur sauvegarde: ' + e.message, 'err');
-    console.error('saveAllData:', e);
-  }
+  // Debounce : attendre 500ms avant de sauvegarder pour regrouper les appels
+  clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(async () => {
+    try {
+      const { db: firedb, doc, setDoc } = await initFirebase();
+      const docRef = doc(firedb, 'geieae', 'appdata');
+      await setDoc(docRef, {
+        ressources, projets, absences, horsProjets,
+        ganttTaches, lignesProjets, heuresProjets, joursFeries
+      });
+    } catch(e) {
+      showToast('Erreur sauvegarde: ' + e.message, 'err');
+      console.error('saveAllData:', e);
+    }
+  }, 500);
 }
 
 function showLoading(show) {
