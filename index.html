@@ -1007,163 +1007,62 @@ textarea.form-c{resize:vertical;min-height:60px;line-height:1.5}
 // DONNÉES FICTIVES
 // ═══════════════════════════════════════════════════════════════
 // ═══════════════════════════════════════════════════════════════
-// COUCHE SHAREPOINT — Lecture/Écriture des listes
+// COUCHE NETLIFY BLOBS — Lecture/Écriture des données
 // ═══════════════════════════════════════════════════════════════
-const SP_SITE = 'https://atlantiqueetudes.sharepoint.com/sites/GEIEAE';
-const SP_API  = SP_SITE + '/_api/web/lists/getbytitle';
-const SP_HEADERS = {
-  'Accept': 'application/json;odata=verbose',
-  'Content-Type': 'application/json;odata=verbose'
-};
+const API_URL = '/api/data';
 
-let spFormDigest = null;
-let spFormDigestExpiry = 0;
-
-// ── Obtenir le form digest (token CSRF) ──────────────────────
-async function getFormDigest() {
-  const now = Date.now();
-  if (spFormDigest && now < spFormDigestExpiry) return spFormDigest;
-  const resp = await fetch(SP_SITE + '/_api/contextinfo', {
-    method: 'POST',
-    headers: { 'Accept': 'application/json;odata=verbose' },
-    credentials: 'include'
-  });
-  if (!resp.ok) throw new Error('Impossible de contacter SharePoint — êtes-vous connecté ?');
-  const data = await resp.json();
-  spFormDigest = data.d.GetContextWebInformation.FormDigestValue;
-  spFormDigestExpiry = now + 25 * 60 * 1000; // 25 min
-  return spFormDigest;
-}
-
-// ── Lire tous les items d'une liste ──────────────────────────
-async function spGetAll(listName, select = '*', top = 5000) {
-  let url = `${SP_API}('${listName}')/items?$select=${select}&$top=${top}`;
-  let items = [];
-  while (url) {
-    const resp = await fetch(url, { headers: SP_HEADERS, credentials: 'include' });
-    if (!resp.ok) throw new Error(`Erreur lecture ${listName}: ${resp.status}`);
-    const data = await resp.json();
-    items = items.concat(data.d.results);
-    url = data.d.__next || null;
-  }
-  return items;
-}
-
-// ── Créer un item ─────────────────────────────────────────────
-async function spCreate(listName, payload) {
-  const digest = await getFormDigest();
-  const resp = await fetch(`${SP_API}('${listName}')/items`, {
-    method: 'POST',
-    headers: { ...SP_HEADERS, 'X-RequestDigest': digest },
-    credentials: 'include',
-    body: JSON.stringify({ __metadata: { type: `SP.Data.${listName}ListItem` }, ...payload })
-  });
-  if (!resp.ok) {
-    const err = await resp.text();
-    throw new Error(`Erreur création ${listName}: ${resp.status} — ${err}`);
-  }
-  const data = await resp.json();
-  return data.d.ID; // retourne l'ID SharePoint
-}
-
-// ── Mettre à jour un item ─────────────────────────────────────
-async function spUpdate(listName, spId, payload) {
-  const digest = await getFormDigest();
-  const resp = await fetch(`${SP_API}('${listName}')/items(${spId})`, {
-    method: 'POST',
-    headers: {
-      ...SP_HEADERS,
-      'X-RequestDigest': digest,
-      'X-HTTP-Method': 'MERGE',
-      'If-Match': '*'
-    },
-    credentials: 'include',
-    body: JSON.stringify({ __metadata: { type: `SP.Data.${listName}ListItem` }, ...payload })
-  });
-  if (!resp.ok) throw new Error(`Erreur mise à jour ${listName}(${spId}): ${resp.status}`);
-}
-
-// ── Supprimer un item ─────────────────────────────────────────
-async function spDelete(listName, spId) {
-  const digest = await getFormDigest();
-  const resp = await fetch(`${SP_API}('${listName}')/items(${spId})`, {
-    method: 'POST',
-    headers: {
-      ...SP_HEADERS,
-      'X-RequestDigest': digest,
-      'X-HTTP-Method': 'DELETE',
-      'If-Match': '*'
-    },
-    credentials: 'include'
-  });
-  if (!resp.ok) throw new Error(`Erreur suppression ${listName}(${spId}): ${resp.status}`);
-}
-
-// ── Convertir date SP → ISO ───────────────────────────────────
-function spDateToISO(d) {
-  if (!d) return null;
-  // SP retourne "2026-05-13T00:00:00Z" ou "2026-05-13T00:00:00"
-  return d.substring(0, 10);
-}
-
-// ── Mapper les items SP vers nos objets JS ────────────────────
-function mapRessource(item) {
-  return { id: item.ID, spId: item.ID, Nom: item.Nom||'', Prenom: item.Prenom||'', Entreprise: item.Entreprise||'', Poste: item.Poste||'', HeuresHebdo: 40, Pays: item.Pays||'France' };
-}
-function mapProjet(item) {
-  return { id: item.ID, spId: item.ID, Commande: item.Commande||'', EOTP: item.EOTP||'', Nom: item.Title||'', Domaine: item.Domaine||'', Entite: item.Entite||'', Responsable: item.Responsable||'', Client: item.Client||'', Statut: item.Statut||'En cours', DateDebut: spDateToISO(item.DateDebut), DateTravaux: spDateToISO(item.DateTravaux), Lot: item.Lot||'', Fiabilite: item.Fiabilite||'', Descriptif: item.Descriptif||'' };
-}
-function mapAbsence(item) {
-  return { id: item.ID, spId: item.ID, Ressource: item.Ressource||'', Date: spDateToISO(item.Date), Type: item.TypeAbs||'Congés', Heures: item.Heures||0 };
-}
-function mapHorsProjet(item) {
-  return { id: item.ID, spId: item.ID, Ressource: item.Ressource||'', Date: spDateToISO(item.Date), Nature: item.Nature||'', Heures: item.Heures||0, Commentaire: item.Commentaire||'' };
-}
-function mapGanttTache(item) {
-  return { id: item.ID, spId: item.ID, projetId: item.ProjetId||0, nom: item.Title||'', dateDebut: spDateToISO(item.DateDebut), dateFin: spDateToISO(item.DateFin), jalon: spDateToISO(item.Jalon) };
-}
-function mapLigneProjet(item) {
-  return { id: item.ID, spId: item.ID, projetId: item.ProjetId||0, tacheGanttId: item.TacheGanttId||0, ressource: item.Ressource||'' };
-}
-function mapHeuresProjet(item) {
-  return { id: item.ID, spId: item.ID, ligneId: item.LigneId||0, projetId: item.ProjetId||0, date: spDateToISO(item.Date), heures: item.Heures||0 };
-}
-function mapJourFerie(item) {
-  return { id: item.ID, spId: item.ID, Libelle: item.Libelle||item.Title||'', Date: spDateToISO(item.Date), Pays: item.Pays||'France+Luxembourg', Annee: item.Annee||0 };
-}
-
-// ── Chargement initial de toutes les données ──────────────────
+// ── Charger toutes les données depuis Netlify Blobs ──────────
 async function loadAllData() {
   showLoading(true);
   try {
-    const [rsc, proj, abs, hp, gt, lp, hep, jf] = await Promise.all([
-      spGetAll('Ressources',    'ID,Nom,Prenom,Entreprise,Poste,Pays'),
-      spGetAll('Projets',       'ID,Title,Commande,EOTP,Domaine,Entite,Responsable,Client,Statut,DateDebut,DateTravaux,Lot,Fiabilite,Descriptif'),
-      spGetAll('Absences',      'ID,Ressource,Date,TypeAbs,Heures'),
-      spGetAll('HorsProjets',   'ID,Ressource,Date,Nature,Heures,Commentaire'),
-      spGetAll('GanttTaches',   'ID,Title,ProjetId,DateDebut,DateFin,Jalon'),
-      spGetAll('LignesProjets', 'ID,ProjetId,TacheGanttId,Ressource'),
-      spGetAll('HeuresProjets', 'ID,LigneId,ProjetId,Date,Heures'),
-      spGetAll('JoursFeries',   'ID,Title,Libelle,Date,Pays,Annee'),
-    ]);
-    ressources    = rsc.map(mapRessource);
-    projets       = proj.map(mapProjet);
-    absences      = abs.map(mapAbsence);
-    horsProjets   = hp.map(mapHorsProjet);
-    ganttTaches   = gt.map(mapGanttTache);
-    lignesProjets = lp.map(mapLigneProjet);
-    heuresProjets = hep.map(mapHeuresProjet);
-    joursFeries   = jf.map(mapJourFerie);
+    const resp = await fetch(API_URL);
+    if (!resp.ok) throw new Error('Erreur chargement données: ' + resp.status);
+    const data = await resp.json();
+
+    ressources    = data.ressources    || [];
+    projets       = data.projets       || [];
+    absences      = data.absences      || [];
+    horsProjets   = data.horsProjets   || [];
+    ganttTaches   = data.ganttTaches   || [];
+    lignesProjets = data.lignesProjets || [];
+    heuresProjets = data.heuresProjets || [];
+    joursFeries   = data.joursFeries   || [];
+
     // nextId basé sur le max des IDs
-    const allIds = [...ressources,...projets,...absences,...horsProjets,...ganttTaches,...lignesProjets,...heuresProjets,...joursFeries].map(x=>x.id);
+    const allIds = [...ressources,...projets,...absences,...horsProjets,
+      ...ganttTaches,...lignesProjets,...heuresProjets,...joursFeries].map(x=>x.id||0);
     nextId = allIds.length > 0 ? Math.max(...allIds) + 1 : 1;
+
     showLoading(false);
     renderAll();
     showToast('Données chargées ✓', 'ok');
   } catch(e) {
     showLoading(false);
-    showToast('Erreur chargement : ' + e.message, 'err');
-    console.error(e);
+    // Si erreur (première utilisation), démarrer avec données vides
+    ressources=[]; projets=[]; absences=[]; horsProjets=[];
+    ganttTaches=[]; lignesProjets=[]; heuresProjets=[]; joursFeries=[];
+    renderAll();
+    showToast('Démarrage avec données vides', '');
+    console.warn('loadAllData:', e.message);
+  }
+}
+
+// ── Sauvegarder toutes les données ───────────────────────────
+async function saveAllData() {
+  try {
+    const payload = JSON.stringify({
+      ressources, projets, absences, horsProjets,
+      ganttTaches, lignesProjets, heuresProjets, joursFeries
+    });
+    const resp = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: payload
+    });
+    if (!resp.ok) throw new Error('Erreur sauvegarde: ' + resp.status);
+  } catch(e) {
+    showToast('Erreur sauvegarde: ' + e.message, 'err');
+    console.error('saveAllData:', e);
   }
 }
 
@@ -1173,7 +1072,7 @@ function showLoading(show) {
     el = document.createElement('div');
     el.id = 'spLoadingOverlay';
     el.style.cssText = 'position:fixed;inset:0;background:rgba(26,58,92,0.85);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:DM Sans,sans-serif';
-    el.innerHTML = '<div style="font-size:48px;margin-bottom:16px">⏳</div><div style="font-size:18px;font-weight:600">Chargement des données...</div><div style="font-size:13px;opacity:.7;margin-top:8px">Connexion à SharePoint GEIE AE</div>';
+    el.innerHTML = '<div style="font-size:48px;margin-bottom:16px">⏳</div><div style="font-size:18px;font-weight:600">Chargement des données...</div><div style="font-size:13px;opacity:.7;margin-top:8px">GEIE AE — Plan de charge</div>';
     document.body.appendChild(el);
   }
   el.style.display = show ? 'flex' : 'none';
@@ -1186,72 +1085,6 @@ function renderAll() {
   renderAbs();
   renderHP();
 }
-
-// ── Helpers SP CRUD pour chaque entité ───────────────────────
-
-// RESSOURCES
-async function spSaveRessource(obj) {
-  const payload = { Nom: obj.Nom, Prenom: obj.Prenom, Entreprise: obj.Entreprise, Poste: obj.Poste, Pays: obj.Pays };
-  if (obj.spId) { await spUpdate('Ressources', obj.spId, payload); return obj.spId; }
-  return await spCreate('Ressources', payload);
-}
-async function spDeleteRessource(spId) { await spDelete('Ressources', spId); }
-
-// PROJETS
-async function spSaveProjet(obj) {
-  const payload = { Title: obj.Nom, Commande: obj.Commande, EOTP: obj.EOTP, Domaine: obj.Domaine, Entite: obj.Entite, Responsable: obj.Responsable, Client: obj.Client, Statut: obj.Statut, DateDebut: obj.DateDebut||null, DateTravaux: obj.DateTravaux||null, Lot: obj.Lot, Fiabilite: obj.Fiabilite, Descriptif: obj.Descriptif };
-  if (obj.spId) { await spUpdate('Projets', obj.spId, payload); return obj.spId; }
-  return await spCreate('Projets', payload);
-}
-async function spDeleteProjet(spId) { await spDelete('Projets', spId); }
-
-// ABSENCES
-async function spSaveAbsence(obj) {
-  const payload = { Ressource: obj.Ressource, Date: obj.Date, TypeAbs: obj.Type, Heures: obj.Heures };
-  if (obj.spId) { await spUpdate('Absences', obj.spId, payload); return obj.spId; }
-  return await spCreate('Absences', payload);
-}
-async function spDeleteAbsence(spId) { await spDelete('Absences', spId); }
-
-// HORS PROJETS
-async function spSaveHorsProjet(obj) {
-  const payload = { Ressource: obj.Ressource, Date: obj.Date, Nature: obj.Nature, Heures: obj.Heures, Commentaire: obj.Commentaire };
-  if (obj.spId) { await spUpdate('HorsProjets', obj.spId, payload); return obj.spId; }
-  return await spCreate('HorsProjets', payload);
-}
-async function spDeleteHorsProjet(spId) { await spDelete('HorsProjets', spId); }
-
-// GANTT TACHES
-async function spSaveGanttTache(obj) {
-  const payload = { Title: obj.nom, ProjetId: obj.projetId, DateDebut: obj.dateDebut, DateFin: obj.dateFin, Jalon: obj.jalon||null };
-  if (obj.spId) { await spUpdate('GanttTaches', obj.spId, payload); return obj.spId; }
-  return await spCreate('GanttTaches', payload);
-}
-async function spDeleteGanttTache(spId) { await spDelete('GanttTaches', spId); }
-
-// LIGNES PROJETS
-async function spSaveLigneProjet(obj) {
-  const payload = { ProjetId: obj.projetId, TacheGanttId: obj.tacheGanttId, Ressource: obj.ressource };
-  if (obj.spId) { await spUpdate('LignesProjets', obj.spId, payload); return obj.spId; }
-  return await spCreate('LignesProjets', payload);
-}
-async function spDeleteLigneProjet(spId) { await spDelete('LignesProjets', spId); }
-
-// HEURES PROJETS
-async function spSaveHeuresProjet(obj) {
-  const payload = { LigneId: obj.ligneId, ProjetId: obj.projetId, Date: obj.date, Heures: obj.heures };
-  if (obj.spId) { await spUpdate('HeuresProjets', obj.spId, payload); return obj.spId; }
-  return await spCreate('HeuresProjets', payload);
-}
-async function spDeleteHeuresProjet(spId) { await spDelete('HeuresProjets', spId); }
-
-// JOURS FERIES
-async function spSaveJourFerie(obj) {
-  const payload = { Title: obj.Libelle, Libelle: obj.Libelle, Date: obj.Date, Pays: obj.Pays, Annee: obj.Annee };
-  if (obj.spId) { await spUpdate('JoursFeries', obj.spId, payload); return obj.spId; }
-  return await spCreate('JoursFeries', payload);
-}
-async function spDeleteJourFerie(spId) { await spDelete('JoursFeries', spId); }
 
 
 let ressources = [
@@ -1930,8 +1763,8 @@ function saveAbsence(){
       closeOverlay('absOverlay');
       showSurchargeAlert(rsc, date, h, totalAvecNouvelle, () => {
         const ex=absences.findIndex(a=>a.Ressource===rsc&&a.Date===date);
-        if(ex>=0){absences[ex]={...absences[ex],Type:curAbsType,Heures:h};spSaveAbsence(absences[ex]).catch(e=>showToast('Erreur SP: '+e.message,'err'));}
-        else{const a={id:nextId++,Ressource:rsc,Date:date,Type:curAbsType,Heures:h};absences.push(a);spSaveAbsence(a).then(id=>{a.spId=id;}).catch(e=>showToast('Erreur SP: '+e.message,'err'));}
+        if(ex>=0){absences[ex]={...absences[ex],Type:curAbsType,Heures:h};saveAllData();}
+        else{const a={id:nextId++,Ressource:rsc,Date:date,Type:curAbsType,Heures:h};absences.push(a);saveAllData();}
         renderAbs();
       });
       return;
@@ -2701,7 +2534,7 @@ function saveGanttTache() {
     const newId = nextId++;
     const newTache={ id: newId, projetId: ganttProjId, nom, dateDebut: debut, dateFin: fin, jalon };
     ganttTaches.push(newTache);
-    spSaveGanttTache(newTache).then(id=>{newTache.spId=id;}).catch(e=>showToast('Erreur SP: '+e.message,'err'));
+    saveAllData();
   }
   showToast('Enregistré', 'ok');
   closeOverlay('ganttTacheOverlay');
@@ -2902,7 +2735,7 @@ function saveLigne() {
     if (exists) { showToast('Cette combinaison tâche/ressource existe déjà', 'err'); return; }
     const nl={ id: nextId++, projetId: currentProjId, tacheGanttId: tacheId, ressource: rsc };
     lignesProjets.push(nl);
-    spSaveLigneProjet(nl).then(id=>{nl.spId=id;}).catch(e=>showToast('Erreur SP: '+e.message,'err'));
+    saveAllData();
   }
   showToast('Enregistré', 'ok');
   closeOverlay('addLigneOverlay');
@@ -3014,11 +2847,11 @@ function forceSavePPH() {
     const idx = heuresProjets.findIndex(x => x.ligneId === ligneId && x.date === date);
     if (idx >= 0) {
       heuresProjets[idx].heures = heures;
-      spSaveHeuresProjet(heuresProjets[idx]).catch(e=>console.error(e));
+      saveAllData();
     } else {
       const fh={id:nextId++, ligneId, projetId:currentProjId, date, heures};
       heuresProjets.push(fh);
-      spSaveHeuresProjet(fh).then(id=>{fh.spId=id;}).catch(e=>console.error(e));
+      saveAllData();
     }
     pendingPPHData = null;
     renderPP();
