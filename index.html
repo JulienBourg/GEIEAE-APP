@@ -105,7 +105,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--grey-100);color:var(--gre
 .planning-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0}
 .planning-head-wrap{overflow-x:auto;flex-shrink:0;scrollbar-width:none}
 .planning-head-wrap::-webkit-scrollbar{display:none}
-.planning-body-wrap{overflow:auto;flex:1;height:0}
+.planning-body-wrap{overflow:auto;flex:1;height:0;scrollbar-width:none}
+.planning-body-wrap::-webkit-scrollbar{display:none}
+#pcBodyWrap{overflow-x:hidden!important}
+#pcHeadWrap{overflow-x:hidden!important}
 .planning-table{border-collapse:collapse;min-width:100%}
 .planning-table thead th{background:var(--navy);color:#fff;font-size:11px;font-weight:600;height:32px;border-right:1px solid rgba(255,255,255,.1);white-space:nowrap}
 .planning-table thead th.col-ressource{position:sticky;left:0;z-index:20;width:160px;min-width:160px;text-align:left;padding-left:14px}
@@ -315,7 +318,7 @@ textarea.form-c{resize:vertical;min-height:60px;line-height:1.5}
             <div class="home-card-title">Absences</div>
             <div class="home-card-desc">Congés et maladies</div>
           </div>
-          <div class="home-card-badge" id="homeBadgeAbsences"></div>
+
         </div>
         <div class="home-card" onclick="showPage('horsprojets')">
           <div class="home-card-header">
@@ -359,7 +362,7 @@ textarea.form-c{resize:vertical;min-height:60px;line-height:1.5}
         </div>
         <div class="home-card" onclick="showPage('rte')">
           <div class="home-card-header">
-            <div class="home-card-icon" style="background:var(--navy-xl);display:flex;align-items:center;justify-content:center"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a3a5c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></div>
+            <div class="home-card-icon" style="background:transparent;padding:1px"><img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCADhAOEDASIAAhEBAxEB/8QAHAABAAMBAAMBAAAAAAAAAAAAAAYHCAUCAwQB/8QAUhAAAQMCAgYCCwwFCQkBAAAAAQACAwQFBhEHEiExQWFRcQgTFBciMlKBkaGxFTM3QlZicnSUwdHSIzRzkuMkRlWChLLCw/AWQ0RTVGOD4eLx/8QAHAEBAAIDAQEBAAAAAAAAAAAAAAYHAwQFAgEI/8QAOREAAQMCAwQIBAUEAwEAAAAAAQACAwQRBQYhEjFBURNhcYGRobHRFCLB4RUjMjTwM1JichaSovH/2gAMAwEAAhEDEQA/ANloiIiIiIiIiIiIvxxDWlziAAMyTwVeY10sWCxmSltx91K1uY1Ynfo2nm/8M1np6aWodsxNuVqVlfT0UfSTvDR/Nw4qxFGMRY+wpYy5lZdoZJm74oD2x/q3LPuK9IGKMRuc2ruD6emOzuamJjjy55bXeclRVSWlyzxnd3D3+yglfnuxLaSPvd7D3V23rTlE1xZaLK6QbQJKiTV8+QzUQuWl3GlWT2mrpqIf9iAE+l2agKLtw4RRxbowe3X1UVqcy4nUH5pSOzT0Xfq8aYuqnl0uJLoCeEdS6MehpAXwSXy9SHOS8XF5+dVPP3rnot5sETf0tA7lyn1dQ/Vzye8r7471eYznHd7gw/NqXj7191LjLFlM4OixJddm4PqnvHocSFwkR0Ebt7R4IyrnZ+l5HeVO7bpZxtRkdsuENYBwqIG+1uRUus2nI5tZd7Js4yU0nryP4qlkWlNhFHLvjA7NPRdSmzJidOflmJ7dfVamw9pGwlei1kF0jp5nbBFU/oznyz2H0qWgggEEEHaCFixSPCuNsS4be0W65SGnH/DTHXiP9U7vNkVxarLI3wO7j7/ZSmgz2bhtXH3t9j7rWCKs8FaXrNdyylvEfuXVnZrF2cTjydw86sqN7JI2yRva9jhm1zTmCOkFRmppJqZ2zK2yndFiFNXR9JTvDh5jtG8LyREWut1ERERERERERERERERERERFxsWYmtGGLcay61IjB2Rxja+Q9DQuNpLx9b8IUgiAbVXSVucNOD4o8p/Q31n05ZuxBerlfrlJcLrVPqJ3nj4rR0NHAcl3cLwV9X+ZJozzPZ7qJZgzRFh14Yfmk8h29fV4qT4+0k3zFEklNHI6gtmfg08RyLxwL3cTy3e1QhEU3gp46dmxGLBVTV1k9ZIZZ3FxP805IiIsy1UREREREREREREREREREREUuwJpAvuFJmxwzGrt+fh0kzs29bTvaerZ0gqIosU0Ec7CyQXC2KaqmpZBLC4tcOIWs8F4us2K6Ht9tnAlaAZad+ySM8x0c1IFjez3OvtFfHX22qkpqmM+C9h9R6RyK0Zou0iUeLKcUVZqUt3jbm+PPJso8pn3jgoTiuCOpbyRas8x9lauX81R4haCo+WTyd2cj1eCniIi4CmCIiIiIiIiIiIiKGaUsc02ELWGRBk90qAe54SdjR5buQ9Z8+XYxtiOiwtYJrpWEEt8GGLPbK87mj/W5ZXxDd66+3ioulwlMk8zszmdjRwaOgBd3BcK+Lf0kg+QeZ5e6iWaMwfh0XQwn8x3/kc+3l4r0XOuq7nXzV9dO+eomcXPe45klfMiKeABosFULnFxLnG5KIiL6vKIiIiIiIiIiIiIiIiIiIiIiIiIiIiL20dTPR1UdVSzPhnicHMew5FpHEL1IvhAIsV9BINwtLaJcfQ4roe4a0siu9OzORu4TN8tv3jgp6sbWqvq7XcYLhQzOhqYHh8b2ncfw4LUujzFdLi3D8dfEBHUM8Cphz8R/wCB3hQbG8K+Fd0sQ+Q+R9lbeVcw/Hs+HnP5jeP9w9xx8eakiIij6mKIiIiL8e5rGOe9wa1ozJJyAHSv1Vrp7xQbNhxtopJdWsuObTqnayIeMfPsHpWxS07qmZsTd5WniFbHQ0z6iTc0f/B3lVTpbxe/FWJH9okd7mUhMdK3g7pkPM8OWXNQxEVmQQMgjEbBoFQ9XVSVczppTdzjdERFmWsiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIik+jXFU+E8SxVoLnUcpEdXGPjR57xzG8ejiowixTRMmYY3i4Kz01RJTStmiNnNNwtn000VTTx1EEjZIpWh7HtOxzSMwQvYqn7HnFHd1qlw5VyZz0Q16fM7XRE7QOo+0K2FWlZSupZnRO4eivfDK9mIUrKhnHf1HiEREWqt9HENaXOIAAzJPBZP0k4gdiXGNdcg4mnD+1Uw6Im7G+na7rctA6YLybLgK4SxvLZqhvc8RB25v2E+jNZbUuyzSizpz2D6qt89152o6Rp/wAj6D6oiIpYq6REXUwlahfMS2+0ukMTaqdsbnjeBxI55Lw94Y0uduCyRRuleI27ybDvXLRalp9GmCYYGRe4UMmqMteR7i48yc1597nBPyepfS78VHjmam/td5e6mgyHW21kb5+yyui1R3ucE/J6l/ed+K5F80Q4Rr4ndxwz26XLwXQyFzR5nZr0zMtK42LSPD3XiXIte1t2uaTyufqFm5FK8fYEvOEZw6paKiheco6qMeCT0OHxSoou7DNHMwPjNwVEamlmpZDFM0tcOBRERZVgREREREREREREREREREREREREXXwbfJsOYlorxDmRBIO2MHx4zsc30Z+fJa5p5oqiCOeF4kikaHscNzmkZghYvWldBF5N0wHBTSP1pqBxp3fR3s9WzzKLZlpQ5jZxvGh7OH861YGRK8tlfSOOh+Ydo3+I9FPkRFDlZqpDsl7prVdrszHDJjXVEg5nwW/4lTammmyuNdpIuWT9ZlPqQM5arRmP3i5QtWThUPQ0cbeq/jqqMzDUmpxKZ/I28NPoiIi6K4qKUaKPhFsn1kewqLqUaKPhFsn1kewrWrP28nYfRb2GfvYf9m+oWqnnVY53QM1Qk2m3ELJnsFrt2TXEDPX4HrV9S+9P+iVjKq/Wpv2jvaoll+jhqek6Vt7W+qsfOWJVVCIfh3lt9q9uqytAab8Q5jO124j+v+Kl+CNMFtvFZHQXmlFtnkIbHIH60Tj0E7NXz7Oaz4i782B0cjS0NseYUOps2YnDIHOk2hyNtfqtk3WgpLpb5qCuhbNTzNLXscM8x+KyjjmwTYZxRWWiUlzIna0L/LjdtafRsPMFaH0NXeovGj+gnq3mSeDWp3PO92ocmk89XLbxKr/sm6ONtws1wa3KSSKSF56Q0gt/vOXCwSR9LWupXHQ3HeOKl2aoYsQwplewWIseuzuHiVTq99BR1dfVspKKmlqZ3nJscbS5x9C9CuXsYqeB9Vfqp0TTPGyBjHkbWtcZC4Dr1W+hSivqvhad01r297Kv8IoPxCsZTE22r69gJ+iqi8We6WedsN0oKike8ZtErMtYcjuK+FaP7IOlgm0eSTyRh0lPUxOidxaSdU+olZwWLC641sHSEWN7LZx/CRhdX0DXXBAI5/zRERdDD9nuF+usNstkBmqJTsG4NHFxPADpW+5wYC5xsAuPHG6RwYwXJ3Bc9de24YxDcYxJRWWumjcM2vEJDSOROwrQeBNGdhw3DHPUwx3G5AAunlbm1h+Y07B171OQABkBkFF6rMrWu2YG36z7KfUGRXvYHVUmyeQ18Tu9e1ZGr8KYmoWa9VYrhGwDMuEBcB1kZ5LiraZ2jIqIY40eYfxRC+SSmZR3AjwauBoa4n543OHXt6CF8pszBzrTMsOY9l6rsiOawupZLnkff7LLaLr4tw/ccM3mS2XGPVkb4THjxZG8HDkuQpQx7ZGhzTcFQCWJ8LzHILEbwiIi9rGitbsbrmYMS1trc46lVT9saM9msw+3I+pVSpNosrjb9INmnzIDqkQnnr+D7SFo4jD01LIzq9NV1cDqfhsQhk/yA7jofVatREVZq+FkDF9R3Xiy71WeYlrpnjqLzkuWvOd5lnkldve4uPnK8Fa7G7LQ3kvztLJ0kjn8ySiIi9rGilGij4RbJ9ZHsKi6lGij4RbJ9ZHsK1qz9vJ2H0W9hn72H/ZvqFqmX3p/0SsZVX61N+0d7Vs541mlvSMlTcugpj5Xv/2ncNZxOXcO7P8A8ih+A10FJt9M617cD18lZeb8Jq8REPwzNrZ2r6gb7cyOSpFfsbHSPaxjXOe4gNa0Zkk8ArrGgiPMZ4oeRxyof/tTDBWjLDuGalta0S19c3xZqjLJh+a0bB17TzXcmzBRsaSw7R5WI9VEqXJmJSyAStDG8SSD5AlfforsU2HsD0Fvqhq1TgZp2+S55z1fMMh1hVf2S1yimvlrtcbs30sD5ZMuBeRkOvJufnV8KpsQaHai93qqutditzp6mQvd/IdgG4AfpNwAA8yjuGVcQrDU1DrbzuO89im+PYfUuwxtDRM2hoN4Fg3tI1JA81QqursX/wCcX9m/zV5d4hnyod9h/iKZ6McBtwT7o5XQ1/dvat8Ha9TU1/nHPPX9S6+K4tSVFI+ON9ybcDzHUo1l3LuI0eIxzzx2aL3N2ne0jgb718un34Naz9tD/fCzUta49w4MVYbmsxrDSdsex/be16+Wq4HdmOjpVbd4hnyod9h/iLBgmJ01LTlkrrG5O49XILbzXgVfX1olp49puyBvA1ueZCpNaO0EYYjs+FmXWeMd23EdsJI2tj+K37/Oo6NBEee3FDsvqP8AEVxUVOyko4aWIZRwxtjb1AZBecbxaKohEUDr336Eeq95Vy5U0dS6erZYgfLqDqd50J4eqjOkrGlJg60CZzGz10+YpoCctY+UfmhZ3xBjPEt9qHS192qC0nMRRO1I2cgB/wDvSrv0h6NJMYX1tylv7qVjIhFHCKXXDQMyTnrjeT0dCjneIZ8qHfYf4i+4VUYbSxAyO+c79CbdQ0XzMNHjtfUFsLCIhus5ov1nX13KrLPirEVonE1vvFZE4cDIXNPW12YKv3RPpBjxdTvo65kdPdoG6zmM8WVvlNB3cx/oRXvEM+VDvsP8RdfB2iV+G8RUt4gxI6UwOOtH3Hq67SMi3PXOSyYlVYZVRGzvn4Gx8Nyw4FQY9h9Q3bYTGTqC5pFuY+beOpdbTXhiPEGEJqmOPOvt4M8DgNrm/HZ1EesBZmW0ZmCWF8btz2lp86xxeIG0t2rKZniQ1EkbeoOICyZZqHOjfEeGo71hz3RMZNHUtGrrg927y9F8qIilCgCL3UFQ6jrqerZ40ErZB1tIP3L0ody+EAixX1pLSCFs/to8pvpRVv7uVH/UIq3/AA9/NXj+Mx8lnqVpZK9h2FriCvFdHE8BpcS3SlIyMNZNH6HkLnKx2O2mg81SEjOjeWHgbIiIvS8IpRoo+EWyfWR7CoupRoo+EWyfWR7Ctas/bydh9FvYZ+9h/wBm+oWqnHVaSeAzVdO0zYODiMrlsOX6uPzKxJfen/RKxhL747rKhmCYdDW7fS30tu67q0M1Y3U4X0XQW+bavcX3W91orvz4O6Ll9nH5lL8JYktWKLYbhaZnPja8sex41XsPQRw6VkRSvRji+fCOIGVDi99BMQyriHFvlAdI9e5dSsy7EIiYL7Q58VH8MztUGpa2rtsHQkDd17/FabvdxitNrnuM8M80UDdZ7YGaz8uJAz2qC9+fB3Rcvs4/MrBpZ6auo46inkZPTzxh7Hja17SMweohZx0z4Ldhm+Gvooz7lVry6PL/AHT95YeXEctnBcbCKalqZDDPcO4a+SlGY6+voYRU0lizjpe3I79ys3vz4O6Ll9nH5lJME4zs2L+6/ckVP8k1O2duj1fH1sstp8krJ6ursX/5xf2b/NXUxPBaampXSsvcW49YC4GA5prq6vjp5bbLr7hyaTz6lamKr9Q4bs0l2uPbe543Na7tTdZ2bjkNihvfnwd0XL7OPzL6dPvwa1n7aH++FmpYcHwmnrKcySXve2/sWzmbMdZhtYIYLW2QdR1n2WjBpmwdnuuX2cfmVjrFi15gu5svOFbbcmO1u3U7C76QGTvWCsGNYXFRtY6K9je9/L6raytmCoxN8kdRa4AIsLc7/RcDEmk7DWH71UWivFd3TTlof2uEObtaHDI59BC53fnwd0XL7OPzKG9kXh2eC9Q4jgiLqapjEU7gPEkbuJ6xs8yqVdCgwaiqadsmtyNdePFcbF80YpQVkkFm2B004cOPJaM78+Dui5fZx+ZO/Pg7ouX2cfmWc0W5/wAco+vx+y5v/NsT/wAfD7q/73prw/Hb5fcqkr6irc0iMSRhjGnpcc8/QFQlTNJUVElRM7WkleXvPSScyV60XQosOgogeiG9cbFMaqsULTOdG7gNAiIi3lyUQ7kXnTwvqJ44Ixm+V4Y0cycgvl7L6Bc2Cvj3Ml8gorO7jg/5IRV3+Inkrs/BBzWY9MNEKHSPeI2tyZLKJm7N+u0OPrJUSVtdkpbTFfrddWtOrPAYXnLZm05j1OPoVSqbYZL0tJG7q9NFVOPU3w2IzR/5E9x1+qIiLfXIRSjRR8Itk+sj2FRddXCF1bZMT267PjMjKadr3NG8jj6lgqWl8L2t3kH0W3QyNjqo3uNgHAnuK15L70/6JWMJffHdZWlLxpVwjBYpayjuAqqh0Z7VTNY4PLiNgOY2bd6zTv2lR/LlPLCJDI0i9t/VdTHPFbT1LoBC8OttXsb77W9EREUnUDVwaBMbClmbha5zZQyuJonuOxjjtLM+g7xz61cWJLNRX+zVFqr4w+GZuXNp4OHMFY+Y90b2vY5zXtILXNORBHELQej3SrZqqwxQ4jr20dxgbqSPe06swG5wyG/pHSoljWGPbIKmnGvG3PmrHyrj0UkBoa1wsBoTuI/tN/Lq04KkMWWOsw5f6m01rSJIXeC7g9h8Vw5EfeFY3Y0XKGC+XW1yENkq4I5I8zvMZdmBzyfn5iotphxLRYpxf3bbw7uWCnbTse4ZGTJznF2XW4jzKL2m4VdquVPcaGUxVNO8PjcOB/BdqSGStodiQWc4ee9RWGqhwvFulgO0xrjbrG4+RWscaWGDE2G6uzVEjomzgFsgGZY5pBB9IVL12hLEMUEklNcaCpe0EtYdZhfyz2gFTHCemOw1tMyO+B9uqgMnODC+Nx6RltC79TpMwTDTPmF8il1RmGRscXO5AZKLU7sToCYmMNr8rjxVhVjMCxgCeWQXAtfasbdn2WYKqCalqZaaojdFNE8skY4bWuByIKtXQNjaC1znDl1nEVLUP1qWV5yayQ72k8AenpVc4puYvWIq+6iLtTamZz2s6Bw8+S5imFRStrKfo5Ra/kVWdFXvwys6anNwCR2jr7Vsu40VLcaKWirYGT08rdV8bxmCFUmINB9PLUOlsd2NPGSSIahmuByDgc8uvNRnAelq7WKCOgu0TrnRMADHF2UrB0Znxh1q0bZpWwVWRB0lyfSO4tnhcDn5gVEfhcSw156K5HVqD3KyPxDA8djHxFg4cHHZI7Dpcd6rvvHX3+mKD91yd46+/wBMUH7rlaPfGwT8oaX0O/BO+Ngn5Q0vod+C9/ieLf2n/r9li/Acu/3j/v8AdUti7RTiHD9pkunbqaup4RrTCHMOY3ysiNoHFQBaI0gaTMMNwvW01rrmXCrqYnRRsjacm6wyzcSBsWd1IcJqKqeImobY300t5KF5jo6CkqGtonXBGut7d6IiLrKOou/o6onXDHVlpWjPOrY8jpDDrn1NK4Cszsdbb3XjOavc0FlFTk7eDnHIerNadfL0NM9/IFdLB6Y1NfFFzcPAanyWh0RFWKvtQTTnZzdcB1EsbNaaicKhmQzOQ2O9RWZ1s+phiqKeSnmYHxSsLHtO5zSMiFkbGNmmw/iavtEwI7nlIjJ+Mw7Wu87SFMctVN2OgPDUfX+darLPdAWyx1bRoflPaN3l6LkoiKUqv0REREREREREREREREREREREREREREREREREREREREREREWiex6s5oMGvuMjcpLhMXtz8hvgj1gqg7Fbam83iktdG3OeqlEbegZ7yeQGZPUte2uigtttprfSs1IKeJsUY5AZKM5lqdiFsI3u17h9/RTvItAZKh9U4aNFh2n2HqvpREULVpIqi7InDBqqCDEtLGTLTARVOQ3xk7D5ifQVbq9NbTQVtHNSVMYkhmYWPadxBG1bVFVOpZ2yjh6Ln4rh7MQpX07uO7qPArGSKQaQMNVGFcS1FslDnQZ69NKRskjO49Y3HmFH1ZkUjZWB7DcFURPBJTyuikFnNNiiIiyLCiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIuthCxVeJMQ0toowdaZ3hvyzEbB4zj1D15DivD3tjaXONgFkiifM8RsFyTYK0exzwxrPnxRVR7G5wUmY/ecPZ6Vdi+SzW6ltNrprbRM1KenjDGDkOJ5nevrVa4hVmrndKd3DsV64PhrcOpGQDeN/WTv/nJERFpLqIiIiKJaUcHw4uw+6FgYy4U+b6WUjceLSeg/gVl6spp6OrlpKqJ0U8LyyRjhkWkbwtnKsdM2j0X+B18s8QF0ib+ljGzuho/xjgeO7oUjwPFRTnoJT8p3HkfZQjNmXjWN+Kpx843jmPceY7lnpF5SMfG9zJGlr2nJzSMiD0LxU2VUoiIvqIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiL9AJIABJOwAIi/Yo3yytiiY573kNa1ozJJ3ABaZ0Q4KbhSyGara110qwHTuy97HBg6uPNRrQlo8fbxHiS+QAVbhnSU7xtiB+O75x4DgOZ2W6oXjuKiU/DxH5RvPPq7FaOUcvGnaKyoHzH9I5Dn2nyCIiKMqeIiIiIiIiIiIiKr9LejOO+iS82KNkVzAzlhGQbUfcHc+PHpVAVME9LUSU9TE+GaNxa9j25OaeghbPUN0h6PrTi2EznKkuTW5MqWDxugPHxh61JMKxwwART6t4HiPsoPmLKbasmopNH8RwPsfIrLyLtYswvesMV3ct2pHRg+9zN2xyD5rvu3riqZxyNkaHMNwVV80MkLzHI0gjgUREXtYkRERERERERERERERERERERF1MNWC7YiuDaG0UclRJs13AZMjHS524BeXvaxpc42AWSOJ8rwxguTuAXNjY+WRscbHPe4gNa0Zkk8AFemiTRf7nPivuI4muqgNanpDtEXzn9LuW4de6RaN9G1twqxtZVFtddCNsxb4MXJg+/ep2obiuOmUGKn0bxPPs6lZuXspCnIqKwXdvDeA7eZ8giIijKniIiIiIiIiIiIiIiIiIiIi+a6W+hulE+iuNLFVU7/GjkbmD/wC+ap/G2hfMy1mF6keV3HOfU134+lXSi3KSvnpHXid3cFzMRwikxFuzOy54HcR3/wACxzebTc7NWGkutDPRzDc2VuWtzB3EcwviWyrlb6G5Uzqa4UcFVC7eyVgcPWq7xDoaw5XF0tsmqLbIdoa068fVkdo9KlFLmSF+kzdk9Wo9/VQCvyNUxkupXhw5HQ+x8lnlFY970OYqonONCaa4xjdqP1HHzO2etRC5YWxJbi7u2x3CIN3u7Q4t/eGY9a7cNdTzfoeD3qKVOE1tKfzYnDu08dy46I7wXFrthG8Hgi21z0RERERdW24bxBcS3uGyXCdrtzm07tX94jL1qXWXQ/i6uLXVcdNboyfCM0ms4Dqbn7VqzVtPD/UeB3rfpsLrKo/lROPdp47lXi+m2W+uudY2jt1JNV1D90cTC49ezcOavjD2haw0ZbLd6uouEgyJYD2uPPzbSPOrFs9pttnpBS2uhgpIR8WJgGfMneTzK4tVmSBmkI2j4D3UqoMj1UpDqlwYOQ1Pt5lU1grQvUzGOqxPUCCPf3JC7N55OduHmz61ctltNtstC2itdHFSwN26sbcsz0k8TzK+1FFqzEZ6s3kdpy4Kf4bgtHhrbQN15nUnv9tEREWkuqiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiHcUREUH0k+9D6Cz9iX9df5kRTPL/6FVmc/wCp3r0WT9bi6/xV+6MfGH0T96IsmPf0lhyb/W71YTPFC/URQhWyERERERERERERERERERERERERF//Z" style="width:36px;height:36px;border-radius:50%;display:block"></div>
             <span class="home-card-arrow">›</span>
           </div>
           <div>
@@ -584,20 +587,32 @@ textarea.form-c{resize:vertical;min-height:60px;line-height:1.5}
     <!-- Contenu -->
     <div style="padding:0 24px 28px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:20px;min-height:0">
 
-      <!-- LIGNE HAUTE : carte capacité + camembert -->
-      <div style="display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:stretch">
+      <!-- LIGNE HAUTE : capacité + projets en cours + jalons + camembert -->
+      <div style="display:grid;grid-template-columns:260px minmax(100px,0.6fr) 1fr 1.6fr;gap:16px;align-items:stretch">
 
         <!-- Carte capacité unique -->
-        <div style="background:#fff;border-radius:var(--r);border:1px solid var(--grey-200);padding:18px 20px;border-top:3px solid var(--navy)" id="dbCapCard">
+        <div style="background:#fff;border-radius:var(--r);border:1px solid var(--grey-200);padding:18px 22px;border-top:3px solid var(--navy)" id="dbCapCard">
           <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px">Capacité équipe</div>
           <div id="dbCapCardBody"></div>
         </div>
 
-        <!-- Camembert par poste -->
-        <div style="background:#fff;border-radius:var(--r);border:1px solid var(--grey-200);padding:18px 20px">
-          <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:2px">Charge par domaine — 6 mois</div>
-          <div style="font-size:11px;color:var(--grey-500);margin-bottom:10px" id="dbPosteSubtitle">Répartition LA · LS · CONV — projets + hors projets</div>
-          <div style="position:relative;height:220px"><canvas id="dbChartPoste"></canvas></div>
+        <!-- Carte : Projets en cours -->
+        <div style="background:#fff;border-radius:var(--r);border:1px solid var(--grey-200);padding:18px 20px;border-top:3px solid var(--orange)" id="dbCardProjets">
+          <div style="font-size:12px;font-weight:700;color:var(--orange);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">Projets en cours</div>
+          <div id="dbProjetsBody"></div>
+        </div>
+
+        <!-- Carte : Prochains jalons -->
+        <div style="background:#fff;border-radius:var(--r);border:1px solid var(--grey-200);padding:18px 20px;border-top:3px solid var(--navy-mid)" id="dbCardJalons">
+          <div style="font-size:12px;font-weight:700;color:var(--navy-mid);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">Prochains jalons</div>
+          <div id="dbJalonsBody" style="overflow-y:auto;max-height:200px"></div>
+        </div>
+
+        <!-- Camembert par poste (réduit) -->
+        <div style="background:#fff;border-radius:var(--r);border:1px solid var(--grey-200);padding:18px 16px">
+          <div style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:2px">Charge par domaine</div>
+          <div style="font-size:11px;color:var(--grey-500);margin-bottom:8px" id="dbPosteSubtitle">Répartition LA · LS · CONV</div>
+          <div style="position:relative;height:180px"><canvas id="dbChartPoste"></canvas></div>
         </div>
       </div>
 
@@ -654,8 +669,8 @@ textarea.form-c{resize:vertical;min-height:60px;line-height:1.5}
     </div>
     <!-- Onglet 1 : Projets -->
     <div id="rtePanel1" style="padding:0 24px 28px;overflow:auto;flex:1">
-      <div id="rteWrap" style="overflow:auto">
-        <table id="rteTable" style="border-collapse:collapse;font-size:11px;white-space:nowrap"></table>
+      <div id="rteWrap" style="overflow:auto;position:relative">
+        <table id="rteTable" style="border-collapse:collapse;font-size:11px;white-space:nowrap;border-spacing:0"></table>
       </div>
     </div>
     <!-- Onglet 2 : Charge capacitaire -->
@@ -1079,28 +1094,9 @@ textarea.form-c{resize:vertical;min-height:60px;line-height:1.5}
 // Firebase SDK (chargé depuis CDN dans le head)
 let db = null;
 
-async function initFirebase() {
-  // Importer Firebase depuis CDN
-  const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
-  const { getFirestore, doc, getDoc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyC6bDVXj4RoSeO4DFyyAg2wdHz1NM2c2BM",
-    authDomain: "geieae-app.firebaseapp.com",
-    projectId: "geieae-app",
-    storageBucket: "geieae-app.firebasestorage.app",
-    messagingSenderId: "64387735349",
-    appId: "1:64387735349:web:7eedb0d8845cecd39c767c"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  db = getFirestore(app);
-  return { db, doc, getDoc, setDoc };
-}
-
 // ── Init Firebase (compat SDK chargé dans le head) ──────────
 function initFirebase() {
-  if (firebase.apps.length === 0) {
+  if (!firebase.apps.length) {
     firebase.initializeApp({
       apiKey: "AIzaSyC6bDVXj4RoSeO4DFyyAg2wdHz1NM2c2BM",
       authDomain: "geieae-app.firebaseapp.com",
@@ -1110,15 +1106,16 @@ function initFirebase() {
       appId: "1:64387735349:web:7eedb0d8845cecd39c767c"
     });
   }
-  return firebase.firestore();
+  if (!db) db = firebase.firestore();
+  return db;
 }
 
 // ── Charger toutes les données depuis Firestore ──────────────
 async function loadAllData() {
   showLoading(true);
   try {
-    const db = initFirebase();
-    const docSnap = await db.collection('geieae').doc('appdata').get();
+    const _db = initFirebase();
+    const docSnap = await _db.collection('geieae').doc('appdata').get();
 
     if (docSnap.exists) {
       const data = docSnap.data();
@@ -1158,8 +1155,8 @@ function saveAllData() {
   clearTimeout(saveTimeout);
   saveTimeout = setTimeout(async () => {
     try {
-      const db = initFirebase();
-      await db.collection('geieae').doc('appdata').set({
+      const _db = initFirebase();
+      await _db.collection('geieae').doc('appdata').set({
         ressources, projets, absences, horsProjets,
         ganttTaches, lignesProjets, heuresProjets, joursFeries
       });
@@ -1193,98 +1190,22 @@ function renderAll() {
 }
 
 
-let ressources = [
-  {id:1,Nom:"HENNEN",Prenom:"Julien",Entreprise:"Eqos Energie",Poste:"LS",HeuresHebdo:40,Pays:"Luxembourg"},
-  {id:2,Nom:"PARIS",Prenom:"Thomas",Entreprise:"Eqos Energie",Poste:"LA",HeuresHebdo:40,Pays:"Luxembourg"},
-  {id:3,Nom:"FUSS",Prenom:"Morgan",Entreprise:"Eqos Energie",Poste:"LS",HeuresHebdo:40,Pays:"Luxembourg"},
-  {id:4,Nom:"BRENOT",Prenom:"Tom",Entreprise:"Eqos Energie",Poste:"LS",HeuresHebdo:40,Pays:"Luxembourg"},
-  {id:5,Nom:"JASKULA",Prenom:"Frederic",Entreprise:"Eqos Energie",Poste:"LS",HeuresHebdo:40,Pays:"Luxembourg"},
-  {id:6,Nom:"CALMES",Prenom:"Lionel",Entreprise:"Eqos Energie",Poste:"LA",HeuresHebdo:40,Pays:"Luxembourg"},
-  {id:7,Nom:"MADELIN",Prenom:"Antoine",Entreprise:"Eqos Energie",Poste:"LA",HeuresHebdo:40,Pays:"Luxembourg"},
-  {id:8,Nom:"AIDOUNI",Prenom:"Taïeb",Entreprise:"Eqos Energie",Poste:"LA",HeuresHebdo:40,Pays:"Luxembourg"},
-  {id:9,Nom:"PATTERI",Prenom:"Laurie",Entreprise:"Eqos Energie",Poste:"CONV",HeuresHebdo:40,Pays:"Luxembourg"},
-  {id:10,Nom:"WEISER",Prenom:"Lothaire",Entreprise:"Eqos Energie",Poste:"CONV",HeuresHebdo:40,Pays:"Luxembourg"},
-  {id:11,Nom:"DICOP",Prenom:"Alicia",Entreprise:"Eqos Energie",Poste:"CONV",HeuresHebdo:40,Pays:"Luxembourg"},
-  {id:12,Nom:"PONCET",Prenom:"Mathieu",Entreprise:"Eqos Energie",Poste:"LA",HeuresHebdo:40,Pays:"France"},
-  {id:13,Nom:"LAFOND",Prenom:"Jean-Christophe",Entreprise:"Eqos Energie",Poste:"CONV",HeuresHebdo:40,Pays:"France"},
-  {id:14,Nom:"SMADJA",Prenom:"Audrey",Entreprise:"Eqos Energie",Poste:"LS",HeuresHebdo:40,Pays:"France"},
-  {id:15,Nom:"VIALLON",Prenom:"Celine",Entreprise:"Eqos Energie",Poste:"LS",HeuresHebdo:40,Pays:"France"},
-  {id:16,Nom:"BOURSIN",Prenom:"Colas",Entreprise:"Eqos Energie",Poste:"LA",HeuresHebdo:40,Pays:"France"},
-  {id:17,Nom:"ALLARD",Prenom:"Nicolas",Entreprise:"Atlantique Etudes",Poste:"LS",HeuresHebdo:40,Pays:"France"},
-  {id:18,Nom:"AVRILLA",Prenom:"Mylène",Entreprise:"Atlantique Etudes",Poste:"CONV",HeuresHebdo:40,Pays:"France"},
-  {id:19,Nom:"BADJAH",Prenom:"Thomas",Entreprise:"Atlantique Etudes",Poste:"LS",HeuresHebdo:40,Pays:"France"},
-  {id:20,Nom:"BOCQUIER",Prenom:"Willy",Entreprise:"Atlantique Etudes",Poste:"LS",HeuresHebdo:40,Pays:"France"},
-  {id:21,Nom:"DARCHE",Prenom:"Tiburce",Entreprise:"Atlantique Etudes",Poste:"LS",HeuresHebdo:40,Pays:"France"},
-  {id:22,Nom:"DEBORD",Prenom:"Thomas",Entreprise:"Atlantique Etudes",Poste:"LA",HeuresHebdo:40,Pays:"France"},
-  {id:23,Nom:"EL HANNATI",Prenom:"Anas",Entreprise:"Atlantique Etudes",Poste:"LS",HeuresHebdo:40,Pays:"France"},
-  {id:24,Nom:"FERTINI",Prenom:"Oussama",Entreprise:"Atlantique Etudes",Poste:"LS",HeuresHebdo:40,Pays:"France"},
-  {id:25,Nom:"FOLLIOT",Prenom:"Vincent",Entreprise:"Atlantique Etudes",Poste:"LA",HeuresHebdo:40,Pays:"France"},
-  {id:26,Nom:"GANGNERON",Prenom:"Thibault",Entreprise:"Atlantique Etudes",Poste:"LS",HeuresHebdo:40,Pays:"France"},
-  {id:27,Nom:"GRECHEZ",Prenom:"Romain",Entreprise:"Atlantique Etudes",Poste:"LS",HeuresHebdo:40,Pays:"France"},
-  {id:28,Nom:"GUIGNARD",Prenom:"Aymeric",Entreprise:"Atlantique Etudes",Poste:"LS",HeuresHebdo:40,Pays:"France"},
-  {id:29,Nom:"GUITTONNEAU",Prenom:"Florent",Entreprise:"Atlantique Etudes",Poste:"LA",HeuresHebdo:40,Pays:"France"},
-  {id:30,Nom:"HUE",Prenom:"Jeoffrey",Entreprise:"Atlantique Etudes",Poste:"LS",HeuresHebdo:40,Pays:"France"},
-  {id:31,Nom:"LECOMTE",Prenom:"Emilie",Entreprise:"Atlantique Etudes",Poste:"CONV",HeuresHebdo:40,Pays:"France"},
-  {id:32,Nom:"LORTAL",Prenom:"Hugo",Entreprise:"Atlantique Etudes",Poste:"LS",HeuresHebdo:40,Pays:"France"},
-  {id:33,Nom:"MANDIN",Prenom:"David",Entreprise:"Atlantique Etudes",Poste:"LS",HeuresHebdo:40,Pays:"France"},
-  {id:34,Nom:"ORTHWEIN",Prenom:"Mélanie",Entreprise:"Atlantique Etudes",Poste:"LS",HeuresHebdo:40,Pays:"France"},
-  {id:35,Nom:"RICOLLEAU",Prenom:"Eloïse",Entreprise:"Atlantique Etudes",Poste:"LS",HeuresHebdo:40,Pays:"France"},
-  {id:36,Nom:"RIVOLET",Prenom:"Séverine",Entreprise:"Atlantique Etudes",Poste:"CONV",HeuresHebdo:40,Pays:"France"},
-  {id:37,Nom:"ROSSIGNOL",Prenom:"Eliot",Entreprise:"Atlantique Etudes",Poste:"LA",HeuresHebdo:40,Pays:"France"},
-  {id:38,Nom:"SCRIMALI",Prenom:"Mickaël",Entreprise:"Atlantique Etudes",Poste:"LA",HeuresHebdo:40,Pays:"France"},
-  {id:39,Nom:"WILLEY",Prenom:"Joris",Entreprise:"Atlantique Etudes",Poste:"LA",HeuresHebdo:40,Pays:"France"}
-];
+let ressources = []; // Chargé depuis Firebase
 
-let absences = [
-  {id:1,Ressource:"MARTIN Paul",Date:"2026-05-04",Type:"Congés",Heures:8},
-  {id:2,Ressource:"MARTIN Paul",Date:"2026-05-05",Type:"Congés",Heures:8},
-  {id:3,Ressource:"MARTIN Paul",Date:"2026-05-06",Type:"Congés",Heures:8},
-  {id:4,Ressource:"DUPONT Anne",Date:"2026-05-11",Type:"Congés",Heures:8},
-  {id:5,Ressource:"LECLERC Tom",Date:"2026-05-18",Type:"Maladie",Heures:8},
-  {id:6,Ressource:"LECLERC Tom",Date:"2026-05-19",Type:"Maladie",Heures:8},
-  {id:7,Ressource:"BERNARD Claire",Date:"2026-05-25",Type:"Congés",Heures:8},
-  {id:8,Ressource:"PETIT Marc",Date:"2026-06-08",Type:"Congés",Heures:7},
-];
+let absences = []; // Chargé depuis Firebase
 
-let horsProjets = [
-  {id:1,Ressource:"MARTIN Paul",Date:"2026-05-07",Nature:"Réunion interne",Heures:3,Commentaire:""},
-  {id:2,Ressource:"DUPONT Anne",Date:"2026-05-14",Nature:"Formation",Heures:8,Commentaire:"Formation Autocad"},
-  {id:3,Ressource:"LECLERC Tom",Date:"2026-05-20",Nature:"Autre",Heures:4,Commentaire:""},
-];
+let horsProjets = []; // Chargé depuis Firebase
 
 // Tâches Gantt : {id, projetId, nom, dateDebut, dateFin, jalon}
-let ganttTaches = [
-  {id:1, projetId:1, nom:"Étude initiale",  dateDebut:"2026-05-04", dateFin:"2026-05-15", jalon:"2026-05-15"},
-  {id:2, projetId:1, nom:"Relevé terrain",  dateDebut:"2026-05-18", dateFin:"2026-06-05", jalon:null},
-  {id:3, projetId:1, nom:"Livrable",        dateDebut:"2026-06-08", dateFin:"2026-06-19", jalon:"2026-06-19"},
-  {id:4, projetId:2, nom:"Étude technique", dateDebut:"2026-04-13", dateFin:"2026-05-08", jalon:null},
-  {id:5, projetId:2, nom:"Modélisation",    dateDebut:"2026-05-04", dateFin:"2026-05-29", jalon:"2026-05-29"},
-];
+let ganttTaches = []; // Chargé depuis Firebase
 
 // Lignes de planning projet : {id, projetId, tacheGanttId, ressource}
-let lignesProjets = [
-  {id:1, projetId:1, tacheGanttId:1, ressource:"MARTIN Paul"},
-  {id:2, projetId:1, tacheGanttId:2, ressource:"DUPONT Anne"},
-  {id:3, projetId:1, tacheGanttId:3, ressource:"LECLERC Tom"},
-  {id:4, projetId:2, tacheGanttId:4, ressource:"DUPONT Anne"},
-  {id:5, projetId:2, tacheGanttId:5, ressource:"BERNARD Claire"},
-];
+let lignesProjets = []; // Chargé depuis Firebase
 
 // Heures saisies : {id, ligneId, projetId, date, heures}
-let heuresProjets = [
-  {id:1, ligneId:1, projetId:1, date:"2026-05-04", heures:8},
-  {id:2, ligneId:1, projetId:1, date:"2026-05-05", heures:8},
-  {id:3, ligneId:2, projetId:1, date:"2026-05-06", heures:6},
-  {id:4, ligneId:3, projetId:1, date:"2026-05-07", heures:4},
-  {id:5, ligneId:4, projetId:2, date:"2026-04-20", heures:8},
-  {id:6, ligneId:5, projetId:2, date:"2026-05-05", heures:8},
-];
+let heuresProjets = []; // Chargé depuis Firebase
 
-let projets = [
-  {id:1,Commande:"4500XXXXXX",Nom:"Projet test 1",Type:"LA",Entite:"Atlantique Etudes",Responsable:"MARTIN Paul",Client:"RTE CDI NANTES",Statut:"Offre",DateDebut:"2026-05-18"},
-  {id:2,Commande:"4500XXXYYYY",Nom:"Projet test 2",Type:"LS",Entite:"Eqos Energie",Responsable:"DUPONT Anne",Client:"RTE CDI NANCY",Statut:"En cours",DateDebut:"2026-04-13"},
-  {id:3,Commande:"4500XXXZZZ",Nom:"Projet test 3",Type:"Mixte",Entite:"Eqos Energie",Responsable:"MARTIN Paul",Client:"RTE CDI LYON",Statut:"En cours",DateDebut:"2026-03-02"},
-];
+let projets = []; // Chargé depuis Firebase
 
 let joursFeries = [
   {id:1,Libelle:"Jour de l'An",Date:"2026-01-01",Pays:"France+Luxembourg",Annee:2026},
@@ -1505,21 +1426,12 @@ let nextId = 50;
 // NAVIGATION
 // ═══════════════════════════════════════════════════════════════
 function renderHomeKpi() {
-  // Projets en cours
-  const nbProjets = projets.filter(p => ganttTaches.some(t => t.projetId === p.id)).length;
+  // Projets dont le statut est "En cours"
+  const nbProjets = projets.filter(p => p.Statut === 'En cours').length;
   const badgeProjets = document.getElementById('homeBadgeProjets');
   if (badgeProjets) badgeProjets.textContent = nbProjets + ' projet' + (nbProjets > 1 ? 's' : '') + ' en cours';
 
-  // Absences cette semaine
-  const lun = fmtISO(getMonday(new Date()));
-  const ven = fmtISO(addDays(getMonday(new Date()), 4));
-  const nbAbs = absences.filter(a => a.Date >= lun && a.Date <= ven).length;
-  const badgeAbs = document.getElementById('homeBadgeAbsences');
-  if (badgeAbs) {
-    badgeAbs.textContent = nbAbs + ' absence' + (nbAbs > 1 ? 's' : '') + ' S' + getWeekNum(new Date());
-    badgeAbs.style.background = nbAbs > 0 ? 'var(--orange-l)' : 'var(--navy-xl)';
-    badgeAbs.style.color      = nbAbs > 0 ? 'var(--orange)'   : 'var(--navy)';
-  }
+
 
   // Prochains jalons (30 jours)
   const todayISO = fmtISO(new Date());
@@ -3740,9 +3652,11 @@ function dbWeekData(rscList, week) {
     }
   });
   const capNette = Math.max(0, cap - hFerie - hAbs);
-  return { cap, hProj, hAbs, hHP, hFerie, capNette,
-           charge: hProj + hAbs + hHP + hFerie,
-           dispo: Math.max(0, cap - hProj - hAbs - hHP - hFerie) };
+  // charge planifiée = projets + hors-projets UNIQUEMENT (absences et fériés déjà déduits de la capacité)
+  const charge = hProj + hHP;
+  return { cap: capNette, hProj, hAbs, hHP, hFerie, capNette,
+           charge,
+           dispo: Math.max(0, capNette - charge) };
 }
 
 // ── Render principal ─────────────────────────────────────────
@@ -3792,6 +3706,52 @@ function renderDashboard() {
     <span style="font-size:18px;font-weight:700;color:var(--navy);font-family:'DM Mono',monospace">${totalRsc}</span>
   </div>`;
   document.getElementById('dbCapCardBody').innerHTML = cardBody;
+
+  // ── Carte : Projets en cours (filtré par entreprise) ──
+  const projEnCours = projets.filter(p => p.Statut === 'En cours' && (!fEnt || p.Entite === fEnt));
+  const projCardEl = document.getElementById('dbProjetsBody');
+  if (projCardEl) {
+    if (projEnCours.length === 0) {
+      projCardEl.innerHTML = '<div style="font-size:12px;color:var(--grey-500);text-align:center;padding:20px 0">Aucun projet en cours</div>';
+    } else {
+      const bigNum = `<div style="font-size:52px;font-weight:800;color:var(--orange);font-family:'DM Mono',monospace;line-height:1;margin-bottom:6px">${projEnCours.length}</div>`;
+      const byPoste = ['LA','LS','CONV'].map(po => {
+        const n = projEnCours.filter(p => p.Type === po || p.Type === 'Mixte').length;
+        const col = {LA:'#1a3a5c',LS:'#1a7a4a',CONV:'#f07800'}[po];
+        return n ? `<span style="font-size:11px;font-weight:600;color:${col};margin-right:10px">${po}: ${n}</span>` : '';
+      }).join('');
+      projCardEl.innerHTML = bigNum + `<div style="margin-top:4px">${byPoste}</div>`;
+    }
+  }
+
+  // ── Carte : Prochains jalons (mois en cours + mois suivant, filtré entreprise) ──
+  const todayISO2 = fmtISO(new Date());
+  const now2 = new Date();
+  const endNextMo = fmtISO(new Date(now2.getFullYear(), now2.getMonth() + 2, 0));
+  const jalonsDB = ganttTaches
+    .filter(t => {
+      if (!t.jalon || t.jalon < todayISO2 || t.jalon > endNextMo) return false;
+      if (!fEnt) return true;
+      const proj = projets.find(p => p.id === t.projetId);
+      return proj && proj.Entite === fEnt;
+    })
+    .sort((a,b) => a.jalon.localeCompare(b.jalon));
+  const jalonsEl = document.getElementById('dbJalonsBody');
+  if (jalonsEl) {
+    const fmtDj = s => new Date(s+'T00:00:00').toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'});
+    if (jalonsDB.length === 0) {
+      jalonsEl.innerHTML = '<div style="font-size:11px;color:var(--grey-500);padding:8px 0">Aucun jalon ce mois-ci</div>';
+    } else {
+      jalonsEl.innerHTML = jalonsDB.map(t => {
+        const proj = projets.find(p => p.id === t.projetId);
+        const nom  = proj ? (proj.Nom || proj.Commande || '—') : '—';
+        return `<div style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid var(--grey-100)">
+          <span style="font-size:10px;font-weight:700;color:var(--orange);font-family:'DM Mono',monospace;flex-shrink:0;padding-top:1px">${fmtDj(t.jalon)}</span>
+          <span style="font-size:11px;color:var(--grey-600);line-height:1.4"><span style="font-weight:600;color:var(--navy)">${nom}</span><br>${t.nom}</span>
+        </div>`;
+      }).join('');
+    }
+  }
 
   // ── 2. TABLEAU PÉRIODIQUE 12 semaines ──────────────────────
   const weeks12 = dbGetWeeks(startDate, 12);
@@ -4131,31 +4091,32 @@ function renderRTE() {
     cat:  W.eotp + W.lot + W.nom + W.cli + W.fiab
   };
   const NCOLS_TOTAL = 9; // 6 visibles + 3 masquées
+  const NCOLS_STICKY = 6; // colonnes visibles sticky (pour le colspan de la ligne mois)
 
-  // Ligne mois
+  // Ligne mois — colspan = NCOLS_STICKY (colonnes visibles uniquement)
   const monthMap = {};
   weeks.forEach(w => {
     const mo = new Date(w.dateDebut + 'T00:00:00');
     const key = mo.getFullYear() + '-' + mo.getMonth();
     monthMap[key] = (monthMap[key]||0) + 1;
   });
-  let mRow = `<tr><th colspan="${NCOLS_TOTAL}" style="${thSticky(0)};z-index:40;background:var(--navy-dark)"></th>`;
+  let mRow = `<tr><th colspan="${NCOLS_STICKY}" style="position:sticky;left:0;top:0;z-index:40;background:var(--navy-dark);color:#fff;font-size:10px;font-weight:600;padding:4px 8px;border:1px solid rgba(255,255,255,.15)"></th>`;
   Object.entries(monthMap).forEach(([k,n]) => {
     const [y,m] = k.split('-');
     mRow += `<th colspan="${n}" style="${thScroll};background:var(--navy-dark)">${MONTHS_FR[parseInt(m)]} ${y}</th>`;
   });
   mRow += '</tr>';
 
-  // Ligne headers
+  // Ligne headers — sticky top + sticky left pour les colonnes fixes
   let hRow = `<tr>
     <th style="${thSticky(L.eotp)};min-width:${W.eotp}px;width:${W.eotp}px">EOTP</th>
     <th style="${thSticky(L.lot)};min-width:${W.lot}px;width:${W.lot}px">Lot</th>
     <th style="${thSticky(L.nom)};min-width:${W.nom}px;width:${W.nom}px">Projet</th>
     <th style="${thSticky(L.cli)};min-width:${W.cli}px;width:${W.cli}px">Client</th>
     <th style="${thSticky(L.fiab)};min-width:${W.fiab}px;width:${W.fiab}px">Fiabilité</th>
-    <th style="${hide}">Commentaires</th>
-    <th style="${hide}">Date commande</th>
-    <th style="${hide}">Déb. Travaux</th>
+    <th style="display:none">Commentaires</th>
+    <th style="display:none">Date commande</th>
+    <th style="display:none">Déb. Travaux</th>
     <th style="${thSticky(L.cat)};min-width:${W.cat}px;width:${W.cat}px;border-right:3px solid rgba(255,255,255,.5);background:var(--navy)">Cat.</th>`;
   weeks.forEach(w => {
     hRow += `<th style="${thScroll};min-width:40px;width:40px"><div>${w.label}</div><div style="font-weight:400;opacity:.75;font-size:9px">${w.labelDate}</div></th>`;
@@ -4187,7 +4148,7 @@ function renderRTE() {
     RTE_POSTES.forEach((poste, ri) => {
       const posteColors = { LA:'#1a3a5c', LS:'#1a7a4a', CONV:'#f07800' };
       const catColor = posteColors[poste];
-      const tdCat = `<td style="position:sticky;left:${L.cat}px;z-index:4;background:${rowBg};min-width:${W.cat}px;width:${W.cat}px;font-weight:700;font-size:10px;color:${catColor};border-right:3px solid var(--grey-300);padding:4px 8px;border:1px solid var(--grey-200);vertical-align:middle">${poste}</td>`;
+      const tdCat = `<td style="position:sticky;left:${L.cat}px;z-index:4;background:${rowBg};min-width:${W.cat}px;width:${W.cat}px;font-weight:700;font-size:10px;color:${catColor};border-right:3px solid var(--grey-300);border-left:1px solid var(--grey-200);border-top:1px solid var(--grey-200);border-bottom:1px solid var(--grey-200);padding:4px 8px;vertical-align:middle">${poste}</td>`;
 
       let row = '<tr>';
       if (ri === 0) row += tdEOTP + tdLot + tdNom + tdCli + tdFiab + tdDesc + tdCmd + tdTrav;
@@ -4238,7 +4199,7 @@ function renderRTECap() {
     const key = mo.getFullYear() + '-' + mo.getMonth();
     monthMap[key] = (monthMap[key]||0) + 1;
   });
-  let mRow = `<tr><th colspan="2" style="${thSticky(0)};z-index:40;background:var(--navy-dark)"></th>`;
+  let mRow = `<tr><th colspan="2" style="position:sticky;left:0;top:0;z-index:40;background:var(--navy-dark);color:#fff;font-size:10px;font-weight:600;padding:4px 8px;border:1px solid rgba(255,255,255,.15)"></th>`;
   Object.entries(monthMap).forEach(([k,n]) => {
     const [y,m] = k.split('-');
     mRow += `<th colspan="${n}" style="${thBase};background:var(--navy-dark)">${MONTHS_FR[parseInt(m)]} ${y}</th>`;
