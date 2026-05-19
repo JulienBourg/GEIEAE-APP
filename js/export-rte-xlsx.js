@@ -1,70 +1,154 @@
 // ═══════════════════════════════════════════════════════════════
-// EXPORT XLSX TABLEAU RTE — via serveur Python local
+// EXPORT XLSX TABLEAU RTE
 // ═══════════════════════════════════════════════════════════════
-async function exportRTEXlsx() {
-  showToast('Connexion au serveur...', '');
+async function exportRTEXlsx2() {
 
-  // Préparer les données à envoyer
-  const payload = {
-    projets,
-    absences,
-    horsProjets,
-    ressources,
-    heuresProjets,
-    lignesProjets
-  };
+  showToast('Génération Excel...', '');
 
   try {
-    // Vérifier que le serveur est actif
-    const health = await fetch('http://localhost:5000/health', { method:'GET' })
-      .catch(() => null);
 
-    if (!health || !health.ok) {
-      showToast('❌ Serveur introuvable — lancez serveur_rte.py', 'err');
-      alert('Le serveur Python n\'est pas actif.\n\nLancez serveur_rte.py sur votre PC puis réessayez.\n\nDouble-cliquez sur serveur_rte.py ou utilisez la commande :\nC:\\Users\\bourg\\AppData\\Local\\Programs\\Python\\Python314\\python.exe serveur_rte.py');
-      return;
+    if (!window.ExcelJS) {
+      throw new Error("ExcelJS n'est pas chargé. Ajoute le script CDN.");
     }
 
-    showToast('Génération du fichier...', '');
+    const workbook = new ExcelJS.Workbook();
 
-    // Envoyer les données et récupérer le fichier
-    const response = await fetch('http://localhost:5000/export-rte', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+    workbook.creator = 'RTE App';
+    workbook.created = new Date();
+
+    // =========================
+    // FEUILLE SYNTHÈSE
+    // =========================
+    const ws = workbook.addWorksheet('Synthèse');
+
+    ws.columns = [
+      { header: 'Projet', key: 'projet', width: 30 },
+      { header: 'Ressource', key: 'ressource', width: 25 },
+      { header: 'Heures', key: 'heures', width: 12 },
+      { header: 'Type', key: 'type', width: 18 }
+    ];
+
+    // =========================
+    // STYLE HEADER
+    // =========================
+    const header = ws.getRow(1);
+
+    header.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+    header.alignment = { horizontal: 'center', vertical: 'middle' };
+    header.fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: 'FF1F4E79' }
+    };
+
+    header.height = 22;
+
+    // =========================
+    // DONNÉES
+    // =========================
+
+    (projets || []).forEach(p => {
+      ws.addRow({
+        projet: p.nom || p.name || '',
+        ressource: '',
+        heures: '',
+        type: 'Projet'
+      });
     });
 
-    if (!response.ok) {
-      const err = await response.json();
-      showToast('Erreur : ' + err.error, 'err');
-      return;
-    }
+    (heuresProjets || []).forEach(h => {
+      ws.addRow({
+        projet: h.projet || '',
+        ressource: h.ressource || '',
+        heures: h.heures || 0,
+        type: 'Heures'
+      });
+    });
 
-    // Télécharger le fichier
-    const blob = await response.blob();
+    (absences || []).forEach(a => {
+      ws.addRow({
+        projet: '',
+        ressource: a.ressource || '',
+        heures: a.heures || 0,
+        type: 'Absence'
+      });
+    });
+
+    (horsProjets || []).forEach(hp => {
+      ws.addRow({
+        projet: hp.projet || '',
+        ressource: hp.ressource || '',
+        heures: hp.heures || 0,
+        type: 'Hors projet'
+      });
+    });
+
+    // =========================
+    // STYLE GLOBAL
+    // =========================
+    ws.eachRow((row, rowNumber) => {
+
+      row.eachCell(cell => {
+        cell.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' }
+        };
+
+        cell.alignment = {
+          vertical: 'middle',
+          horizontal: 'left'
+        };
+      });
+
+      // Zebra stripes
+      if (rowNumber > 1) {
+        row.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: {
+            argb: rowNumber % 2 === 0 ? 'FFF7F7F7' : 'FFFFFFFF'
+          }
+        };
+      }
+    });
+
+    // =========================
+    // FREEZE HEADER
+    // =========================
+    ws.views = [
+      { state: 'frozen', ySplit: 1 }
+    ];
+
+    // =========================
+    // EXPORT FICHIER
+    // =========================
+    const buffer = await workbook.xlsx.writeBuffer();
+
+    const blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+
     const today = new Date();
-    const fn = `RTE_GEIEAE_${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}.xlsx`;
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = fn; a.click();
-    URL.revokeObjectURL(url);
-    showToast('✅ Export téléchargé !', 'ok');
 
-  } catch(e) {
-    showToast('❌ Erreur : ' + e.message, 'err');
+    const fn = `RTE_GEIEAE_${today.getFullYear()}${
+      String(today.getMonth() + 1).padStart(2, '0')
+    }${String(today.getDate()).padStart(2, '0')}.xlsx`;
+
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fn;
+    a.click();
+
+    URL.revokeObjectURL(url);
+
+    showToast('✅ Export Excel généré !', 'ok');
+
+  } catch (e) {
+    console.error(e);
+    showToast('❌ Erreur export Excel : ' + e.message, 'err');
   }
 }
-
-
-
-// INIT
-// Synchronisation scroll horizontal : head suit le body pour les 4 vues
-['abs','hp','pc','ph','pp'].forEach(id => {
-  const hw = document.getElementById(id+'HeadWrap');
-  const bw = document.getElementById(id+'BodyWrap');
-  if (!hw || !bw) return;
-  bw.addEventListener('scroll', () => { hw.scrollLeft = bw.scrollLeft; });
-});
-
-// Charger les données depuis SharePoint au démarrage
-loadAllData();
