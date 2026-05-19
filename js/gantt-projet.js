@@ -272,6 +272,7 @@ function updateGanttTache(id, field, value) {
   }
   renderGantt();
   if (currentProjId === ganttProjId) renderPP();
+saveAllData();
 }
 
 function deleteGanttTacheById(id) {
