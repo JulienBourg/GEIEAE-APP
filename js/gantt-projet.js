@@ -259,6 +259,7 @@ function openEditGanttTache(id) {
   document.getElementById('gtJalon').value = t.jalon || '';
   document.getElementById('gtDelBtn').style.display = 'inline-flex';
   openOverlay('ganttTacheOverlay');
+ saveAllData();
 }
 
 function updateGanttTache(id, field, value) {
@@ -280,6 +281,7 @@ function deleteGanttTacheById(id) {
   lignesProjets = lignesProjets.filter(l => l.tacheGanttId !== id);
   heuresProjets = heuresProjets.filter(h => !lignesToDel.includes(h.ligneId));
   renderGantt();
+  saveAllData();
   showToast('Tâche supprimée', 'ok');
 }
 
