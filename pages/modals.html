@@ -1,0 +1,391 @@
+<!-- ══ MODALS ══ -->
+
+<!-- Modal Absence -->
+<div class="overlay" id="absOverlay">
+  <div class="modal">
+    <div class="modal-h">
+      <div><div class="modal-title" id="absMTitle">Saisir une absence</div><div class="modal-sub" id="absMSub"></div></div>
+      <button class="modal-x" onclick="closeOverlay('absOverlay')">×</button>
+    </div>
+    <div class="form-g"><label class="form-l">Ressource</label><select class="form-c" id="absRsc"></select></div>
+    <div class="form-g"><label class="form-l">Date</label><input type="date" class="form-c" id="absDate"></div>
+    <div class="form-g"><label class="form-l">Type d'absence</label>
+      <div class="type-grid">
+        <div class="type-btn sel-conges" onclick="selAbsType('Congés',this)">🏖️ Congés</div>
+        <div class="type-btn" onclick="selAbsType('Maladie',this)">🤒 Maladie</div>
+      </div>
+    </div>
+    <div class="form-g"><label class="form-l">Heures</label><input type="number" class="form-c form-c-lg" id="absH" value="8" min="0.5" max="24" step="0.5" onkeydown="handleModalKey(event,'abs')"></div>
+    <div class="modal-f">
+      <button class="btn btn-outline" onclick="closeOverlay('absOverlay')">Annuler</button>
+      <button class="btn btn-danger btn-sm" id="absDelBtn" onclick="deleteAbsence()" style="display:none">🗑️</button>
+      <button class="btn btn-primary" onclick="saveAbsence()">✓ Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Hors Projet -->
+<div class="overlay" id="hpOverlay">
+  <div class="modal">
+    <div class="modal-h">
+      <div><div class="modal-title" id="hpMTitle">Saisir une activité hors projet</div><div class="modal-sub" id="hpMSub"></div></div>
+      <button class="modal-x" onclick="closeOverlay('hpOverlay')">×</button>
+    </div>
+    <div class="form-g"><label class="form-l">Ressource</label><select class="form-c" id="hpRsc"></select></div>
+    <div class="form-g"><label class="form-l">Date</label><input type="date" class="form-c" id="hpDate"></div>
+    <div class="form-g"><label class="form-l">Nature</label><select class="form-c" id="hpNature">
+      <option>Formation</option><option>Autre département</option><option>Projet hors MCEL</option><option>Autre</option>
+    </select></div>
+    <div class="form-g"><label class="form-l">Commentaire <span style="color:var(--grey-500);font-weight:400">(optionnel)</span></label>
+      <input class="form-c" id="hpComment" placeholder="ex: Formation Autocad, Réunion sécurité...">
+    </div>
+    <div class="form-g"><label class="form-l">Heures</label><input type="number" class="form-c form-c-lg" id="hpH" value="8" min="0.5" max="24" step="0.5" onkeydown="handleModalKey(event,'hp')"></div>
+    <div class="modal-f">
+      <button class="btn btn-outline" onclick="closeOverlay('hpOverlay')">Annuler</button>
+      <button class="btn btn-danger btn-sm" id="hpDelBtn" onclick="deleteHP()" style="display:none">🗑️</button>
+      <button class="btn btn-primary" onclick="saveHP()">✓ Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Ressource -->
+<div class="overlay" id="rscOverlay">
+  <div class="modal">
+    <div class="modal-h">
+      <div><div class="modal-title" id="rscMTitle">Ajouter une ressource</div></div>
+      <button class="modal-x" onclick="closeOverlay('rscOverlay')">×</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-g"><label class="form-l">Nom</label><input class="form-c" id="rscNom" placeholder="MARTIN"></div>
+      <div class="form-g"><label class="form-l">Prénom</label><input class="form-c" id="rscPrenom" placeholder="Paul"></div>
+    </div>
+    <div class="form-g"><label class="form-l">Entreprise</label>
+      <select class="form-c" id="rscEnt"><option>Atlantique Etudes</option><option>Eqos Energie</option></select>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-g"><label class="form-l">Poste</label>
+        <select class="form-c" id="rscPoste"><option>LA</option><option>LS</option><option>CONV</option></select>
+      </div>
+      <div class="form-g"><label class="form-l">Pays</label>
+        <select class="form-c" id="rscPays"><option>France</option><option>Luxembourg</option></select>
+      </div>
+    </div>
+    <div class="modal-f">
+      <button class="btn btn-outline" onclick="closeOverlay('rscOverlay')">Annuler</button>
+      <button class="btn btn-primary" onclick="saveRsc()">✓ Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Ajouter Ligne Projet -->
+<div class="overlay" id="addLigneOverlay">
+  <div class="modal">
+    <div class="modal-h">
+      <div><div class="modal-title" id="addLigneMTitle">Ajouter une ligne</div>
+      <div class="modal-sub" id="addLigneMSub"></div></div>
+      <button class="modal-x" onclick="closeOverlay('addLigneOverlay')">×</button>
+    </div>
+    <div class="form-g">
+      <label class="form-l">Tâche (depuis le Gantt)</label>
+      <select class="form-c" id="ligneTask"></select>
+    </div>
+    <div class="form-g">
+      <label class="form-l">Ressource</label>
+      <select class="form-c" id="ligneRsc"></select>
+    </div>
+    <div class="modal-f">
+      <button class="btn btn-outline" onclick="closeOverlay('addLigneOverlay')">Annuler</button>
+      <button class="btn btn-danger btn-sm" id="delLigneBtn" onclick="deleteLigne()" style="display:none">🗑️ Supprimer ligne</button>
+      <button class="btn btn-primary" onclick="saveLigne()">✓ Ajouter</button>
+    </div>
+  </div>
+</div>
+
+<!-- ppHOverlay removed — inline edit -->
+
+<!-- Modal Gantt Tâche -->
+<div class="overlay" id="ganttTacheOverlay">
+  <div class="modal">
+    <div class="modal-h">
+      <div><div class="modal-title" id="ganttTacheMTitle">Ajouter une tâche</div>
+      <div class="modal-sub" id="ganttTacheMSub"></div></div>
+      <button class="modal-x" onclick="closeOverlay('ganttTacheOverlay')">×</button>
+    </div>
+    <div class="form-g"><label class="form-l">Nom de la tâche</label>
+      <input class="form-c" id="gtNom" placeholder="ex: Étude initiale, Relevé terrain...">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-g"><label class="form-l">Date de début</label>
+        <input type="date" class="form-c" id="gtDebut">
+      </div>
+      <div class="form-g"><label class="form-l">Date de fin</label>
+        <input type="date" class="form-c" id="gtFin">
+      </div>
+    </div>
+    <div class="form-g"><label class="form-l">Jalon contractuel (optionnel)</label>
+      <input type="date" class="form-c" id="gtJalon">
+    </div>
+    <div class="modal-f">
+      <button class="btn btn-outline" onclick="closeOverlay('ganttTacheOverlay')">Annuler</button>
+      <button class="btn btn-danger btn-sm" id="gtDelBtn" onclick="deleteGanttTache()" style="display:none">🗑️ Supprimer</button>
+      <button class="btn btn-primary" onclick="saveGanttTache()">✓ Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Surcharge -->
+<div class="overlay" id="surchargeOverlay">
+  <div class="modal" style="width:460px">
+    <div class="modal-h">
+      <div>
+        <div class="modal-title" style="color:var(--red)">⚠️ Ressource déjà bookée</div>
+        <div class="modal-sub" id="surchargeSub"></div>
+      </div>
+      <button class="modal-x" onclick="closeOverlay('surchargeOverlay')">×</button>
+    </div>
+    <div id="surchargeDetail" style="margin-bottom:16px;font-size:13px;line-height:1.6"></div>
+    <div class="modal-f">
+      <button class="btn btn-outline" onclick="closeOverlay('surchargeOverlay')">Fermer</button>
+      <button class="btn btn-primary" onclick="closeOverlay('surchargeOverlay');forceSavePPH()">⚡ Forcer quand même</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Projet -->
+<div class="overlay" id="projOverlay">
+  <div class="modal" style="width:520px;max-height:92vh;overflow-y:auto;display:flex;flex-direction:column">
+    <div class="modal-h" style="flex-shrink:0">
+      <div><div class="modal-title" id="projMTitle">Nouveau projet</div></div>
+      <button class="modal-x" onclick="closeOverlay('projOverlay')">×</button>
+    </div>
+    <div style="overflow-y:auto;flex:1">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+        <div class="form-g"><label class="form-l">N° Commande</label><input class="form-c" id="projCmd" placeholder="4500XXXXXX"></div>
+        <div class="form-g"><label class="form-l">EOTP</label><input class="form-c" id="projEOTP" placeholder="Ex: 100.123456"></div>
+        <div class="form-g"><label class="form-l">Nom du projet</label><input class="form-c" id="projNom" placeholder="Nom du projet"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+        <div class="form-g"><label class="form-l">Type</label>
+          <select class="form-c" id="projType"><option>LA</option><option>LS</option><option>Mixte</option><option>Autre</option></select>
+        </div>
+        <div class="form-g"><label class="form-l">Entité</label>
+          <select class="form-c" id="projEnt"><option>Atlantique Etudes</option><option>Eqos Energie</option></select>
+        </div>
+        <div class="form-g"><label class="form-l">Statut</label>
+          <select class="form-c" id="projStatut"><option>En cours</option><option>Offre</option><option>Non démarré</option><option>Stand-by</option><option>Terminé</option></select>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-g"><label class="form-l">Responsable</label><input class="form-c" id="projResp"></div>
+        <div class="form-g"><label class="form-l">Client</label><input class="form-c" id="projClient" placeholder="RTE CDI NANTES"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-g"><label class="form-l">Date de début</label><input type="date" class="form-c" id="projDate"></div>
+        <div class="form-g"><label class="form-l">Date prévisionnelle travaux</label><input type="date" class="form-c" id="projDateTravaux"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-g"><label class="form-l">N° Lot</label>
+          <select class="form-c" id="projLot">
+            <option value="">— Non défini —</option>
+            <option>Lot 1</option><option>Lot 2</option><option>Lot 3</option>
+          </select>
+        </div>
+        <div class="form-g"><label class="form-l">Fiabilité de planification</label>
+          <select class="form-c" id="projFiabilite">
+            <option value="">— Non définie —</option>
+            <option>K1 – Planification robuste</option>
+            <option>K2 – Risque Stop&amp;Go</option>
+            <option>K3 – Risque consistance variable</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-g"><label class="form-l">Descriptif <span style="color:var(--grey-500);font-weight:400">(optionnel)</span></label>
+        <textarea class="form-c" id="projDescriptif" rows="3" placeholder="Description, contexte, périmètre du projet..." style="resize:vertical;min-height:60px"></textarea>
+      </div>
+    </div>
+    <div class="modal-f" style="flex-shrink:0">
+      <button class="btn btn-outline" onclick="closeOverlay('projOverlay')">Annuler</button>
+      <button class="btn btn-danger btn-sm" id="projDelBtn" onclick="deleteProj()" style="display:none">🗑️</button>
+      <button class="btn btn-primary" onclick="saveProj()">✓ Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Férié -->
+<div class="overlay" id="ferieOverlay">
+  <div class="modal">
+    <div class="modal-h">
+      <div><div class="modal-title" id="ferieMTitle">Ajouter un jour férié</div></div>
+      <button class="modal-x" onclick="closeOverlay('ferieOverlay')">×</button>
+    </div>
+    <div class="form-g"><label class="form-l">Libellé</label><input class="form-c" id="ferieLib" placeholder="Fête du Travail"></div>
+    <div class="form-g"><label class="form-l">Date</label><input type="date" class="form-c" id="ferieDate"></div>
+    <div class="form-g"><label class="form-l">Pays</label>
+      <select class="form-c" id="feriePays"><option>France+Luxembourg</option><option>France</option><option>Luxembourg</option></select>
+    </div>
+    <div class="modal-f">
+      <button class="btn btn-outline" onclick="closeOverlay('ferieOverlay')">Annuler</button>
+      <button class="btn btn-primary" onclick="saveFerie()">✓ Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL WORKFLOW ══ -->
+<div class="overlay" id="workflowOverlay">
+  <div class="modal" style="width:880px;max-width:96vw;padding:24px 28px 20px">
+    <div class="modal-h">
+      <div>
+        <div class="modal-title">Workflow — Gestion de la charge</div>
+        <div class="modal-sub">EQOS Energie – Atlantique Etudes</div>
+      </div>
+      <button class="modal-x" onclick="closeOverlay('workflowOverlay')">×</button>
+    </div>
+
+    <svg viewBox="0 0 840 430" xmlns="http://www.w3.org/2000/svg"
+         style="width:100%;height:auto;display:block;margin-top:4px">
+      <defs>
+        <marker id="wfArr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#adb5bd"/>
+        </marker>
+      </defs>
+
+      <!-- ══ LIGNE HAUTE : étapes 1-4 ══ -->
+
+      <!-- Étape 1 : Paramétrage -->
+      <rect x="8" y="20" width="170" height="158" rx="12" fill="#fff" stroke="#dee2e6" stroke-width="1.5"/>
+      <circle cx="28" cy="40" r="13" fill="#2a9d8f"/>
+      <text x="28" y="45" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="sans-serif">1</text>
+      <!-- DB icon -->
+      <ellipse cx="93" cy="84" rx="30" ry="10" fill="#3ab5a5"/>
+      <rect x="63" y="84" width="60" height="24" fill="#3ab5a5"/>
+      <ellipse cx="93" cy="108" rx="30" ry="10" fill="#2a9d8f"/>
+      <ellipse cx="93" cy="96"  rx="30" ry="10" fill="#4ecdc0" opacity=".7"/>
+      <ellipse cx="93" cy="84"  rx="30" ry="10" fill="#4ecdc0"/>
+      <text x="93" y="130" text-anchor="middle" font-size="12" font-weight="700" fill="#1a3a5c" font-family="sans-serif">Paramétrage</text>
+      <text x="93" y="146" text-anchor="middle" font-size="10" fill="#6c757d" font-family="sans-serif">Ressources &amp;</text>
+      <text x="93" y="160" text-anchor="middle" font-size="10" fill="#6c757d" font-family="sans-serif">jours fériés</text>
+
+      <!-- Flèche 1→2 -->
+      <line x1="178" y1="99" x2="208" y2="99" stroke="#adb5bd" stroke-width="2" marker-end="url(#wfArr)"/>
+
+      <!-- Étape 2 : Saisie des projets -->
+      <rect x="213" y="20" width="170" height="158" rx="12" fill="#fff" stroke="#dee2e6" stroke-width="1.5"/>
+      <circle cx="233" cy="40" r="13" fill="#f07800"/>
+      <text x="233" y="45" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="sans-serif">2</text>
+      <!-- Folder icon -->
+      <rect x="268" y="86" width="50" height="36" rx="5" fill="#f4a426"/>
+      <rect x="264" y="92" width="58" height="32" rx="5" fill="#f07800"/>
+      <rect x="264" y="76" width="24" height="14" rx="4 4 0 0" fill="#f4a426"/>
+      <text x="298" y="138" text-anchor="middle" font-size="12" font-weight="700" fill="#1a3a5c" font-family="sans-serif">Saisie des projets</text>
+      <text x="298" y="153" text-anchor="middle" font-size="10" fill="#6c757d" font-family="sans-serif">Fiche · Gantt ·</text>
+      <text x="298" y="166" text-anchor="middle" font-size="10" fill="#6c757d" font-family="sans-serif">Plan de production</text>
+
+      <!-- Flèche 2→3 -->
+      <line x1="383" y1="99" x2="413" y2="99" stroke="#adb5bd" stroke-width="2" marker-end="url(#wfArr)"/>
+
+      <!-- Étape 3 : Planification absences -->
+      <rect x="418" y="20" width="170" height="158" rx="12" fill="#fff" stroke="#dee2e6" stroke-width="1.5"/>
+      <circle cx="438" cy="40" r="13" fill="#4a90d9"/>
+      <text x="438" y="45" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="sans-serif">3</text>
+      <!-- Calendar icon -->
+      <rect x="473" y="72" width="40" height="36" rx="5" fill="#4a90d9" opacity=".15"/>
+      <rect x="473" y="72" width="40" height="12" rx="5 5 0 0" fill="#4a90d9"/>
+      <line x1="482" y1="68" x2="482" y2="76" stroke="#4a90d9" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="504" y1="68" x2="504" y2="76" stroke="#4a90d9" stroke-width="2.5" stroke-linecap="round"/>
+      <rect x="476" y="87" width="8" height="7" rx="1.5" fill="#4a90d9" opacity=".5"/>
+      <rect x="489" y="87" width="8" height="7" rx="1.5" fill="#4a90d9" opacity=".5"/>
+      <rect x="476" y="97" width="8" height="7" rx="1.5" fill="#4a90d9" opacity=".5"/>
+      <!-- Checkmark circle -->
+      <circle cx="511" cy="107" r="10" fill="#2a9d8f"/>
+      <polyline points="506,107 509.5,110.5 516,103" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="503" y="130" text-anchor="middle" font-size="12" font-weight="700" fill="#1a3a5c" font-family="sans-serif">Planif. absences</text>
+      <text x="503" y="146" text-anchor="middle" font-size="10" fill="#6c757d" font-family="sans-serif">Congés, maladie,</text>
+      <text x="503" y="160" text-anchor="middle" font-size="10" fill="#6c757d" font-family="sans-serif">RTT, formation</text>
+
+      <!-- Flèche 3→4 -->
+      <line x1="588" y1="99" x2="618" y2="99" stroke="#adb5bd" stroke-width="2" marker-end="url(#wfArr)"/>
+
+      <!-- Étape 4 : Hors projets -->
+      <rect x="623" y="20" width="170" height="158" rx="12" fill="#fff" stroke="#dee2e6" stroke-width="1.5"/>
+      <circle cx="643" cy="40" r="13" fill="#6c3483"/>
+      <text x="643" y="45" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="sans-serif">4</text>
+      <!-- Briefcase icon -->
+      <rect x="678" y="80" width="42" height="32" rx="6" fill="#6c3483" opacity=".85"/>
+      <rect x="690" y="74" width="18" height="10" rx="3" fill="none" stroke="#6c3483" stroke-width="2.5"/>
+      <line x1="678" y1="94" x2="720" y2="94" stroke="#fff" stroke-width="1.5" opacity=".4"/>
+      <line x1="699" y1="87" x2="699" y2="101" stroke="#fff" stroke-width="1.5" opacity=".4"/>
+      <text x="708" y="130" text-anchor="middle" font-size="12" font-weight="700" fill="#1a3a5c" font-family="sans-serif">Hors projets</text>
+      <text x="708" y="146" text-anchor="middle" font-size="10" fill="#6c757d" font-family="sans-serif">Formations,</text>
+      <text x="708" y="160" text-anchor="middle" font-size="10" fill="#6c757d" font-family="sans-serif">réunions, admin</text>
+
+      <!-- ══ CONNECTEURS vers sorties ══ -->
+      <!-- Vertical depuis étape 2 vers ligne horizontale -->
+      <line x1="298" y1="178" x2="298" y2="218" stroke="#adb5bd" stroke-width="2"/>
+      <!-- Ligne horizontale -->
+      <line x1="93"  y1="218" x2="708" y2="218" stroke="#adb5bd" stroke-width="2"/>
+      <!-- Branches vers sorties -->
+      <line x1="93"  y1="218" x2="93"  y2="256" stroke="#adb5bd" stroke-width="2" marker-end="url(#wfArr)"/>
+      <line x1="298" y1="218" x2="298" y2="256" stroke="#adb5bd" stroke-width="2" marker-end="url(#wfArr)"/>
+      <line x1="503" y1="218" x2="503" y2="256" stroke="#adb5bd" stroke-width="2" marker-end="url(#wfArr)"/>
+      <line x1="708" y1="218" x2="708" y2="256" stroke="#adb5bd" stroke-width="2" marker-end="url(#wfArr)"/>
+
+      <!-- Label ⑤ -->
+      <rect x="310" y="206" width="216" height="24" rx="12" fill="#e8f2fb"/>
+      <text x="418" y="222" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1a3a5c" font-family="sans-serif">⑤  Sorties générées automatiquement</text>
+
+      <!-- ══ LIGNE BASSE : sorties ══ -->
+
+      <!-- Plan de charge -->
+      <rect x="8" y="258" width="170" height="152" rx="12" fill="#fff" stroke="#dee2e6" stroke-width="1.5"/>
+      <!-- People icon -->
+      <circle cx="80" cy="292" r="10" fill="#2a9d8f" opacity=".7"/>
+      <circle cx="93" cy="288" r="12" fill="#2a9d8f"/>
+      <circle cx="106" cy="292" r="10" fill="#2a9d8f" opacity=".7"/>
+      <ellipse cx="93" cy="312" rx="22" ry="9" fill="#2a9d8f" opacity=".35"/>
+      <text x="93" y="332" text-anchor="middle" font-size="12" font-weight="700" fill="#1a3a5c" font-family="sans-serif">Plan de charge</text>
+      <text x="93" y="348" text-anchor="middle" font-size="10" fill="#6c757d" font-family="sans-serif">Charge, disponibilité,</text>
+      <text x="93" y="362" text-anchor="middle" font-size="10" fill="#6c757d" font-family="sans-serif">taux d'occupation</text>
+      <text x="93" y="398" text-anchor="middle" font-size="9" fill="#adb5bd" font-family="sans-serif">par ressource</text>
+
+      <!-- Planning hebdo -->
+      <rect x="213" y="258" width="170" height="152" rx="12" fill="#fff" stroke="#dee2e6" stroke-width="1.5"/>
+      <!-- Calendar coloré icon -->
+      <rect x="268" y="272" width="40" height="38" rx="5" fill="#4a90d9" opacity=".12"/>
+      <rect x="268" y="272" width="40" height="12" rx="5 5 0 0" fill="#4a90d9"/>
+      <rect x="271" y="287" width="7" height="6" rx="1" fill="#f07800"/>
+      <rect x="281" y="287" width="7" height="6" rx="1" fill="#4a90d9" opacity=".7"/>
+      <rect x="291" y="287" width="7" height="6" rx="1" fill="#2a9d8f" opacity=".7"/>
+      <rect x="271" y="296" width="7" height="6" rx="1" fill="#4a90d9" opacity=".7"/>
+      <rect x="281" y="296" width="7" height="6" rx="1" fill="#f07800"/>
+      <rect x="291" y="296" width="7" height="6" rx="1" fill="#4a90d9" opacity=".7"/>
+      <text x="298" y="324" text-anchor="middle" font-size="12" font-weight="700" fill="#1a3a5c" font-family="sans-serif">Planning hebdo</text>
+      <text x="298" y="340" text-anchor="middle" font-size="10" fill="#6c757d" font-family="sans-serif">Vue équipe</text>
+      <text x="298" y="354" text-anchor="middle" font-size="10" fill="#6c757d" font-family="sans-serif">EQOS &amp; Atlantique</text>
+
+      <!-- Tableau de bord -->
+      <rect x="418" y="258" width="170" height="152" rx="12" fill="#fff" stroke="#dee2e6" stroke-width="1.5"/>
+      <!-- Chart icon -->
+      <rect x="468" y="272" width="40" height="40" rx="6" fill="#e8f2fb"/>
+      <polyline points="473,305 483,295 493,302 508,280" fill="none" stroke="#6c3483" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="508" cy="280" r="3.5" fill="#6c3483"/>
+      <text x="503" y="324" text-anchor="middle" font-size="12" font-weight="700" fill="#1a3a5c" font-family="sans-serif">Tableau de bord</text>
+      <text x="503" y="340" text-anchor="middle" font-size="10" fill="#6c757d" font-family="sans-serif">Analyse capacitaire</text>
+      <text x="503" y="354" text-anchor="middle" font-size="10" fill="#6c757d" font-family="sans-serif">et taux d'occupation</text>
+
+      <!-- Tableau RTE -->
+      <rect x="623" y="258" width="170" height="152" rx="12" fill="#fff" stroke="#dee2e6" stroke-width="1.5"/>
+      <!-- RTE badge -->
+      <circle cx="708" cy="294" r="22" fill="#2a9d8f"/>
+      <text x="708" y="299" text-anchor="middle" font-size="14" font-weight="800" fill="#fff" font-family="sans-serif">Rte</text>
+      <text x="708" y="328" text-anchor="middle" font-size="12" font-weight="700" fill="#1a3a5c" font-family="sans-serif">Tableau RTE</text>
+      <text x="708" y="344" text-anchor="middle" font-size="10" fill="#6c757d" font-family="sans-serif">Export format</text>
+      <text x="708" y="358" text-anchor="middle" font-size="10" fill="#6c757d" font-family="sans-serif">capacitaire RTE</text>
+    </svg>
+
+    <div class="modal-f" style="margin-top:12px">
+      <button class="btn btn-primary" onclick="closeOverlay('workflowOverlay')">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
