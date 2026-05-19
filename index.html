@@ -273,6 +273,9 @@ textarea.form-c{resize:vertical;min-height:60px;line-height:1.5}
   <button class="nav-item" onclick="showPage('dashboard')">
     <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>Tableau de bord
   </button>
+  <button class="nav-item" onclick="showPage('timeline')">
+    <span class="nav-icon">📅</span>Timeline
+  </button>
   <button class="nav-item" onclick="showPage('rte')">
     <span class="nav-icon" style="display:inline-flex;align-items:center"><img src="data:image/png;base64,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ERERERERERERERERF//Z" style="width:20px;height:20px;border-radius:50%;object-fit:cover;display:block"></span>Tableau RTE
   </button>
@@ -358,6 +361,18 @@ textarea.form-c{resize:vertical;min-height:60px;line-height:1.5}
           <div>
             <div class="home-card-title">Tableau de bord</div>
             <div class="home-card-desc">Analyse capacitaire et taux d'occupation</div>
+          </div>
+        </div>
+        <div class="home-card" onclick="showPage('timeline')">
+          <div class="home-card-header">
+            <div class="home-card-icon" style="background:var(--navy-xl);display:flex;align-items:center;justify-content:center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a3a5c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="7" y1="14" x2="15" y2="14" stroke="#f07800" stroke-width="2.5"/><line x1="7" y1="17" x2="12" y2="17" stroke="#f07800" stroke-width="2.5" opacity=".5"/></svg>
+            </div>
+            <span class="home-card-arrow">›</span>
+          </div>
+          <div>
+            <div class="home-card-title">Timeline</div>
+            <div class="home-card-desc">Diagramme de Gantt global des projets</div>
           </div>
         </div>
         <div class="home-card" onclick="showPage('rte')">
@@ -668,9 +683,16 @@ textarea.form-c{resize:vertical;min-height:60px;line-height:1.5}
       <div id="rteInfo" style="font-size:11px;color:var(--grey-500);margin-left:4px"></div>
     </div>
     <!-- Onglet 1 : Projets -->
-    <div id="rtePanel1" style="padding:0 24px 28px;overflow:auto;flex:1">
-      <div id="rteWrap" style="overflow:auto;position:relative">
-        <table id="rteTable" style="border-collapse:collapse;font-size:11px;white-space:nowrap;border-spacing:0"></table>
+    <div id="rtePanel1" style="padding:0 24px 28px;flex:1;overflow:hidden;display:flex;flex-direction:column">
+      <div style="display:flex;align-items:flex-start;overflow:hidden;border:1px solid var(--grey-200);border-radius:6px">
+        <!-- Colonnes fixes (jamais bougent) -->
+        <div id="rteFixed" style="flex-shrink:0;overflow:hidden;border-right:3px solid var(--grey-400);z-index:2;background:#fff">
+          <table id="rteTableFixed" style="border-collapse:collapse;font-size:11px;white-space:nowrap;table-layout:fixed"></table>
+        </div>
+        <!-- Colonnes scrollantes (semaines) -->
+        <div id="rteScroll" style="flex:1;overflow-x:auto;overflow-y:hidden">
+          <table id="rteTableScroll" style="border-collapse:collapse;font-size:11px;white-space:nowrap;table-layout:fixed"></table>
+        </div>
       </div>
     </div>
     <!-- Onglet 2 : Charge capacitaire -->
@@ -712,6 +734,62 @@ textarea.form-c{resize:vertical;min-height:60px;line-height:1.5}
   </div>
 
   <!-- ══ GANTT PROJET ══ -->
+  <!-- ══ ACCUEIL PROJET ══ -->
+  <div class="page" id="page-projetaccueil">
+    <div class="page-header">
+      <div>
+        <div class="page-title" id="paTitle">🏠 Projet</div>
+        <div class="page-sub" id="paSub"></div>
+      </div>
+      <div class="page-header-actions" style="gap:8px">
+        <button class="btn btn-outline btn-sm" onclick="openProjModal(currentProjetAccueilId)" style="font-size:12px">✏️ Modifier</button>
+        <button class="btn btn-outline btn-sm" onclick="openGanttProjet(currentProjetAccueilId)" style="font-size:12px">📊 Gantt</button>
+        <button class="btn btn-primary btn-sm" onclick="openPlanProjet(currentProjetAccueilId)" style="font-size:12px">⚙️ Plan de production</button>
+        <button class="btn btn-outline btn-sm" onclick="showPage('projets')" style="font-size:12px">← Projets</button>
+      </div>
+    </div>
+    <div style="padding:0 24px 28px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:20px">
+
+      <!-- Fiche projet -->
+      <div style="background:#fff;border:1px solid var(--grey-200);border-radius:var(--r);padding:20px 24px;border-top:3px solid var(--navy)">
+        <div style="font-size:12px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px">Fiche projet</div>
+        <div id="paFiche" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px 24px"></div>
+      </div>
+
+      <!-- Mini tableau de bord -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+
+        <!-- Heures planifiées à venir -->
+        <div style="background:#fff;border:1px solid var(--grey-200);border-radius:var(--r);padding:18px 20px;border-top:3px solid var(--orange)">
+          <div style="font-size:12px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">Heures planifiées à venir</div>
+          <div id="paHeures"></div>
+          <div id="paHeuresRsc" style="margin-top:12px;border-top:1px solid var(--grey-100);padding-top:10px"></div>
+        </div>
+
+        <!-- Prochains jalons -->
+        <div style="background:#fff;border:1px solid var(--grey-200);border-radius:var(--r);padding:18px 20px;border-top:3px solid var(--navy-mid)">
+          <div style="font-size:12px;font-weight:700;color:var(--navy-mid);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">Prochains jalons</div>
+          <div id="paJalons" style="overflow-y:auto;max-height:200px"></div>
+        </div>
+
+        <!-- Avancement global -->
+        <div style="background:#fff;border:1px solid var(--grey-200);border-radius:var(--r);padding:18px 20px;border-top:3px solid var(--green)">
+          <div style="font-size:12px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">Avancement</div>
+          <div id="paAvancement"></div>
+        </div>
+
+      </div>
+
+      <!-- Charge par ressource sur 6 mois -->
+      <div style="background:#fff;border:1px solid var(--grey-200);border-radius:var(--r);padding:18px 20px;border-top:3px solid var(--navy)">
+        <div style="font-size:12px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Heures planifiées — 6 prochains mois</div>
+        <div style="font-size:11px;color:var(--grey-500);margin-bottom:14px" id="paChartLabel"></div>
+        <div style="position:relative;height:220px"><canvas id="paChart"></canvas></div>
+      </div>
+
+    </div>
+  </div>
+
   <div class="page" id="page-ganttprojet">
     <div class="page-header">
       <div>
@@ -719,8 +797,8 @@ textarea.form-c{resize:vertical;min-height:60px;line-height:1.5}
         <div class="page-sub" id="ganttProjSub">Planning macro des tâches</div>
       </div>
       <div class="page-header-actions">
-        <button class="btn btn-outline btn-sm" onclick="showPage('projets')">← Retour</button>
-        <button class="btn btn-outline btn-sm" onclick="openPlanProjet(ganttProjId)">⏱️ Planning heures</button>
+        <button class="btn btn-outline btn-sm" onclick="openProjetAccueil(currentProjId || ganttProjId)">← Retour</button>
+        <button class="btn btn-outline btn-sm" onclick="openPlanProjet(ganttProjId)">⚙️ Plan de production</button>
         <button class="btn btn-outline btn-sm" onclick="exportGanttPDF()">⬇ PDF</button>
         <button class="btn btn-primary" onclick="openAddGanttTache()">+ Ajouter une tâche</button>
       </div>
@@ -763,11 +841,11 @@ textarea.form-c{resize:vertical;min-height:60px;line-height:1.5}
   <div class="page" id="page-planprojet">
     <div class="page-header">
       <div>
-        <div class="page-title" id="planProjTitle">📋 Planning projet</div>
+        <div class="page-title" id="planProjTitle">⚙️ Plan de production</div>
         <div class="page-sub" id="planProjSub">Saisie des heures par tâche et par ressource</div>
       </div>
       <div class="page-header-actions">
-        <button class="btn btn-outline btn-sm" onclick="showPage('projets')">← Retour</button>
+        <button class="btn btn-outline btn-sm" onclick="openProjetAccueil(currentProjId || ganttProjId)">← Retour</button>
         <button class="btn btn-outline btn-sm" onclick="openGanttProjet(currentProjId)">📊 Voir le Gantt</button>
         <button class="btn btn-primary" onclick="openAddLigneModal()">+ Ajouter une ligne</button>
       </div>
@@ -795,6 +873,61 @@ textarea.form-c{resize:vertical;min-height:60px;line-height:1.5}
     <div class="planning-wrap" id="ppWrap">
       <div class="planning-head-wrap" id="ppHeadWrap"><table class="planning-table" id="ppHeadTable"><thead id="ppHead"></thead></table></div>
       <div class="planning-body-wrap" id="ppBodyWrap"><table class="planning-table" id="ppTable"><tbody id="ppBody"></tbody></table></div>
+    </div>
+  </div>
+
+  <!-- ══ TIMELINE ══ -->
+  <div class="page" id="page-timeline">
+    <div class="page-header">
+      <div>
+        <div class="page-title">📅 Timeline</div>
+        <div class="page-sub">Diagramme de Gantt global — vie des projets</div>
+      </div>
+    </div>
+    <!-- Filtres & vue -->
+    <div class="toolbar" style="padding:8px 24px 10px;gap:12px;flex-wrap:wrap;align-items:center;flex-shrink:0">
+      <div class="btn-group">
+        <button id="tlBtnSem" class="btn btn-primary btn-sm" onclick="tlSetView('week')">Semaines</button>
+        <button id="tlBtnMois" class="btn btn-outline btn-sm" onclick="tlSetView('month')">Mois</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <label style="font-size:12px;font-weight:600;color:var(--grey-600)">Entreprise</label>
+        <select class="form-c" id="tlFilterEnt" onchange="renderTimeline()" style="font-size:12px;padding:4px 8px">
+          <option value="">Toutes</option>
+          <option value="Atlantique Etudes">Atlantique Etudes</option>
+          <option value="Eqos Energie">Eqos Energie</option>
+        </select>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <label style="font-size:12px;font-weight:600;color:var(--grey-600)">Domaine</label>
+        <select class="form-c" id="tlFilterType" onchange="renderTimeline()" style="font-size:12px;padding:4px 8px">
+          <option value="">Tous</option>
+          <option value="LA">LA</option>
+          <option value="LS">LS</option>
+          <option value="Mixte">Mixte</option>
+        </select>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-outline btn-sm btn-icon" onclick="tlNav(-1)">◀</button>
+        <button class="btn btn-outline btn-sm" onclick="tlToday()" style="font-size:11px">Aujourd'hui</button>
+        <button class="btn btn-outline btn-sm btn-icon" onclick="tlNav(1)">▶</button>
+      </div>
+      <span id="tlRangeLabel" style="font-size:11px;color:var(--grey-500)"></span>
+      <button class="btn btn-outline btn-sm" onclick="exportTimelinePDF()" style="margin-left:auto;font-size:12px;display:flex;align-items:center;gap:5px">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        Exporter PDF
+      </button>
+    </div>
+    <!-- Corps du Gantt -->
+    <div style="flex:1;overflow:hidden;display:flex;align-items:flex-start;padding:0 24px 24px;gap:0">
+      <!-- Colonnes fixes -->
+      <div id="tlFixed" style="flex-shrink:0;overflow:hidden;border:1px solid var(--grey-200);border-right:3px solid var(--grey-400);border-radius:6px 0 0 6px;background:#fff">
+        <table id="tlTableFixed" style="border-collapse:collapse;font-size:11px;table-layout:fixed"></table>
+      </div>
+      <!-- Colonnes Gantt scrollantes -->
+      <div id="tlScroll" style="flex:1;overflow-x:auto;overflow-y:hidden;border:1px solid var(--grey-200);border-left:none;border-radius:0 6px 6px 0">
+        <table id="tlTableScroll" style="border-collapse:collapse;font-size:11px;table-layout:fixed"></table>
+      </div>
     </div>
   </div>
 
@@ -1477,6 +1610,8 @@ function showPage(id) {
   if(id==='planninghebdo') renderPH();
   if(id==='dashboard') { dbInit(); renderDashboard(); }
   if(id==='rte') { rteInit(); rteRefresh(); }
+  if(id==='timeline') { tlInit(); renderTimeline(); }
+  if(id==='projetaccueil') renderProjetAccueil();
   if(id==='ganttprojet') renderGantt();
   if(id==='params') {renderRsc();renderFeries();}
 }
@@ -1776,7 +1911,7 @@ function handleModalKey(e, mode) {
           const ex = absences.findIndex(a => a.Ressource === curRsc && a.Date === curDate);
           if (ex >= 0) absences[ex] = {...absences[ex], Heures:curH};
           else absences.push({id:nextId++, Ressource:curRsc, Date:curDate, Type:type, Heures:curH});
-          renderAbs();
+          saveAllData(); renderAbs();
         });
         return;
       }
@@ -1794,7 +1929,7 @@ function handleModalKey(e, mode) {
           const ex = horsProjets.findIndex(a => a.Ressource === curRsc && a.Date === curDate);
           if (ex >= 0) horsProjets[ex] = {...horsProjets[ex], Heures:curH};
           else horsProjets.push({id:nextId++, Ressource:curRsc, Date:curDate, Nature:nat, Heures:curH, Commentaire:comment});
-          renderHP();
+          saveAllData(); renderHP();
         });
         return;
       }
@@ -1802,6 +1937,7 @@ function handleModalKey(e, mode) {
       if (ex >= 0) horsProjets[ex] = {...horsProjets[ex], Heures:curH};
       else horsProjets.push({id:nextId++, Ressource:curRsc, Date:curDate, Nature:nat, Heures:curH, Commentaire:comment});
     }
+    saveAllData();
     renderFn();
   }
 
@@ -1845,6 +1981,7 @@ function saveAbsence(){
     if(ex>=0){absences[ex]={...absences[ex],Type:curAbsType,Heures:h};showToast('Mise à jour','ok');}
     else{absences.push({id:nextId++,Ressource:rsc,Date:date,Type:curAbsType,Heures:h});showToast('Enregistré','ok');}
   }
+  saveAllData();
   closeOverlay('absOverlay');renderAbs();
 }
 
@@ -1923,7 +2060,7 @@ function saveHP(){
       closeOverlay('hpOverlay');
       showSurchargeAlert(rsc, date, h, totalAvecNouveau, () => {
         horsProjets.push({id:nextId++,Ressource:rsc,Date:date,Nature:nat,Heures:h,Commentaire:comment});
-        renderHP();
+        saveAllData(); renderHP();
       });
       return;
     }
@@ -1976,10 +2113,8 @@ function renderProj(){
       <td style="font-size:12px">${p.Client}</td>
       <td><span style="background:${statColor[p.Statut]};color:${statTxt[p.Statut]};padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">${p.Statut}</span></td>
       <td><div class="td-actions">
-        <button class="btn btn-outline btn-sm" onclick="openGanttProjet(${p.id})" title="Gantt macro du projet">📊 Gantt</button>
-        <button class="btn btn-primary btn-sm" onclick="openPlanProjet(${p.id})" title="Planification des heures">⏱️ Heures</button>
-        <button class="btn btn-outline btn-sm" onclick="openProjModal(${p.id})">✏️</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteProjDirect(${p.id})">🗑️</button>
+        <button class="btn btn-primary btn-sm" onclick="openProjetAccueil(${p.id})" title="Accueil du projet">🏠 Accueil projet</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteProjDirect(${p.id})" title="Supprimer le projet">🗑️</button>
       </div></td>
     </tr>`).join('');
 }
@@ -2036,6 +2171,8 @@ function saveProj(){
   else projets.push({id:nextId++,...obj});
   saveAllData();
   showToast('Enregistré','ok');closeOverlay('projOverlay');renderProj();
+  // Rafraîchir l'accueil projet si le projet modifié est celui affiché
+  if(currentProjetAccueilId && currentProjetAccueilId === curProjId) renderProjetAccueil();
 }
 
 function deleteProj(){
@@ -2147,6 +2284,659 @@ function getWeekNum(d){
 }
 
 // ═══════════════════════════════════════════════════════════════
+// TIMELINE
+// ═══════════════════════════════════════════════════════════════
+let tlView = 'week';
+let tlStartDate = null;
+
+function tlInit() {
+  if (!tlStartDate) {
+    const d = getMonday(new Date());
+    tlStartDate = fmtISO(addDays(d, -28));
+  }
+  document.getElementById('tlBtnSem').className  = tlView === 'week'  ? 'btn btn-primary btn-sm' : 'btn btn-outline btn-sm';
+  document.getElementById('tlBtnMois').className = tlView === 'month' ? 'btn btn-primary btn-sm' : 'btn btn-outline btn-sm';
+}
+
+function tlSetView(v) {
+  tlView = v;
+  document.getElementById('tlBtnSem').className  = v === 'week'  ? 'btn btn-primary btn-sm' : 'btn btn-outline btn-sm';
+  document.getElementById('tlBtnMois').className = v === 'month' ? 'btn btn-primary btn-sm' : 'btn btn-outline btn-sm';
+  renderTimeline();
+}
+
+function tlNav(dir) {
+  if (!tlStartDate) tlInit();
+  const d = new Date(tlStartDate + 'T00:00:00');
+  if (tlView === 'week') d.setDate(d.getDate() + dir * 12 * 7);
+  else d.setMonth(d.getMonth() + dir * 6);
+  tlStartDate = fmtISO(d);
+  renderTimeline();
+}
+
+function tlToday() {
+  const d = tlView === 'week' ? getMonday(new Date()) : new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+  tlStartDate = fmtISO(addDays(d, tlView === 'week' ? -28 : 0));
+  renderTimeline();
+}
+
+function tlGetCols(startISO) {
+  const cols = [];
+  const d = new Date(startISO + 'T00:00:00');
+  if (tlView === 'week') {
+    for (let i = 0; i < 52; i++) {
+      const mon = getMonday(d);
+      const ven = addDays(mon, 6);
+      cols.push({ label: 'S' + getWeekNum(mon), subLabel: fmtDisp(fmtISO(mon)), dateDebut: fmtISO(mon), dateFin: fmtISO(ven), key: fmtISO(mon) });
+      d.setDate(d.getDate() + 7);
+    }
+  } else {
+    const cur = new Date(d.getFullYear(), d.getMonth(), 1);
+    for (let i = 0; i < 24; i++) {
+      const fin = new Date(cur.getFullYear(), cur.getMonth() + 1, 0);
+      cols.push({ label: MONTHS_FR[cur.getMonth()] + ' ' + cur.getFullYear(), subLabel: '', dateDebut: fmtISO(new Date(cur)), dateFin: fmtISO(fin), key: fmtISO(new Date(cur)) });
+      cur.setMonth(cur.getMonth() + 1);
+    }
+  }
+  return cols;
+}
+
+function tlProjectRange(proj) {
+  const taches = ganttTaches.filter(t => t.projetId === proj.id);
+  let dates = [];
+  taches.forEach(t => { if (t.dateDebut) dates.push(t.dateDebut); if (t.dateFin) dates.push(t.dateFin); });
+  heuresProjets.filter(h => { const l = lignesProjets.find(l => l.id === h.ligneId); return l && l.projetId === proj.id; }).forEach(h => { if (h.date) dates.push(h.date); });
+  if (proj.DateDebut) dates.push(proj.DateDebut);
+  if (proj.DateFin)   dates.push(proj.DateFin);
+  if (dates.length === 0) return null;
+  dates.sort();
+  return { debut: dates[0], fin: dates[dates.length - 1] };
+}
+
+function tlCalcHours(proj, col) {
+  let total = 0;
+  heuresProjets.forEach(h => {
+    if (!h.date || h.date < col.dateDebut || h.date > col.dateFin) return;
+    const l = lignesProjets.find(l => l.id === h.ligneId);
+    if (l && l.projetId === proj.id) total += (parseFloat(h.heures) || 0);
+  });
+  return total;
+}
+
+function renderTimeline() {
+  tlInit();
+  const fEnt  = document.getElementById('tlFilterEnt').value;
+  const fType = document.getElementById('tlFilterType').value;
+  const projFiltered = projets.filter(p => {
+    if (fEnt  && p.Entite !== fEnt)  return false;
+    if (fType && p.Type   !== fType) return false;
+    return true;
+  });
+  const cols = tlGetCols(tlStartDate);
+  document.getElementById('tlRangeLabel').textContent = cols[0].dateDebut + ' → ' + cols[cols.length - 1].dateFin + ' · ' + cols.length + (tlView === 'week' ? ' semaines' : ' mois');
+
+  const W = { nom: 200, type: 60, resp: 100, cli: 110 };
+  const TOTAL_FIXED = W.nom + W.type + W.resp + W.cli;
+  const COL_W = tlView === 'week' ? 40 : 80;
+
+  document.getElementById('tlFixed').style.width = TOTAL_FIXED + 'px';
+
+  const thF = (w) => `background:var(--navy);color:#fff;font-size:10px;font-weight:600;padding:4px 8px;border:1px solid rgba(255,255,255,.15);white-space:nowrap;text-align:left;width:${w}px;min-width:${w}px;max-width:${w}px;position:sticky;top:0;z-index:10`;
+  const thS = `background:var(--navy);color:#fff;font-size:10px;font-weight:600;padding:3px 4px;border:1px solid rgba(255,255,255,.15);white-space:nowrap;text-align:center;width:${COL_W}px;min-width:${COL_W}px;position:sticky;top:0;z-index:10`;
+  const thSMonth = `background:var(--navy-dark);color:#fff;font-size:10px;font-weight:600;padding:3px 6px;border:1px solid rgba(255,255,255,.15);white-space:nowrap;text-align:center;position:sticky;top:0;z-index:10`;
+  const tdF = (w, extra) => `background:#fff;font-size:11px;padding:4px 8px;border:1px solid var(--grey-200);vertical-align:middle;width:${w}px;min-width:${w}px;max-width:${w}px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap${extra?';'+extra:''}`;
+  const tdCell = `font-size:10px;padding:2px 3px;border:1px solid var(--grey-200);text-align:center;vertical-align:middle;width:${COL_W}px;min-width:${COL_W}px`;
+  const posteColors = { LA:'#1a3a5c', LS:'#1a7a4a', CONV:'#f07800', Mixte:'#7c3aed', Autre:'#64748b' };
+  const rowBgA = '#fff', rowBgB = '#f7f9fb';
+
+  // Table fixe header
+  const fHRow = `<tr>
+    <th style="${thF(W.nom)}">Projet</th>
+    <th style="${thF(W.type)}">Type</th>
+    <th style="${thF(W.resp)}">Responsable</th>
+    <th style="${thF(W.cli)}">Client</th>
+  </tr>`;
+
+  // Table scroll header
+  let sHRows = '';
+  if (tlView === 'week') {
+    const monthMap = {};
+    cols.forEach(c => { const mo = new Date(c.dateDebut + 'T00:00:00'); const key = mo.getFullYear() + '-' + mo.getMonth(); monthMap[key] = (monthMap[key] || 0) + 1; });
+    let mRow = '<tr>';
+    Object.entries(monthMap).forEach(([k, n]) => { const [y, m] = k.split('-'); mRow += `<th colspan="${n}" style="${thSMonth}">${MONTHS_FR[parseInt(m)]} ${y}</th>`; });
+    sHRows += mRow + '</tr>';
+  }
+  let sColRow = '<tr>';
+  cols.forEach(c => { sColRow += `<th style="${thS}"><div>${c.label}</div>${c.subLabel ? `<div style="font-weight:400;opacity:.75;font-size:9px">${c.subLabel}</div>` : ''}</th>`; });
+  sHRows += sColRow + '</tr>';
+
+  let fixedBody = '', scrollBody = '';
+  const today = fmtISO(new Date());
+
+  if (projFiltered.length === 0) {
+    fixedBody  = `<tr><td colspan="4" style="text-align:center;padding:32px;color:var(--grey-500)">Aucun projet</td></tr>`;
+    scrollBody = `<tr><td colspan="${cols.length}" style="padding:32px"></td></tr>`;
+  } else {
+    projFiltered.forEach((p, pi) => {
+      const rowBg = pi % 2 === 0 ? rowBgA : rowBgB;
+      const catColor = posteColors[p.Type] || '#64748b';
+      const range = tlProjectRange(p);
+      fixedBody += `<tr style="height:32px">
+        <td style="${tdF(W.nom, 'font-weight:600;color:var(--navy)')};background:${rowBg}" title="${(p.Nom||'').replace(/"/g,'')}">${p.Nom||'—'}</td>
+        <td style="${tdF(W.type)};font-weight:700;color:${catColor};background:${rowBg}">${p.Type||'—'}</td>
+        <td style="${tdF(W.resp)};background:${rowBg}" title="${p.Responsable||''}">${p.Responsable||'—'}</td>
+        <td style="${tdF(W.cli)};background:${rowBg}" title="${p.Client||''}">${p.Client||'—'}</td>
+      </tr>`;
+      scrollBody += '<tr style="height:32px">';
+      cols.forEach(c => {
+        const inRange = range && range.debut <= c.dateFin && range.fin >= c.dateDebut;
+        const isStart = range && range.debut >= c.dateDebut && range.debut <= c.dateFin;
+        const isEnd   = range && range.fin   >= c.dateDebut && range.fin   <= c.dateFin;
+        const isToday = today >= c.dateDebut && today <= c.dateFin;
+        const hours   = inRange ? tlCalcHours(p, c) : 0;
+        let cellBg = rowBg, cellContent = '', extraStyle = '';
+        if (inRange) {
+          cellBg = catColor + '28';
+          if (hours > 0) cellContent = `<span style="font-size:9px;font-weight:700;color:${catColor};font-family:'DM Mono',monospace">${hours % 1 === 0 ? hours : hours.toFixed(1)}h</span>`;
+          if (isStart && isEnd) extraStyle = 'border-radius:6px';
+          else if (isStart)     extraStyle = 'border-radius:6px 0 0 6px';
+          else if (isEnd)       extraStyle = 'border-radius:0 6px 6px 0';
+        }
+        scrollBody += `<td style="${tdCell};background:${cellBg}${extraStyle ? ';' + extraStyle : ''}">${cellContent}</td>`;
+      });
+      scrollBody += '</tr>';
+    });
+  }
+
+  const tblF = document.getElementById('tlTableFixed');
+  const tblS = document.getElementById('tlTableScroll');
+  tblF.innerHTML = `<colgroup><col style="width:${W.nom}px"><col style="width:${W.type}px"><col style="width:${W.resp}px"><col style="width:${W.cli}px"></colgroup><thead>${fHRow}</thead><tbody>${fixedBody}</tbody>`;
+  tblS.innerHTML = `<thead>${sHRows}</thead><tbody>${scrollBody}</tbody>`;
+
+  // Sync scroll vertical
+  const scrollEl = document.getElementById('tlScroll');
+  const fixedEl  = document.getElementById('tlFixed');
+  if (scrollEl._tlSync) scrollEl.removeEventListener('scroll', scrollEl._tlSync);
+  scrollEl._tlSync = () => { fixedEl.scrollTop = scrollEl.scrollTop; };
+  scrollEl.addEventListener('scroll', scrollEl._tlSync);
+
+  // Sync hauteurs body rows
+  requestAnimationFrame(() => {
+    const rowsF = tblF.querySelectorAll('tbody tr');
+    const rowsS = tblS.querySelectorAll('tbody tr');
+    const len = Math.min(rowsF.length, rowsS.length);
+    for (let i = 0; i < len; i++) {
+      const h = Math.max(rowsF[i].getBoundingClientRect().height, rowsS[i].getBoundingClientRect().height, 32);
+      rowsF[i].style.height = h + 'px';
+      rowsS[i].style.height = h + 'px';
+    }
+    // Sync header : table fixe = 1 ligne, table scroll = 1 ou 2 lignes (mois + cols)
+    // On force la ligne unique du header fixe à avoir la hauteur totale du header scroll
+    const hdrF = tblF.querySelector('thead');
+    const hdrS = tblS.querySelector('thead');
+    if (hdrF && hdrS) {
+      const totalH = hdrS.getBoundingClientRect().height;
+      const fRow = hdrF.querySelector('tr');
+      if (fRow) fRow.style.height = totalH + 'px';
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ACCUEIL PROJET
+// ═══════════════════════════════════════════════════════════════
+let currentProjetAccueilId = null;
+
+function openProjetAccueil(projId) {
+  currentProjetAccueilId = projId;
+
+  showPage('projetaccueil');
+}
+
+function renderProjetAccueil() {
+  const p = projets.find(x => x.id === currentProjetAccueilId);
+  if (!p) return;
+
+  // ── Titre ──
+  document.getElementById('paTitle').textContent = '🏠 ' + p.Nom;
+  document.getElementById('paSub').textContent = (p.Commande || '') + (p.Client ? ' · ' + p.Client : '') + (p.Entite ? ' · ' + p.Entite : '');
+
+  // ── Fiche projet ──
+  const posteColors = { LA:'#1a3a5c', LS:'#1a7a4a', CONV:'#f07800', Mixte:'#7c3aed', Autre:'#64748b' };
+  const statColor = {'En cours':'var(--green-l)','Offre':'var(--orange-l)','Non démarré':'var(--grey-200)','Stand-by':'var(--purple-l)','Terminé':'var(--grey-200)'};
+  const statTxt   = {'En cours':'var(--green)','Offre':'var(--orange)','Non démarré':'var(--grey-600)','Stand-by':'var(--purple)','Terminé':'var(--grey-600)'};
+
+  const fields = [
+    { label: 'N° Commande',    value: p.Commande || '—' },
+    { label: 'EOTP',           value: p.EOTP || '—', mono: true },
+    { label: 'Nom du projet',  value: p.Nom || '—', bold: true },
+    { label: 'Type / Domaine', value: p.Type || '—', color: posteColors[p.Type] },
+    { label: 'Entité',         value: p.Entite || '—' },
+    { label: 'Responsable',    value: p.Responsable || '—' },
+    { label: 'Client',         value: p.Client || '—' },
+    { label: 'Statut',         value: p.Statut || '—', badge: true },
+    { label: 'Lot',            value: p.Lot || '—' },
+    { label: 'Fiabilité',      value: p.Fiabilite || '—' },
+    { label: 'Date début',     value: p.DateDebut ? new Date(p.DateDebut+'T00:00:00').toLocaleDateString('fr-FR') : '—' },
+    { label: 'Déb. travaux',   value: p.DateTravaux ? new Date(p.DateTravaux+'T00:00:00').toLocaleDateString('fr-FR') : '—' },
+    { label: 'Descriptif',     value: p.Descriptif || '—', full: true },
+  ];
+
+  document.getElementById('paFiche').innerHTML = fields.map(f => {
+    let valHtml = f.bold
+      ? `<span style="font-weight:700;color:var(--navy)">${f.value}</span>`
+      : f.color
+        ? `<span style="font-weight:700;color:${f.color}">${f.value}</span>`
+        : f.mono
+          ? `<span style="font-family:'DM Mono',monospace;font-size:11px">${f.value}</span>`
+          : f.badge
+            ? `<span style="background:${statColor[p.Statut]};color:${statTxt[p.Statut]};padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">${f.value}</span>`
+            : `<span style="font-size:13px;color:var(--grey-700)">${f.value}</span>`;
+    return `<div style="${f.full ? 'grid-column:1/-1;' : ''}">
+      <div style="font-size:11px;font-weight:600;color:var(--grey-500);margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px">${f.label}</div>
+      ${valHtml}
+    </div>`;
+  }).join('');
+
+  // ── Heures planifiées ──
+  const todayISO = fmtISO(new Date());
+  const lignesPj = lignesProjets.filter(l => l.projetId === p.id);
+
+  // Total à venir + par ressource à venir
+  let hFutur = 0;
+  const hParRsc = {}; // ressource → heures à venir
+  heuresProjets.forEach(h => {
+    const l = lignesProjets.find(l => l.id === h.ligneId);
+    if (!l || l.projetId !== p.id) return;
+    if (h.date < todayISO) return; // seulement le futur
+    const hrs = parseFloat(h.heures) || 0;
+    hFutur += hrs;
+    const rsc = l.ressource || '—';
+    hParRsc[rsc] = (hParRsc[rsc] || 0) + hrs;
+  });
+
+  // Tri par heures décroissantes
+  const rscSorted = Object.entries(hParRsc).sort((a, b) => b[1] - a[1]);
+
+  document.getElementById('paHeures').innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
+      <span style="font-size:11px;color:var(--grey-500)">Total à venir</span>
+      <span style="font-size:28px;font-weight:800;color:var(--orange);font-family:'DM Mono',monospace;line-height:1">${hFutur}h</span>
+    </div>`;
+
+  document.getElementById('paHeuresRsc').innerHTML = rscSorted.length === 0
+    ? '<div style="font-size:11px;color:var(--grey-400)">Aucune heure planifiée</div>'
+    : rscSorted.map(([rsc, h]) => `
+        <div style="display:flex;justify-content:space-between;align-items:baseline;padding:3px 0;border-bottom:1px solid var(--grey-100)">
+          <span style="font-size:11px;color:var(--grey-700);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:150px" title="${rsc}">${rsc}</span>
+          <span style="font-size:11px;font-weight:700;color:var(--navy);font-family:'DM Mono',monospace;flex-shrink:0;margin-left:8px">${h % 1 === 0 ? h : h.toFixed(1)}h</span>
+        </div>`).join('');
+
+  // ── Prochains jalons ──
+  const taches = ganttTaches.filter(t => t.projetId === p.id);
+  const jalons = taches.filter(t => t.jalon && t.jalon >= todayISO).sort((a,b) => a.jalon.localeCompare(b.jalon));
+  const fmtD = s => new Date(s+'T00:00:00').toLocaleDateString('fr-FR', {day:'2-digit', month:'2-digit', year:'2-digit'});
+
+  document.getElementById('paJalons').innerHTML = jalons.length === 0
+    ? '<div style="font-size:12px;color:var(--grey-500);padding:8px 0">Aucun jalon à venir</div>'
+    : jalons.map(t => `
+      <div style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid var(--grey-100)">
+        <span style="font-size:10px;font-weight:700;color:var(--orange);font-family:'DM Mono',monospace;flex-shrink:0;padding-top:1px">${fmtD(t.jalon)}</span>
+        <span style="font-size:11px;color:var(--grey-700);line-height:1.4">${t.nom}</span>
+      </div>`).join('');
+
+  // ── Avancement (tâches) ──
+  const tachesAvecDates = taches.filter(t => t.dateDebut && t.dateFin);
+  const tachesTerminees = tachesAvecDates.filter(t => t.dateFin < todayISO).length;
+  const tachesEnCours   = tachesAvecDates.filter(t => t.dateDebut <= todayISO && t.dateFin >= todayISO).length;
+  const tachesTotal     = tachesAvecDates.length;
+  const pctTaches       = tachesTotal > 0 ? Math.round(tachesTerminees / tachesTotal * 100) : 0;
+
+  document.getElementById('paAvancement').innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px">
+          <span style="font-size:11px;color:var(--grey-500)">Tâches terminées</span>
+          <span style="font-size:12px;font-weight:700;color:var(--green)">${tachesTerminees} / ${tachesTotal}</span>
+        </div>
+        <div style="height:6px;background:var(--grey-200);border-radius:3px;overflow:hidden">
+          <div style="height:100%;width:${pctTaches}%;background:var(--green);border-radius:3px;transition:width .4s"></div>
+        </div>
+        <div style="font-size:10px;color:var(--grey-400);margin-top:3px">${pctTaches}% terminé</div>
+      </div>
+      ${tachesEnCours > 0 ? `<div style="font-size:11px;color:var(--navy)"><b>${tachesEnCours}</b> tâche${tachesEnCours>1?'s':''} en cours</div>` : ''}
+      <div style="font-size:11px;color:var(--grey-500)">${jalons.length} jalon${jalons.length>1?'s':''} à venir</div>
+    </div>`;
+
+  // ── Graphique heures planifiées 6 prochains mois ──
+  // Calculer les 6 prochains mois
+  const now = new Date();
+  const months6 = [];
+  for (let i = 0; i < 6; i++) {
+    const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+    const fin = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+    months6.push({
+      label: MONTHS_FR[d.getMonth()] + ' ' + d.getFullYear(),
+      dateDebut: fmtISO(d),
+      dateFin: fmtISO(fin)
+    });
+  }
+
+  // Récupérer toutes les ressources du projet
+  const rscsDuProjet = [...new Set(
+    lignesProjets.filter(l => l.projetId === p.id).map(l => l.ressource).filter(Boolean)
+  )].sort();
+
+  // Heures par ressource par mois
+  const chartData = {};
+  rscsDuProjet.forEach(rsc => { chartData[rsc] = new Array(6).fill(0); });
+
+  heuresProjets.forEach(h => {
+    if (!h.date || h.date < months6[0].dateDebut || h.date > months6[5].dateFin) return;
+    const l = lignesProjets.find(l => l.id === h.ligneId);
+    if (!l || l.projetId !== p.id || !l.ressource) return;
+    const mi = months6.findIndex(m => h.date >= m.dateDebut && h.date <= m.dateFin);
+    if (mi >= 0) chartData[l.ressource][mi] += parseFloat(h.heures) || 0;
+  });
+
+  // Couleurs pour les ressources
+  const chartColors = ['#1a3a5c','#f07800','#1a7a4a','#7c3aed','#e11d48','#0891b2','#d97706','#059669'];
+
+  document.getElementById('paChartLabel').textContent =
+    rscsDuProjet.length === 0 ? 'Aucune heure planifiée sur cette période'
+    : rscsDuProjet.length + ' ressource' + (rscsDuProjet.length > 1 ? 's' : '');
+
+  // Détruire ancien chart si existant
+  if (window._paChartInst) { window._paChartInst.destroy(); window._paChartInst = null; }
+
+  const ctx = document.getElementById('paChart');
+  if (!ctx) return;
+
+  if (rscsDuProjet.length === 0) {
+    ctx.getContext('2d').clearRect(0, 0, ctx.width, ctx.height);
+    return;
+  }
+
+  window._paChartInst = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: months6.map(m => m.label),
+      datasets: rscsDuProjet.map((rsc, i) => ({
+        label: rsc,
+        data: chartData[rsc],
+        backgroundColor: chartColors[i % chartColors.length] + 'cc',
+        borderColor:     chartColors[i % chartColors.length],
+        borderWidth: 1,
+        borderRadius: 3,
+        borderSkipped: false
+      }))
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 12, padding: 12 } },
+        tooltip: {
+          callbacks: { label: ctx => ctx.dataset.label + ' : ' + ctx.parsed.y + 'h' }
+        }
+      },
+      scales: {
+        x: { stacked: false, grid: { display: false }, ticks: { font: { size: 10 } } },
+        y: {
+          stacked: false,
+          beginAtZero: true,
+          ticks: { font: { size: 10 }, callback: v => v + 'h' },
+          grid: { color: '#e2e8f0' }
+        }
+      }
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TIMELINE PDF EXPORT
+// ═══════════════════════════════════════════════════════════════
+function exportTimelinePDF() {
+  const { jsPDF } = window.jspdf;
+
+  const fEnt  = document.getElementById('tlFilterEnt').value;
+  const fType = document.getElementById('tlFilterType').value;
+  const projFiltered = projets.filter(p => {
+    if (fEnt  && p.Entite !== fEnt)  return false;
+    if (fType && p.Type   !== fType) return false;
+    return true;
+  }).filter(p => tlProjectRange(p) !== null);
+
+  if (!projFiltered.length) { showToast('Aucun projet avec des dates à exporter', 'err'); return; }
+
+  // ── Plage globale : min/max de tous les projets visibles ──
+  let allDates = [];
+  projFiltered.forEach(p => {
+    const r = tlProjectRange(p);
+    if (r) { allDates.push(r.debut); allDates.push(r.fin); }
+  });
+  allDates.sort();
+  const gStart = allDates[0];
+  const gEnd   = allDates[allDates.length - 1];
+
+  // ── Colonnes selon la vue courante ──
+  const cols = [];
+  if (tlView === 'week') {
+    let cur = getMonday(new Date(gStart + 'T00:00:00'));
+    const end = new Date(gEnd + 'T00:00:00');
+    while (cur <= addDays(end, 6)) {
+      const ven = addDays(cur, 6);
+      cols.push({ label: 'S' + getWeekNum(cur), labelSub: cur.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'}), dateDebut: fmtISO(cur), dateFin: fmtISO(ven) });
+      cur = addDays(cur, 7);
+    }
+  } else {
+    let cur = new Date(new Date(gStart + 'T00:00:00').getFullYear(), new Date(gStart + 'T00:00:00').getMonth(), 1);
+    const end = new Date(gEnd + 'T00:00:00');
+    while (cur <= end) {
+      const fin = new Date(cur.getFullYear(), cur.getMonth() + 1, 0);
+      cols.push({ label: MONTHS_FR[cur.getMonth()] + ' ' + cur.getFullYear(), labelSub: '', dateDebut: fmtISO(new Date(cur)), dateFin: fmtISO(fin) });
+      cur = new Date(cur.getFullYear(), cur.getMonth() + 1, 1);
+    }
+  }
+
+  // ── Dimensions ──
+  const margin   = 8;
+  const hdrH     = 16;
+  const thH      = tlView === 'week' ? 18 : 12; // 2 lignes si semaine, 1 si mois
+  const COL_NOM  = 60, COL_TYPE = 18, COL_RESP = 35, COL_CLI = 35;
+  const fixedW   = COL_NOM + COL_TYPE + COL_RESP + COL_CLI;
+  const colW     = tlView === 'week' ? 10 : 18;
+  const ROW_H    = 8;
+  const FONT_SM  = 6;
+
+  const pgW    = fixedW + cols.length * colW;
+  const pageW  = margin * 2 + pgW;
+  const pageH  = 420; // A3 landscape height in mm
+
+  const availBodyH  = pageH - hdrH - thH - margin * 2;
+  const rowsPerPage = Math.floor(availBodyH / ROW_H);
+  const rowGroups   = [];
+  for (let i = 0; i < projFiltered.length; i += rowsPerPage)
+    rowGroups.push(projFiltered.slice(i, i + rowsPerPage));
+  const totalPages = rowGroups.length;
+
+  const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: [pageW, pageH] });
+
+  // Couleurs
+  const NAVY   = [26, 58, 92];
+  const NAVY_D = [18, 40, 65];
+  const GREY_L = [230, 234, 240];
+  const GREY_B = [180, 190, 205];
+  const WHITE  = [255, 255, 255];
+  const ORANGE = [240, 120, 0];
+  const posteColorsRGB = { LA:[26,58,92], LS:[26,122,74], CONV:[240,120,0], Mixte:[124,58,237], Autre:[100,116,139] };
+
+  const scaleLabel = tlView === 'week' ? 'hebdomadaire' : 'mensuelle';
+  const filterLabel = [fEnt||'Toutes entreprises', fType||'Tous domaines'].join(' · ');
+
+  // dateToX
+  const d2x = (ds, clamp) => {
+    if (!ds) return null;
+    for (let i = 0; i < cols.length; i++) {
+      const c = cols[i];
+      if (ds >= c.dateDebut && ds <= c.dateFin) {
+        const tot = (new Date(c.dateFin+'T00:00:00') - new Date(c.dateDebut+'T00:00:00')) / 86400000 + 1;
+        const off = (new Date(ds+'T00:00:00') - new Date(c.dateDebut+'T00:00:00')) / 86400000;
+        return margin + fixedW + i * colW + (off / tot) * colW;
+      }
+    }
+    if (!clamp) return null;
+    if (ds < cols[0].dateDebut) return margin + fixedW;
+    return margin + fixedW + cols.length * colW;
+  };
+
+  function drawHeader(pgNum) {
+    pdf.setFillColor(...NAVY);
+    pdf.rect(0, 0, pageW, hdrH, 'F');
+    pdf.setTextColor(...WHITE);
+    pdf.setFontSize(11); pdf.setFont('helvetica', 'bold');
+    pdf.text('Timeline — ' + filterLabel, margin, 10);
+    pdf.setFontSize(7); pdf.setFont('helvetica', 'normal');
+    pdf.text('GEIE AE — ' + new Date().toLocaleDateString('fr-FR') + ' · Vue ' + scaleLabel +
+      (totalPages > 1 ? ' · Page ' + pgNum + '/' + totalPages : ''), pageW - margin, 12, { align: 'right' });
+  }
+
+  function drawThead(Y) {
+    // Ligne mois (vue semaine) ou directement labels (vue mois)
+    if (tlView === 'week') {
+      pdf.setFillColor(...NAVY_D);
+      pdf.rect(margin, Y, pgW, thH / 2, 'F');
+      const mGroups = [];
+      cols.forEach((c, i) => {
+        const mo = c.dateDebut.slice(0, 7);
+        if (!mGroups.length || mGroups[mGroups.length-1].key !== mo)
+          mGroups.push({ key: mo, label: MONTHS_FR[parseInt(mo.slice(5,7))-1] + ' ' + mo.slice(0,4), count: 1, si: i });
+        else mGroups[mGroups.length-1].count++;
+      });
+      pdf.setTextColor(...WHITE); pdf.setFontSize(6); pdf.setFont('helvetica', 'bold');
+      mGroups.forEach(g => pdf.text(g.label, margin + fixedW + g.si * colW + g.count * colW / 2, Y + thH / 4 + 1.5, { align: 'center' }));
+    }
+
+    const Y2 = tlView === 'week' ? Y + thH / 2 : Y;
+    const thH2 = tlView === 'week' ? thH / 2 : thH;
+    pdf.setFillColor(...NAVY);
+    pdf.rect(margin, Y2, pgW, thH2, 'F');
+    pdf.setTextColor(...WHITE); pdf.setFontSize(6); pdf.setFont('helvetica', 'bold');
+    [
+      { l: 'Projet',       w: COL_NOM,  x: margin },
+      { l: 'Type',         w: COL_TYPE, x: margin + COL_NOM },
+      { l: 'Responsable',  w: COL_RESP, x: margin + COL_NOM + COL_TYPE },
+      { l: 'Client',       w: COL_CLI,  x: margin + COL_NOM + COL_TYPE + COL_RESP }
+    ].forEach(f => pdf.text(f.l, f.x + f.w / 2, Y2 + thH2 / 2 + 1.5, { align: 'center' }));
+
+    pdf.setFontSize(5); pdf.setFont('helvetica', 'normal');
+    cols.forEach((c, i) => {
+      const cx = margin + fixedW + i * colW + colW / 2;
+      if (tlView === 'week') {
+        pdf.text(c.label, cx, Y2 + 2.5, { align: 'center' });
+        pdf.text(c.labelSub, cx, Y2 + 5.5, { align: 'center' });
+      } else {
+        pdf.text(c.label, cx, Y2 + thH2 / 2 + 1.5, { align: 'center' });
+      }
+    });
+    pdf.setDrawColor(...GREY_B); pdf.setLineWidth(0.1);
+    for (let i = 0; i <= cols.length; i++)
+      pdf.line(margin + fixedW + i * colW, Y2, margin + fixedW + i * colW, Y2 + thH2);
+    [COL_NOM, COL_TYPE, COL_RESP].reduce((acc, w) => {
+      pdf.line(margin + acc, Y2, margin + acc, Y2 + thH2); return acc + w;
+    }, 0);
+    return Y2 + thH2;
+  }
+
+  function drawRows(rowGroup, bodyTop, globalOffset) {
+    const grpH = rowGroup.length * ROW_H;
+    rowGroup.forEach((p, li) => {
+      const idx  = globalOffset + li;
+      const rowY = bodyTop + li * ROW_H;
+      pdf.setFillColor(...(idx % 2 === 0 ? WHITE : [245, 247, 250]));
+      pdf.rect(margin, rowY, pgW, ROW_H, 'F');
+      pdf.setDrawColor(...GREY_L); pdf.setLineWidth(0.1);
+      pdf.line(margin, rowY + ROW_H, margin + pgW, rowY + ROW_H);
+
+      const tY = rowY + ROW_H / 2 + FONT_SM * 0.35;
+      const catRGB = posteColorsRGB[p.Type] || [100,116,139];
+
+      pdf.setFontSize(FONT_SM); pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(...NAVY);
+      pdf.text(pdf.splitTextToSize(p.Nom||'—', COL_NOM - 3)[0], margin + 2, tY);
+
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(...catRGB);
+      pdf.text(p.Type||'—', margin + COL_NOM + COL_TYPE / 2, tY, { align: 'center' });
+
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(60, 80, 110);
+      pdf.text(pdf.splitTextToSize(p.Responsable||'—', COL_RESP - 2)[0], margin + COL_NOM + COL_TYPE + 2, tY);
+      pdf.text(pdf.splitTextToSize(p.Client||'—', COL_CLI - 2)[0], margin + COL_NOM + COL_TYPE + COL_RESP + 2, tY);
+
+      pdf.setDrawColor(...GREY_L);
+      [COL_NOM, COL_TYPE, COL_RESP].reduce((acc, w) => {
+        pdf.line(margin + acc, rowY, margin + acc, rowY + ROW_H); return acc + w;
+      }, 0);
+      pdf.line(margin + fixedW, rowY, margin + fixedW, rowY + ROW_H);
+
+      // ── Barre Gantt ──
+      const range = tlProjectRange(p);
+      if (range) {
+        // x1 = début de la première colonne touchée, x2 = fin de la dernière colonne touchée
+        const firstCol = cols.findIndex(c => range.debut <= c.dateFin && range.fin >= c.dateDebut);
+        const lastCol  = cols.map((c,i) => range.debut <= c.dateFin && range.fin >= c.dateDebut ? i : -1).filter(i => i >= 0).pop();
+        const x1 = firstCol >= 0 ? margin + fixedW + firstCol * colW : null;
+        const x2 = lastCol  >= 0 ? margin + fixedW + (lastCol + 1) * colW : null;
+        if (x1 !== null && x2 !== null && x2 > x1) {
+          const bH = ROW_H * 0.55;
+          const bY = rowY + (ROW_H - bH) / 2;
+          // Couleur pâle = mélange 85% blanc + 15% couleur (identique à l'écran catColor+'28')
+          const paleR = Math.round(255 * 0.84 + catRGB[0] * 0.16);
+          const paleG = Math.round(255 * 0.84 + catRGB[1] * 0.16);
+          const paleB = Math.round(255 * 0.84 + catRGB[2] * 0.16);
+          pdf.setFillColor(paleR, paleG, paleB);
+          pdf.roundedRect(x1, bY, x2 - x1, bH, 0.8, 0.8, 'F');
+
+          // ── Heures dans la barre (couleur foncée sur fond pâle) ──
+          cols.forEach((c, ci) => {
+            const hours = tlCalcHours(p, c);
+            if (hours <= 0) return;
+            const cx = margin + fixedW + ci * colW + colW / 2;
+            if (cx < x1 || cx > x2) return;
+            pdf.setFontSize(4.5); pdf.setFont('helvetica', 'bold');
+            pdf.setTextColor(...catRGB);
+            const label = (hours % 1 === 0 ? hours : parseFloat(hours.toFixed(1))) + 'h';
+            pdf.text(label, cx, rowY + ROW_H / 2 + 1.5, { align: 'center' });
+          });
+        }
+      }
+
+      pdf.setDrawColor(...GREY_L);
+      for (let i = 1; i < cols.length; i++)
+        pdf.line(margin + fixedW + i * colW, rowY, margin + fixedW + i * colW, rowY + ROW_H);
+    });
+    // Bordures
+    pdf.setDrawColor(...GREY_B); pdf.setLineWidth(0.2);
+    pdf.rect(margin, bodyTop, pgW, grpH);
+    pdf.setDrawColor(...NAVY_D); pdf.setLineWidth(0.4);
+    pdf.line(margin + fixedW, bodyTop - thH, margin + fixedW, bodyTop + grpH);
+  }
+
+  // ── Rendu ──
+  rowGroups.forEach((rowGroup, pi) => {
+    if (pi > 0) pdf.addPage([pageW, pageH]);
+    drawHeader(pi + 1);
+    const bodyTop = drawThead(hdrH + margin);
+    drawRows(rowGroup, bodyTop, pi * rowsPerPage);
+  });
+
+  const dateStr = new Date().toLocaleDateString('fr-FR').replace(/\//g, '-');
+  pdf.save('timeline_' + (fEnt || 'tous').replace(/[^a-z0-9]/gi, '_') + '_' + tlView + '_' + dateStr + '.pdf');
+  showToast('PDF Timeline exporté' + (totalPages > 1 ? ' — ' + totalPages + ' pages' : '') + ' !', 'ok');
+}
+
+// ═══════════════════════════════════════════════════════════════
 // PARAMS — RESSOURCES
 // ═══════════════════════════════════════════════════════════════
 let selRscId=null;
@@ -2179,6 +2969,7 @@ function deleteSelectedRsc(){
   if(!selRscId)return;
   if(!confirm('Supprimer cette ressource ?'))return;
   ressources=ressources.filter(r=>r.id!==selRscId);
+  saveAllData();
   renderRsc();showToast('Ressource supprimée','ok');
 }
 
@@ -2250,6 +3041,7 @@ function deleteSelectedFerie(){
   if(!selFerieId)return;
   if(!confirm('Supprimer ce jour férié ?'))return;
   joursFeries=joursFeries.filter(f=>f.id!==selFerieId);
+  saveAllData();
   renderFeries();showToast('Supprimé','ok');
 }
 
@@ -2269,6 +3061,7 @@ function saveFerie(){
   if(!lib||!date){showToast('Champs manquants','err');return;}
   const annee=new Date(date+'T00:00:00').getFullYear();
   joursFeries.push({id:nextId++,Libelle:lib,Date:date,Pays:pays,Annee:annee});
+  saveAllData();
   showToast('Enregistré','ok');closeOverlay('ferieOverlay');renderFeries();
 }
 
@@ -2605,8 +3398,8 @@ function saveGanttTache() {
     const newId = nextId++;
     const newTache={ id: newId, projetId: ganttProjId, nom, dateDebut: debut, dateFin: fin, jalon };
     ganttTaches.push(newTache);
-    saveAllData();
   }
+  saveAllData();
   showToast('Enregistré', 'ok');
   closeOverlay('ganttTacheOverlay');
   renderGantt();
@@ -2619,6 +3412,7 @@ function deleteGanttTache() {
   const lignesToDel = lignesProjets.filter(l => l.tacheGanttId === curGanttTacheId).map(l => l.id);
   lignesProjets = lignesProjets.filter(l => l.tacheGanttId !== curGanttTacheId);
   heuresProjets = heuresProjets.filter(h => !lignesToDel.includes(h.ligneId));
+  saveAllData();
   closeOverlay('ganttTacheOverlay');
   renderGantt();
   showToast('Tâche supprimée', 'ok');
@@ -2863,7 +3657,7 @@ let pendingPPHData = null; // pour forcer après alerte surcharge
 function openPlanProjet(projId) {
   currentProjId = projId;
   const p = projets.find(x => x.id === projId);
-  document.getElementById('planProjTitle').textContent = '📋 ' + p.Nom;
+  document.getElementById('planProjTitle').textContent = '⚙️ ' + p.Nom;
   document.getElementById('planProjSub').textContent =
     p.Commande + ' — ' + p.Client + ' — ' + p.Entite;
   showPage('planprojet');
@@ -3041,8 +3835,8 @@ function saveLigne() {
     if (exists) { showToast('Cette combinaison tâche/ressource existe déjà', 'err'); return; }
     const nl={ id: nextId++, projetId: currentProjId, tacheGanttId: tacheId, ressource: rsc };
     lignesProjets.push(nl);
-    saveAllData();
   }
+  saveAllData();
   showToast('Enregistré', 'ok');
   closeOverlay('addLigneOverlay');
   renderPP();
@@ -3053,6 +3847,7 @@ function deleteLigne() {
   if (!confirm('Supprimer cette ligne et toutes ses heures ?')) return;
   lignesProjets = lignesProjets.filter(l => l.id !== curLigneId);
   heuresProjets = heuresProjets.filter(h => h.ligneId !== curLigneId);
+  saveAllData();
   closeOverlay('addLigneOverlay');
   renderPP();
   showToast('Ligne supprimée', 'ok');
@@ -4070,112 +4865,168 @@ function renderRTE() {
   document.getElementById('rteInfo').textContent =
     weeks[0].dateDebut + ' → ' + weeks[weeks.length-1].dateFin + ' · ' + RTE_N_WEEKS + ' semaines';
 
-  const tbl = document.getElementById('rteTable');
+  const tblF = document.getElementById('rteTableFixed');
+  const tblS = document.getElementById('rteTableScroll');
 
-  // z-index hierarchy: mois-header=40 > col-header-sticky=30 > col-header-scroll=11 > body-sticky=3
-  const thScroll = 'position:sticky;top:0;z-index:11;background:var(--navy);color:#fff;font-size:10px;font-weight:600;padding:4px 6px;border:1px solid rgba(255,255,255,.15);white-space:nowrap;text-align:center';
-  const thSticky = (left) => `position:sticky;left:${left}px;top:0;z-index:30;background:var(--navy);color:#fff;font-size:10px;font-weight:600;padding:4px 8px;border:1px solid rgba(255,255,255,.15);white-space:nowrap;text-align:left`;
-  const tdFixed  = (left, bg) => `position:sticky;left:${left}px;z-index:3;background:${bg||'#fff'};font-size:11px;padding:4px 8px;border:1px solid var(--grey-200);vertical-align:middle`;
-  const tdCell   = 'font-size:11px;padding:3px 6px;border:1px solid var(--grey-200);text-align:center;vertical-align:middle';
-  const hide     = 'display:none';
+  // Largeurs fixes — immuables
+  const W = { eotp:80, lot:50, nom:188, cli:110, fiab:90, cat:46 };
+  const TOTAL_FIXED = W.eotp + W.lot + W.nom + W.cli + W.fiab + W.cat; // 526px
 
-  // Colonnes visibles : EOTP | Lot | Projet | Client | Fiabilité | Cat.
-  // Colonnes masquées (export only) : Commentaires | Date commande | Déb. Travaux
-  const W = { eotp:80, lot:50, nom:150, cli:110, fiab:90, cat:46 };
-  const L = {
-    eotp: 0,
-    lot:  W.eotp,
-    nom:  W.eotp + W.lot,
-    cli:  W.eotp + W.lot + W.nom,
-    fiab: W.eotp + W.lot + W.nom + W.cli,
-    cat:  W.eotp + W.lot + W.nom + W.cli + W.fiab
-  };
-  const NCOLS_TOTAL = 9; // 6 visibles + 3 masquées
-  const NCOLS_STICKY = 6; // colonnes visibles sticky (pour le colspan de la ligne mois)
+  // Appliquer la largeur fixe au conteneur gauche
+  document.getElementById('rteFixed').style.width = TOTAL_FIXED + 'px';
 
-  // Ligne mois — colspan = NCOLS_STICKY (colonnes visibles uniquement)
+  // Styles table fixe
+  const thF = (w) => `background:var(--navy);color:#fff;font-size:10px;font-weight:600;padding:4px 8px;border:1px solid rgba(255,255,255,.15);white-space:nowrap;text-align:left;width:${w}px;min-width:${w}px;max-width:${w}px;position:sticky;top:0;z-index:10`;
+  const thFCat = `background:var(--navy);color:#fff;font-size:10px;font-weight:600;padding:4px 8px;border:1px solid rgba(255,255,255,.15);white-space:nowrap;text-align:left;width:${W.cat}px;min-width:${W.cat}px;max-width:${W.cat}px;border-right:3px solid rgba(255,255,255,.4);position:sticky;top:0;z-index:10`;
+  const thFMonth = `background:var(--navy-dark);color:#fff;font-size:10px;font-weight:600;padding:4px 8px;border:1px solid rgba(255,255,255,.15);position:sticky;top:0;z-index:10`;
+  const tdF = (w, bg) => `background:${bg||'#fff'};font-size:11px;padding:4px 8px;border:1px solid var(--grey-200);vertical-align:middle;width:${w}px;min-width:${w}px;max-width:${w}px;overflow:hidden;text-overflow:ellipsis`;
+  const tdFCat = (bg, color) => `background:${bg};font-size:10px;font-weight:700;padding:4px 8px;border:1px solid var(--grey-200);border-right:3px solid var(--grey-400);vertical-align:middle;width:${W.cat}px;min-width:${W.cat}px;max-width:${W.cat}px;color:${color}`;
+
+  // Styles table scroll
+  const thS = `background:var(--navy);color:#fff;font-size:10px;font-weight:600;padding:4px 6px;border:1px solid rgba(255,255,255,.15);white-space:nowrap;text-align:center;width:40px;min-width:40px;position:sticky;top:0;z-index:10`;
+  const thSMonth = `background:var(--navy-dark);color:#fff;font-size:10px;font-weight:600;padding:4px 6px;border:1px solid rgba(255,255,255,.15);white-space:nowrap;text-align:center;position:sticky;top:0;z-index:10`;
+  const tdCell = `font-size:11px;padding:3px 6px;border:1px solid var(--grey-200);text-align:center;vertical-align:middle;width:40px;min-width:40px`;
+
+  // Données
+  const fmtDate   = s => s ? new Date(s+'T00:00:00').toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric'}) : '—';
+  const fmtFiab   = s => s || '—';
+  const fiabBg    = s => { if (!s) return null; if (s.startsWith('K1')) return '#d1fae5'; if (s.startsWith('K2')) return '#ffedd5'; if (s.startsWith('K3')) return '#fee2e2'; return null; };
+  const fiabColor = s => { if (!s) return 'var(--grey-600)'; if (s.startsWith('K1')) return '#15803d'; if (s.startsWith('K2')) return '#c2410c'; if (s.startsWith('K3')) return '#b91c1c'; return 'var(--grey-600)'; };
+  const rowBgA = '#fff', rowBgB = '#f7f9fc';
+  const posteColors = { LA:'#1a3a5c', LS:'#1a7a4a', CONV:'#f07800' };
+
+  // ── TABLE FIXE : en-têtes ──
+  // Ligne mois : cellule vide sur toute la largeur
+  let fMRow = `<tr><th colspan="6" style="${thFMonth};width:${TOTAL_FIXED}px"></th></tr>`;
+  // Ligne colonnes
+  let fHRow = `<tr>
+    <th style="${thF(W.eotp)}">EOTP</th>
+    <th style="${thF(W.lot)}">Lot</th>
+    <th style="${thF(W.nom)}">Projet</th>
+    <th style="${thF(W.cli)}">Client</th>
+    <th style="${thF(W.fiab)}">Fiabilité</th>
+    <th style="${thFCat}">Cat.</th>
+  </tr>`;
+
+  // ── TABLE SCROLL : en-têtes ──
   const monthMap = {};
   weeks.forEach(w => {
     const mo = new Date(w.dateDebut + 'T00:00:00');
     const key = mo.getFullYear() + '-' + mo.getMonth();
     monthMap[key] = (monthMap[key]||0) + 1;
   });
-  let mRow = `<tr><th colspan="${NCOLS_STICKY}" style="position:sticky;left:0;top:0;z-index:40;background:var(--navy-dark);color:#fff;font-size:10px;font-weight:600;padding:4px 8px;border:1px solid rgba(255,255,255,.15)"></th>`;
+  let sMRow = '<tr>';
   Object.entries(monthMap).forEach(([k,n]) => {
     const [y,m] = k.split('-');
-    mRow += `<th colspan="${n}" style="${thScroll};background:var(--navy-dark)">${MONTHS_FR[parseInt(m)]} ${y}</th>`;
+    sMRow += `<th colspan="${n}" style="${thSMonth}">${MONTHS_FR[parseInt(m)]} ${y}</th>`;
   });
-  mRow += '</tr>';
-
-  // Ligne headers — sticky top + sticky left pour les colonnes fixes
-  let hRow = `<tr>
-    <th style="${thSticky(L.eotp)};min-width:${W.eotp}px;width:${W.eotp}px">EOTP</th>
-    <th style="${thSticky(L.lot)};min-width:${W.lot}px;width:${W.lot}px">Lot</th>
-    <th style="${thSticky(L.nom)};min-width:${W.nom}px;width:${W.nom}px">Projet</th>
-    <th style="${thSticky(L.cli)};min-width:${W.cli}px;width:${W.cli}px">Client</th>
-    <th style="${thSticky(L.fiab)};min-width:${W.fiab}px;width:${W.fiab}px">Fiabilité</th>
-    <th style="display:none">Commentaires</th>
-    <th style="display:none">Date commande</th>
-    <th style="display:none">Déb. Travaux</th>
-    <th style="${thSticky(L.cat)};min-width:${W.cat}px;width:${W.cat}px;border-right:3px solid rgba(255,255,255,.5);background:var(--navy)">Cat.</th>`;
+  sMRow += '</tr>';
+  let sHRow = '<tr>';
   weeks.forEach(w => {
-    hRow += `<th style="${thScroll};min-width:40px;width:40px"><div>${w.label}</div><div style="font-weight:400;opacity:.75;font-size:9px">${w.labelDate}</div></th>`;
+    sHRow += `<th style="${thS}"><div>${w.label}</div><div style="font-weight:400;opacity:.75;font-size:9px">${w.labelDate}</div></th>`;
   });
-  hRow += '</tr>';
+  sHRow += '</tr>';
 
-  // Body
-  const fmtDate   = s => s ? new Date(s + 'T00:00:00').toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric'}) : '—';
-  const fmtFiab   = s => s || '—';
-  const fiabBg    = s => { if (!s) return rowBgA; if (s.startsWith('K1')) return '#d1fae5'; if (s.startsWith('K2')) return '#ffedd5'; if (s.startsWith('K3')) return '#fee2e2'; return rowBgA; };
-  const fiabColor = s => { if (!s) return 'var(--grey-600)'; if (s.startsWith('K1')) return '#15803d'; if (s.startsWith('K2')) return '#c2410c'; if (s.startsWith('K3')) return '#b91c1c'; return 'var(--grey-600)'; };
-  const rowBgA = '#fff', rowBgB = '#f7f9fc';
-
-  let body = '';
-  projets.forEach((p, pi) => {
-    const rowBg = pi % 2 === 0 ? rowBgA : rowBgB;
-    const nRows = RTE_POSTES.length;
-
-    const tdEOTP = `<td rowspan="${nRows}" style="${tdFixed(L.eotp,rowBg)};min-width:${W.eotp}px;width:${W.eotp}px;font-family:'DM Mono',monospace;font-size:10px">${p.EOTP||'—'}</td>`;
-    const tdLot  = `<td rowspan="${nRows}" style="${tdFixed(L.lot,rowBg)};min-width:${W.lot}px;width:${W.lot}px;font-weight:600;color:var(--navy)">${p.Lot||'—'}</td>`;
-    const tdNom  = `<td rowspan="${nRows}" style="${tdFixed(L.nom,rowBg)};min-width:${W.nom}px;width:${W.nom}px;font-weight:600;color:var(--navy);overflow:hidden;text-overflow:ellipsis" title="${(p.Nom||'').replace(/"/g,'')}">${p.Nom||'—'}</td>`;
-    const tdCli  = `<td rowspan="${nRows}" style="${tdFixed(L.cli,rowBg)};min-width:${W.cli}px;width:${W.cli}px;font-size:10px;overflow:hidden;text-overflow:ellipsis" title="${(p.Client||'').replace(/"/g,'')}">${p.Client||'—'}</td>`;
-    const tdFiab = `<td rowspan="${nRows}" style="${tdFixed(L.fiab,rowBg)};min-width:${W.fiab}px;width:${W.fiab}px;font-size:10px;font-weight:600;background:${fiabBg(p.Fiabilite)};color:${fiabColor(p.Fiabilite)}">${fmtFiab(p.Fiabilite)}</td>`;
-    // Masquées à l'écran, présentes pour export
-    const tdDesc = `<td rowspan="${nRows}" style="${hide}">${p.Descriptif||''}</td>`;
-    const tdCmd  = `<td rowspan="${nRows}" style="${hide}">${fmtDate(p.DateDebut)}</td>`;
-    const tdTrav = `<td rowspan="${nRows}" style="${hide}">${fmtDate(p.DateTravaux)}</td>`;
-
-    RTE_POSTES.forEach((poste, ri) => {
-      const posteColors = { LA:'#1a3a5c', LS:'#1a7a4a', CONV:'#f07800' };
-      const catColor = posteColors[poste];
-      const tdCat = `<td style="position:sticky;left:${L.cat}px;z-index:4;background:${rowBg};min-width:${W.cat}px;width:${W.cat}px;font-weight:700;font-size:10px;color:${catColor};border-right:3px solid var(--grey-300);border-left:1px solid var(--grey-200);border-top:1px solid var(--grey-200);border-bottom:1px solid var(--grey-200);padding:4px 8px;vertical-align:middle">${poste}</td>`;
-
-      let row = '<tr>';
-      if (ri === 0) row += tdEOTP + tdLot + tdNom + tdCli + tdFiab + tdDesc + tdCmd + tdTrav;
-      row += tdCat;
-
-      weeks.forEach(w => {
-        const etp = rteETP(p.id, poste, w);
-        if (etp > 0) {
-          const bg = poste === 'LA' ? 'rgba(26,58,92,0.1)' : poste === 'LS' ? 'rgba(26,122,74,0.1)' : 'rgba(240,120,0,0.1)';
-          row += `<td style="${tdCell};background:${bg};color:${catColor};font-weight:700;font-family:'DM Mono',monospace">${etp}</td>`;
-        } else {
-          row += `<td style="${tdCell};background:#fff;color:#ddd"></td>`;
-        }
-      });
-
-      row += '</tr>';
-      body += row;
-    });
-
-    body += `<tr style="height:2px"><td colspan="${NCOLS_TOTAL + weeks.length}" style="background:var(--grey-300);padding:0;border:none"></td></tr>`;
-  });
+  // ── BODY ──
+  let fixedBody = '';
+  let scrollBody = '';
 
   if (projets.length === 0) {
-    body = `<tr><td colspan="${NCOLS_TOTAL + weeks.length}" style="text-align:center;padding:40px;color:var(--grey-500)">Aucun projet</td></tr>`;
+    fixedBody = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--grey-500)">Aucun projet</td></tr>`;
+    scrollBody = `<tr><td colspan="${weeks.length}" style="padding:40px"></td></tr>`;
+  } else {
+    projets.forEach((p, pi) => {
+      const rowBg = pi % 2 === 0 ? rowBgA : rowBgB;
+      const fBg = fiabBg(p.Fiabilite) || rowBg;
+      const nRows = RTE_POSTES.length;
+
+      RTE_POSTES.forEach((poste, ri) => {
+        const catColor = posteColors[poste];
+        const isFirst = ri === 0;
+        const sepTop = isFirst && pi > 0 ? 'border-top:2px solid var(--grey-300);' : '';
+
+        // Table fixe : une ligne par poste
+        if (isFirst) {
+          // Première ligne du projet : rowspan sur EOTP/Lot/Nom/Client/Fiabilité
+          fixedBody += `<tr>
+            <td rowspan="${nRows}" style="${tdF(W.eotp,rowBg)};font-family:'DM Mono',monospace;font-size:10px;${sepTop}">${p.EOTP||'—'}</td>
+            <td rowspan="${nRows}" style="${tdF(W.lot,rowBg)};font-weight:600;color:var(--navy);${sepTop}">${p.Lot||'—'}</td>
+            <td rowspan="${nRows}" style="${tdF(W.nom,rowBg)};font-weight:600;color:var(--navy);${sepTop}" title="${(p.Nom||'').replace(/"/g,'')}">${p.Nom||'—'}</td>
+            <td rowspan="${nRows}" style="${tdF(W.cli,rowBg)};font-size:10px;${sepTop}" title="${(p.Client||'').replace(/"/g,'')}">${p.Client||'—'}</td>
+            <td rowspan="${nRows}" style="${tdF(W.fiab,fBg)};font-size:10px;font-weight:600;color:${fiabColor(p.Fiabilite)};${sepTop}">${fmtFiab(p.Fiabilite)}</td>
+            <td style="${tdFCat(rowBg,catColor)};${sepTop}">${poste}</td>
+          </tr>`;
+        } else {
+          fixedBody += `<tr><td style="${tdFCat(rowBg,catColor)}">${poste}</td></tr>`;
+        }
+
+        // Table scroll : une ligne par poste
+        scrollBody += '<tr>';
+        weeks.forEach(w => {
+          const etp = rteETP(p.id, poste, w);
+          if (etp > 0) {
+            const bg = poste==='LA'?'rgba(26,58,92,0.1)':poste==='LS'?'rgba(26,122,74,0.1)':'rgba(240,120,0,0.1)';
+            scrollBody += `<td style="${tdCell};${sepTop}background:${bg};color:${catColor};font-weight:700;font-family:'DM Mono',monospace">${etp}</td>`;
+          } else {
+            scrollBody += `<td style="${tdCell};${sepTop}color:#ddd"></td>`;
+          }
+        });
+        scrollBody += '</tr>';
+      });
+
+      // Séparateur entre projets
+      fixedBody += `<tr style="height:2px"><td colspan="6" style="background:var(--grey-300);padding:0;border:none"></td></tr>`;
+      scrollBody += `<tr style="height:2px"><td colspan="${weeks.length}" style="background:var(--grey-300);padding:0;border:none"></td></tr>`;
+    });
   }
 
-  tbl.innerHTML = `<thead>${mRow}${hRow}</thead><tbody>${body}</tbody>`;
+  tblF.innerHTML = `<colgroup>
+    <col style="width:${W.eotp}px">
+    <col style="width:${W.lot}px">
+    <col style="width:${W.nom}px">
+    <col style="width:${W.cli}px">
+    <col style="width:${W.fiab}px">
+    <col style="width:${W.cat}px">
+  </colgroup><thead>${fMRow}${fHRow}</thead><tbody>${fixedBody}</tbody>`;
+
+  tblS.innerHTML = `<thead>${sMRow}${sHRow}</thead><tbody>${scrollBody}</tbody>`;
+
+  // Synchroniser les hauteurs de lignes entre les deux tables
+  requestAnimationFrame(() => {
+    const rowsF = tblF.querySelectorAll('tbody tr');
+    const rowsS = tblS.querySelectorAll('tbody tr');
+    const len = Math.min(rowsF.length, rowsS.length);
+    for (let i = 0; i < len; i++) {
+      // Reset pour recalculer
+      rowsF[i].style.height = '';
+      rowsS[i].style.height = '';
+    }
+    for (let i = 0; i < len; i++) {
+      const hF = rowsF[i].getBoundingClientRect().height;
+      const hS = rowsS[i].getBoundingClientRect().height;
+      const h  = Math.max(hF, hS);
+      rowsF[i].style.height = h + 'px';
+      rowsS[i].style.height = h + 'px';
+    }
+    // Synchroniser aussi les headers (2 lignes : mois + semaines)
+    const hRowsF = tblF.querySelectorAll('thead tr');
+    const hRowsS = tblS.querySelectorAll('thead tr');
+    const hLen = Math.min(hRowsF.length, hRowsS.length);
+    for (let i = 0; i < hLen; i++) {
+      const hF = hRowsF[i].getBoundingClientRect().height;
+      const hS = hRowsS[i].getBoundingClientRect().height;
+      const h  = Math.max(hF, hS);
+      hRowsF[i].style.height = h + 'px';
+      hRowsS[i].style.height = h + 'px';
+    }
+  });
+
+  // Synchroniser le scroll vertical entre les deux tables
+  const scrollEl = document.getElementById('rteScroll');
+  const fixedEl  = document.getElementById('rteFixed');
+  if (scrollEl._syncHandler) scrollEl.removeEventListener('scroll', scrollEl._syncHandler);
+  scrollEl._syncHandler = () => { fixedEl.scrollTop = scrollEl.scrollTop; };
+  scrollEl.addEventListener('scroll', scrollEl._syncHandler);
 }
 
 function renderRTECap() {
