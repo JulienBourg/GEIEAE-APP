@@ -119,10 +119,11 @@ function renderDashboard() {
       projCardEl.innerHTML = '<div style="font-size:12px;color:var(--grey-500);text-align:center;padding:20px 0">Aucun projet en cours</div>';
     } else {
       const bigNum = `<div style="font-size:52px;font-weight:800;color:var(--orange);font-family:'DM Mono',monospace;line-height:1;margin-bottom:6px">${projEnCours.length}</div>`;
-      const byPoste = ['LA','LS','CONV'].map(po => {
-        const n = projEnCours.filter(p => p.Type === po || p.Type === 'Mixte').length;
-        const col = {LA:'#1a3a5c',LS:'#1a7a4a',CONV:'#f07800'}[po];
-        return n ? `<span style="font-size:11px;font-weight:600;color:${col};margin-right:10px">${po}: ${n}</span>` : '';
+      const typeColors = { LA: '#1a3a5c', LS: '#1a7a4a', Mixte: '#f07800' };
+      const byPoste = ['LA', 'LS', 'Mixte'].map(typ => {
+        const n = projEnCours.filter(p => p.Type === typ).length;
+        const col = typeColors[typ] || '#666';
+        return n ? `<span style="font-size:11px;font-weight:600;color:${col};margin-right:10px">${typ}: ${n}</span>` : '';
       }).join('');
       projCardEl.innerHTML = bigNum + `<div style="margin-top:4px">${byPoste}</div>`;
     }
