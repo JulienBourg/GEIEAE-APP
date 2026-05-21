@@ -259,7 +259,6 @@ function openEditGanttTache(id) {
   document.getElementById('gtJalon').value = t.jalon || '';
   document.getElementById('gtDelBtn').style.display = 'inline-flex';
   openOverlay('ganttTacheOverlay');
- saveAllData();
 }
 
 function updateGanttTache(id, field, value) {

@@ -92,11 +92,24 @@ function saveProj(){
 
 function deleteProj(){
   if(!curProjId)return;
-  projets=projets.filter(p=>p.id!==curProjId);
+  _cascadeDeleteProjet(curProjId);
+  saveAllData();
   closeOverlay('projOverlay');renderProj();showToast('Supprimé','ok');
 }
 
 function deleteProjDirect(id){
-  if(!confirm('Supprimer ce projet ?'))return;
-  projets=projets.filter(p=>p.id!==id);saveAllData();renderProj();showToast('Supprimé','ok');
+  if(!confirm('Supprimer ce projet et toutes ses données (Gantt, planning, heures) ?'))return;
+  _cascadeDeleteProjet(id);
+  saveAllData();renderProj();showToast('Supprimé','ok');
+}
+
+function _cascadeDeleteProjet(id){
+  // 1. Lignes et heures associées
+  const lignesIds=lignesProjets.filter(l=>l.projetId===id).map(l=>l.id);
+  heuresProjets=heuresProjets.filter(h=>!lignesIds.includes(h.ligneId));
+  lignesProjets=lignesProjets.filter(l=>l.projetId!==id);
+  // 2. Tâches Gantt
+  ganttTaches=ganttTaches.filter(t=>t.projetId!==id);
+  // 3. Projet lui-même
+  projets=projets.filter(p=>p.id!==id);
 }
