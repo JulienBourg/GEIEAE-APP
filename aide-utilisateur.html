@@ -3,966 +3,575 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aide – Gestion de la Charge EQOS / Atlantique Etudes</title>
+<title>Guide utilisateur — GEIE AE</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap');
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --navy:    #1a3a5c;
-    --navy-l:  #e8f0f8;
-    --orange:  #f07800;
-    --orange-l:#fff3e5;
-    --green:   #1a7a4a;
-    --green-l: #e6f5ee;
-    --purple:  #7c3aed;
-    --purple-l:#f3eeff;
-    --grey-50: #f8fafc;
-    --grey-100:#f1f5f9;
-    --grey-200:#e2e8f0;
-    --grey-400:#94a3b8;
-    --grey-600:#475569;
-    --grey-700:#334155;
-    --grey-900:#0f172a;
-    --radius:  10px;
+    --navy:      #1a3a5c;
+    --navy-dark: #12283f;
+    --navy-xl:   #eef3f8;
+    --orange:    #f07800;
+    --orange-l:  #fff4e8;
+    --green:     #1a7a4a;
+    --green-l:   #e8f5ee;
+    --grey-100:  #f1f3f6;
+    --grey-200:  #e2e6ed;
+    --grey-400:  #9aa3b0;
+    --grey-500:  #6b7485;
+    --grey-600:  #4a5260;
+    --grey-700:  #2d3340;
   }
-
-  html { scroll-behavior: smooth; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--grey-50);
-    color: var(--grey-900);
-    display: flex;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--grey-100);
+    color: var(--grey-700);
     min-height: 100vh;
-    font-size: 14px;
+  }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    background: var(--navy);
+    color: #fff;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topbar-back {
+    background: rgba(255,255,255,.12);
+    border: none;
+    color: #fff;
+    width: 30px; height: 30px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background .15s;
+  }
+  .topbar-back:hover { background: rgba(255,255,255,.24); }
+  .topbar-title { font-size: 14px; font-weight: 700; }
+  .topbar-sub   { font-size: 11px; opacity: .55; margin-top: 1px; }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 780px; margin: 0 auto; padding: 28px 20px 60px; }
+
+  /* ── VUE CARDS ── */
+  #view-cards { display: block; }
+  #view-detail { display: none; }
+
+  .intro {
+    font-size: 13px;
+    color: var(--grey-500);
+    margin-bottom: 24px;
     line-height: 1.6;
   }
 
-  /* ── SIDEBAR ─────────────────────────────────── */
-  .sidebar {
-    width: 260px;
-    flex-shrink: 0;
-    background: var(--navy);
-    color: #fff;
+  .cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 560px) { .cards-grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid var(--grey-200);
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: box-shadow .18s, transform .18s, border-color .18s;
     display: flex;
     flex-direction: column;
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
-    z-index: 10;
+    gap: 8px;
+  }
+  .card:hover {
+    box-shadow: 0 4px 20px rgba(26,58,92,.10);
+    border-color: var(--navy);
+    transform: translateY(-2px);
+  }
+  .card-icon {
+    font-size: 22px;
+    line-height: 1;
+  }
+  .card-question {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.4;
+  }
+  .card-hint {
+    font-size: 11px;
+    color: var(--grey-400);
+    line-height: 1.4;
+  }
+  .card-arrow {
+    margin-top: auto;
+    font-size: 11px;
+    color: var(--orange);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
   }
 
-  .sidebar-logo {
-    padding: 24px 20px 16px;
-    border-bottom: 1px solid rgba(255,255,255,.1);
+  /* ── VUE DETAIL ── */
+  .detail-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--grey-200);
   }
-  .sidebar-logo .app-name {
-    font-size: 13px;
-    font-weight: 700;
+  .detail-icon { font-size: 28px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+  .detail-title { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+  .detail-sub   { font-size: 12px; color: var(--grey-400); }
+
+  /* Blocs de contenu */
+  .step {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 18px;
+    align-items: flex-start;
+  }
+  .step-num {
+    width: 26px; height: 26px;
+    background: var(--navy);
     color: #fff;
-    letter-spacing: .5px;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
   }
-  .sidebar-logo .app-sub {
-    font-size: 11px;
-    color: rgba(255,255,255,.5);
-    margin-top: 2px;
+  .step-body { flex: 1; }
+  .step-title { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
+  .step-desc  { font-size: 12px; color: var(--grey-500); line-height: 1.65; }
+
+  .tip {
+    background: var(--orange-l);
+    border-left: 3px solid var(--orange);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--grey-600);
+    line-height: 1.6;
+    margin-bottom: 16px;
   }
-  .sidebar-logo .badge-aide {
+  .tip strong { color: var(--orange); }
+
+  .info-block {
+    background: var(--navy-xl);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 14px;
+  }
+  .info-block-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .info-block ul {
+    padding-left: 16px;
+    list-style: disc;
+  }
+  .info-block li {
+    font-size: 12px;
+    color: var(--grey-500);
+    line-height: 1.7;
+  }
+  .info-block li strong { color: var(--grey-700); }
+
+  .tag {
     display: inline-block;
-    background: var(--orange);
+    background: var(--navy);
     color: #fff;
     font-size: 10px;
     font-weight: 700;
     padding: 2px 7px;
-    border-radius: 20px;
-    margin-top: 6px;
-    letter-spacing: .4px;
+    border-radius: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
   }
+  .tag-orange { background: var(--orange); }
+  .tag-green  { background: var(--green); }
 
-  .sidebar-section {
-    padding: 14px 10px 4px;
-    font-size: 10px;
-    font-weight: 700;
-    color: rgba(255,255,255,.35);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 14px;
-    margin: 2px 8px;
-    border-radius: 7px;
-    cursor: pointer;
+  h3 {
     font-size: 13px;
-    font-weight: 500;
-    color: rgba(255,255,255,.75);
-    text-decoration: none;
-    transition: background .15s, color .15s;
-  }
-  .nav-item:hover { background: rgba(255,255,255,.1); color: #fff; }
-  .nav-item.active { background: rgba(255,255,255,.15); color: #fff; font-weight: 600; }
-  .nav-item .icon { font-size: 15px; width: 18px; text-align: center; flex-shrink: 0; }
-
-  .sidebar-bottom {
-    margin-top: auto;
-    padding: 14px;
-    border-top: 1px solid rgba(255,255,255,.1);
-    font-size: 11px;
-    color: rgba(255,255,255,.35);
-    text-align: center;
-    font-family: 'DM Mono', monospace;
-  }
-
-  /* ── MAIN ────────────────────────────────────── */
-  .main {
-    flex: 1;
-    min-width: 0;
-    overflow-y: auto;
-  }
-
-  /* ── TOPBAR ──────────────────────────────────── */
-  .topbar {
-    background: #fff;
+    font-weight: 700;
+    color: var(--navy);
+    margin: 18px 0 10px;
+    padding-bottom: 5px;
     border-bottom: 1px solid var(--grey-200);
-    padding: 16px 40px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    position: sticky;
-    top: 0;
-    z-index: 5;
-  }
-  .topbar h1 { font-size: 18px; font-weight: 700; color: var(--navy); }
-  .topbar .sub { font-size: 13px; color: var(--grey-400); margin-left: auto; font-family: 'DM Mono', monospace; }
-
-  /* ── CONTENT ─────────────────────────────────── */
-  .content {
-    padding: 40px;
-    max-width: 860px;
-  }
-
-  .section {
-    display: none;
-  }
-  .section.visible {
-    display: block;
-    animation: fadeIn .2s ease;
-  }
-  @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
-
-  /* ── CARDS ───────────────────────────────────── */
-  .card {
-    background: #fff;
-    border: 1px solid var(--grey-200);
-    border-radius: var(--radius);
-    padding: 24px 28px;
-    margin-bottom: 20px;
-  }
-  .card-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--grey-100);
-  }
-  .card-icon {
-    width: 38px;
-    height: 38px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-  }
-  .card-title { font-size: 16px; font-weight: 700; color: var(--navy); }
-  .card-subtitle { font-size: 12px; color: var(--grey-400); margin-top: 2px; }
-
-  /* ── WELCOME GRID ─────────────────────────────── */
-  .welcome-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    margin-bottom: 28px;
-  }
-  .welcome-tile {
-    background: #fff;
-    border: 1px solid var(--grey-200);
-    border-radius: var(--radius);
-    padding: 18px;
-    cursor: pointer;
-    transition: border-color .15s, box-shadow .15s, transform .15s;
-  }
-  .welcome-tile:hover {
-    border-color: var(--orange);
-    box-shadow: 0 4px 16px rgba(0,0,0,.07);
-    transform: translateY(-2px);
-  }
-  .welcome-tile .tile-icon { font-size: 22px; margin-bottom: 8px; }
-  .welcome-tile .tile-name { font-size: 13px; font-weight: 700; color: var(--navy); }
-  .welcome-tile .tile-desc { font-size: 11px; color: var(--grey-400); margin-top: 3px; line-height: 1.4; }
-
-  /* ── STEPS ───────────────────────────────────── */
-  .steps { counter-reset: step; }
-  .step {
-    display: flex;
-    gap: 16px;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--grey-100);
-  }
-  .step:last-child { border-bottom: none; }
-  .step-num {
-    counter-increment: step;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--navy);
-    color: #fff;
-    font-size: 12px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    margin-top: 2px;
-    font-family: 'DM Mono', monospace;
-  }
-  .step-num::after { content: counter(step); }
-  .step-body strong { color: var(--navy); font-weight: 600; display: block; margin-bottom: 3px; }
-  .step-body p { color: var(--grey-600); font-size: 13px; }
-
-  /* ── TIPS ────────────────────────────────────── */
-  .tip {
-    display: flex;
-    gap: 12px;
-    background: var(--navy-l);
-    border-left: 3px solid var(--navy);
-    border-radius: 0 6px 6px 0;
-    padding: 12px 16px;
-    margin: 12px 0;
-    font-size: 13px;
-    color: var(--grey-700);
-  }
-  .tip.orange { background: var(--orange-l); border-color: var(--orange); }
-  .tip.green  { background: var(--green-l);  border-color: var(--green);  }
-  .tip.purple { background: var(--purple-l); border-color: var(--purple); }
-  .tip-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-
-  /* ── TABLES ──────────────────────────────────── */
-  table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
-  th {
-    background: var(--grey-50);
-    color: var(--grey-600);
-    font-weight: 600;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: .5px;
-    padding: 8px 12px;
-    text-align: left;
-    border-bottom: 2px solid var(--grey-200);
-  }
-  td { padding: 9px 12px; border-bottom: 1px solid var(--grey-100); color: var(--grey-700); vertical-align: top; }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: var(--grey-50); }
-
-  /* ── BADGE ───────────────────────────────────── */
-  .badge {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 600;
-    font-family: 'DM Mono', monospace;
-  }
-  .badge.navy   { background: #e8f0f8; color: var(--navy); }
-  .badge.orange { background: var(--orange-l); color: var(--orange); }
-  .badge.green  { background: var(--green-l);  color: var(--green);  }
-  .badge.purple { background: var(--purple-l); color: var(--purple); }
-  .badge.grey   { background: var(--grey-100); color: var(--grey-600); }
-
-  /* ── CODE ────────────────────────────────────── */
-  code {
-    background: var(--grey-100);
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--navy);
-  }
-
-  /* ── FLOW DIAGRAM ─────────────────────────────── */
-  .flow {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin: 14px 0;
-  }
-  .flow-box {
-    background: var(--navy-l);
-    border: 1px solid #c4d8f0;
-    border-radius: 6px;
-    padding: 8px 14px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--navy);
-    text-align: center;
-  }
-  .flow-box.orange { background: var(--orange-l); border-color: #ffc98a; color: var(--orange); }
-  .flow-box.green  { background: var(--green-l);  border-color: #9ddcbb; color: var(--green);  }
-  .flow-arrow { color: var(--grey-400); font-size: 18px; font-weight: 300; }
-
-  h2 { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 18px; }
-  h3 { font-size: 14px; font-weight: 700; color: var(--navy); margin: 18px 0 10px; }
-  p  { color: var(--grey-600); font-size: 13px; margin-bottom: 10px; }
-  ul { padding-left: 18px; color: var(--grey-600); font-size: 13px; }
-  ul li { margin-bottom: 5px; }
-
-  /* ── FAQ ─────────────────────────────────────── */
-  .faq-item { border-bottom: 1px solid var(--grey-100); }
-  .faq-q {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 0;
-    cursor: pointer;
-    font-weight: 600;
-    color: var(--navy);
-    font-size: 13px;
-    user-select: none;
-  }
-  .faq-q:hover { color: var(--orange); }
-  .faq-q .chevron { transition: transform .2s; font-style: normal; }
-  .faq-item.open .chevron { transform: rotate(180deg); }
-  .faq-a {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height .3s ease, padding .2s;
-    font-size: 13px;
-    color: var(--grey-600);
-    line-height: 1.6;
-  }
-  .faq-item.open .faq-a { max-height: 400px; padding-bottom: 14px; }
-
-  /* ── RESPONSIVE ──────────────────────────────── */
-  @media (max-width: 700px) {
-    .sidebar { display: none; }
-    .content { padding: 20px; }
-    .topbar { padding: 14px 20px; }
-    .welcome-grid { grid-template-columns: 1fr 1fr; }
-  }
-
-  /* ── PRINT ───────────────────────────────────── */
-  @media print {
-    .sidebar, .topbar { display: none; }
-    .section { display: block !important; }
-    .content { padding: 20px; max-width: 100%; }
   }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
-<nav class="sidebar">
-  <div class="sidebar-logo">
-    <div class="app-name">GESTION DE LA CHARGE</div>
-    <div class="app-sub">EQOS Energie · Atlantique Etudes</div>
-    <span class="badge-aide">📖 Guide utilisateur</span>
+<!-- TOPBAR -->
+<div class="topbar">
+  <button class="topbar-back" id="btnBack" onclick="showCards()" title="Retour" style="display:none">←</button>
+  <div>
+    <div class="topbar-title">📖 Guide utilisateur</div>
+    <div class="topbar-sub" id="topbarSub">Gestion de la Charge — GEIE AE</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ════ VUE CARDS ════ -->
+  <div id="view-cards">
+    <p class="intro">Sélectionnez une question pour afficher l'explication détaillée.</p>
+    <div class="cards-grid">
+
+      <div class="card" onclick="showDetail('parametrer')">
+        <div class="card-icon">⚙️</div>
+        <div class="card-question">Comment paramétrer l'outil ?</div>
+        <div class="card-hint">Ressources, entreprises, jours fériés</div>
+        <div class="card-arrow">Voir l'explication →</div>
+      </div>
+
+      <div class="card" onclick="showDetail('projet')">
+        <div class="card-icon">📁</div>
+        <div class="card-question">Comment créer un projet ?</div>
+        <div class="card-hint">Fiche projet, Gantt, plan de production</div>
+        <div class="card-arrow">Voir l'explication →</div>
+      </div>
+
+      <div class="card" onclick="showDetail('horsprojets')">
+        <div class="card-icon">🔧</div>
+        <div class="card-question">Comment saisir des tâches hors projet ?</div>
+        <div class="card-hint">Formation, réunion, administration…</div>
+        <div class="card-arrow">Voir l'explication →</div>
+      </div>
+
+      <div class="card" onclick="showDetail('absences')">
+        <div class="card-icon">🏖️</div>
+        <div class="card-question">Comment saisir des absences ?</div>
+        <div class="card-hint">Congés, maladie, RTT…</div>
+        <div class="card-arrow">Voir l'explication →</div>
+      </div>
+
+      <div class="card" onclick="showDetail('tableaux')">
+        <div class="card-icon">📊</div>
+        <div class="card-question">Quels tableaux et rapports sont disponibles ?</div>
+        <div class="card-hint">Planning hebdo, plan de charge, RTE, timeline</div>
+        <div class="card-arrow">Voir l'explication →</div>
+      </div>
+
+      <div class="card" onclick="showDetail('exports')">
+        <div class="card-icon">📤</div>
+        <div class="card-question">Puis-je exporter des fichiers ?</div>
+        <div class="card-hint">Exports PDF et Excel disponibles</div>
+        <div class="card-arrow">Voir l'explication →</div>
+      </div>
+
+    </div>
   </div>
 
-  <div class="sidebar-section">Navigation</div>
-  <a class="nav-item active" onclick="show('accueil')"   ><span class="icon">🏠</span> Accueil</a>
-  <a class="nav-item"        onclick="show('dashboard')" ><span class="icon">📊</span> Tableau de bord</a>
-  <a class="nav-item"        onclick="show('projets')"   ><span class="icon">📁</span> Projets</a>
-  <a class="nav-item"        onclick="show('planning')"  ><span class="icon">📅</span> Planning & Gantt</a>
-  <a class="nav-item"        onclick="show('charge')"    ><span class="icon">👥</span> Saisie des charges</a>
-  <a class="nav-item"        onclick="show('rte')"       ><span class="icon">📋</span> Tableau RTE</a>
-  <a class="nav-item"        onclick="show('ressources')"><span class="icon">🧑‍💼</span> Ressources</a>
-  <a class="nav-item"        onclick="show('absences')"  ><span class="icon">🌴</span> Absences</a>
-  <a class="nav-item"        onclick="show('horsprojets')"><span class="icon">🔧</span> Hors projets</a>
+  <!-- ════ VUE DETAIL ════ -->
+  <div id="view-detail"></div>
 
-  <div class="sidebar-section">Autres</div>
-  <a class="nav-item"        onclick="show('parametres')"><span class="icon">⚙️</span> Paramètres</a>
-  <a class="nav-item"        onclick="show('workflow')"  ><span class="icon">🔄</span> Workflow de l'app</a>
-  <a class="nav-item"        onclick="show('faq')"       ><span class="icon">💬</span> FAQ</a>
+</div>
 
-  <div class="sidebar-bottom">v1.0 · Mai 2026</div>
-</nav>
-
-<!-- ═══════════════════ MAIN ═══════════════════════ -->
-<div class="main">
-  <div class="topbar">
+<!-- ════ CONTENU DES DÉTAILS ════ -->
+<template id="tpl-parametrer">
+  <div class="detail-header">
+    <div class="detail-icon">⚙️</div>
     <div>
-      <h1 id="page-title">Bienvenue dans le guide utilisateur</h1>
+      <div class="detail-title">Comment paramétrer l'outil ?</div>
+      <div class="detail-sub">Menu Paramètres — Ressources &amp; Jours fériés</div>
     </div>
-    <span class="sub">Gestion de la Charge</span>
   </div>
 
-  <div class="content">
+  <div class="tip"><strong>À faire en premier</strong> — Le paramétrage des ressources est le prérequis à toute saisie. Sans ressources, il est impossible d'affecter des heures à un projet ou de saisir des absences.</div>
 
-    <!-- ══════════════ ACCUEIL ══════════════ -->
-    <div id="sec-accueil" class="section visible">
-      <div class="welcome-grid">
-        <div class="welcome-tile" onclick="show('dashboard')">
-          <div class="tile-icon">📊</div>
-          <div class="tile-name">Tableau de bord</div>
-          <div class="tile-desc">Vue synthétique de l'activité et des projets en cours</div>
-        </div>
-        <div class="welcome-tile" onclick="show('projets')">
-          <div class="tile-icon">📁</div>
-          <div class="tile-name">Projets</div>
-          <div class="tile-desc">Créer, consulter et gérer les projets de l'entité</div>
-        </div>
-        <div class="welcome-tile" onclick="show('planning')">
-          <div class="tile-icon">📅</div>
-          <div class="tile-name">Planning & Gantt</div>
-          <div class="tile-desc">Tâches, jalons et vue temporelle des projets</div>
-        </div>
-        <div class="welcome-tile" onclick="show('charge')">
-          <div class="tile-icon">👥</div>
-          <div class="tile-name">Saisie des charges</div>
-          <div class="tile-desc">Affecter des heures aux ressources sur les projets</div>
-        </div>
-        <div class="welcome-tile" onclick="show('rte')">
-          <div class="tile-icon">📋</div>
-          <div class="tile-name">Tableau RTE</div>
-          <div class="tile-desc">Rapport hebdomadaire de charge — export Excel</div>
-        </div>
-        <div class="welcome-tile" onclick="show('faq')">
-          <div class="tile-icon">💬</div>
-          <div class="tile-name">FAQ</div>
-          <div class="tile-desc">Questions fréquentes et résolution de problèmes</div>
-        </div>
-      </div>
+  <h3>Gérer les ressources</h3>
 
-      <div class="card">
-        <div class="card-header">
-          <div class="card-icon" style="background:#e8f0f8">📖</div>
-          <div>
-            <div class="card-title">À propos de cet outil</div>
-            <div class="card-subtitle">Gestion de la charge EQOS Energie · Atlantique Etudes</div>
-          </div>
-        </div>
-        <p>Cet outil permet de gérer la <strong>planification et le suivi de la charge</strong> des équipes EQOS Energie et Atlantique Etudes. Il centralise les projets, les ressources, les absences et génère les tableaux de reporting RTE.</p>
-        <div class="tip orange">
-          <span class="tip-icon">💡</span>
-          <span>Utilisez le menu de gauche pour naviguer entre les différentes sections de ce guide. Chaque section correspond à un module de l'application.</span>
-        </div>
-        <div class="flow">
-          <div class="flow-box">Projets</div>
-          <span class="flow-arrow">→</span>
-          <div class="flow-box">Ressources + Charges</div>
-          <span class="flow-arrow">→</span>
-          <div class="flow-box orange">Tableau RTE</div>
-          <span class="flow-arrow">→</span>
-          <div class="flow-box green">Export Excel</div>
-        </div>
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <div class="step-title">Ajouter une ressource</div>
+      <div class="step-desc">Depuis le menu <strong>Paramètres</strong>, cliquez sur <strong>+ Ajouter</strong>. Renseignez le nom (en majuscules), le prénom, l'entreprise (Eqos Energie ou Atlantique Etudes), le poste (LA, LS ou CONV) et le pays (France ou Luxembourg).</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <div class="step-title">Modifier une ressource</div>
+      <div class="step-desc">Sélectionnez la ligne de la ressource dans le tableau (elle se surligne), puis cliquez sur le bouton <strong>Modifier</strong> qui s'active. Apportez vos modifications et validez.</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <div class="step-title">Supprimer une ressource</div>
+      <div class="step-desc">Sélectionnez la ressource dans le tableau, puis cliquez sur <strong>Supprimer</strong>. Une confirmation vous sera demandée. Attention : les absences et heures déjà saisies pour cette ressource restent en base.</div>
+    </div>
+  </div>
+
+  <h3>Gérer les jours fériés</h3>
+  <div class="info-block">
+    <div class="info-block-title">📅 Jours fériés</div>
+    <ul>
+      <li>Les jours fériés France et Luxembourg sont <strong>pré-chargés jusqu'en 2040</strong>.</li>
+      <li>Vous pouvez ajouter un jour exceptionnel via <strong>+ Ajouter</strong> en précisant le libellé, la date et le pays concerné.</li>
+      <li>Les jours fériés sont automatiquement pris en compte dans le plan de charge et le planning hebdo.</li>
+    </ul>
+  </div>
+</template>
+
+<template id="tpl-projet">
+  <div class="detail-header">
+    <div class="detail-icon">📁</div>
+    <div>
+      <div class="detail-title">Comment créer un projet ?</div>
+      <div class="detail-sub">Ordre obligatoire : Fiche → Gantt → Plan de production</div>
+    </div>
+  </div>
+
+  <div class="tip"><strong>Ordre important</strong> — Les trois étapes doivent être réalisées dans l'ordre. Le plan de production liste les tâches issues du Gantt : sans Gantt, aucune ligne ne peut être ajoutée au plan de production.</div>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <div class="step-title">Créer la fiche projet</div>
+      <div class="step-desc">Depuis le menu <strong>Projets</strong>, cliquez sur <strong>+ Nouveau projet</strong>. Renseignez le numéro de commande, l'EOTP, le nom du projet, le type (LA, LS ou Mixte), l'entité, le responsable, le client, le statut et les dates. Validez pour créer le projet.</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <div class="step-title">Créer le Gantt</div>
+      <div class="step-desc">Depuis la liste des projets, cliquez sur <strong>🏠 Accueil projet</strong> puis accédez au <strong>Gantt</strong>. Ajoutez les tâches une par une : nom, date de début, date de fin et optionnellement une date de jalon contractuel. Ces tâches constitueront la base du plan de production.</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <div class="step-title">Renseigner le plan de production</div>
+      <div class="step-desc">Accédez au <strong>Plan de production</strong> du projet. Cliquez sur <strong>+ Ajouter une ligne</strong> : sélectionnez une tâche Gantt et une ressource. Répétez pour chaque combinaison tâche/ressource. Saisissez ensuite les heures directement dans les cellules en cliquant dessus.</div>
+    </div>
+  </div>
+
+  <div class="info-block">
+    <div class="info-block-title">💡 Astuces de saisie</div>
+    <ul>
+      <li>Dans le plan de production, les cellules <strong>vertes</strong> correspondent à la période de la tâche Gantt — saisie recommandée dans cette zone.</li>
+      <li>Les cellules <strong>orange</strong> indiquent un jour de jalon contractuel.</li>
+      <li>Utilisez les touches <strong>← → ↑ ↓</strong> pour naviguer entre les cellules sans la souris.</li>
+      <li>Une alerte s'affiche si le total journalier dépasse 8h pour une ressource.</li>
+    </ul>
+  </div>
+</template>
+
+<template id="tpl-horsprojets">
+  <div class="detail-header">
+    <div class="detail-icon">🔧</div>
+    <div>
+      <div class="detail-title">Comment saisir des tâches hors projet ?</div>
+      <div class="detail-sub">Menu Hors Projets</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <div class="step-title">Accéder au menu Hors Projets</div>
+      <div class="step-desc">Le menu <strong>Hors Projets</strong> affiche un tableau par ressource sur 4 semaines glissantes. Naviguez avec les flèches pour changer de période.</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <div class="step-title">Saisir une activité</div>
+      <div class="step-desc">Cliquez sur la cellule correspondant à la ressource et au jour souhaité. Renseignez le nombre d'heures, la nature de l'activité (Formation, Réunion, Administration, Déplacement, Autre) et un commentaire optionnel.</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <div class="step-title">Modifier ou supprimer</div>
+      <div class="step-desc">Cliquez sur une cellule déjà renseignée pour ouvrir la fiche. Modifiez les valeurs et validez, ou cliquez sur <strong>Supprimer</strong> pour effacer l'entrée.</div>
+    </div>
+  </div>
+
+  <div class="info-block">
+    <div class="info-block-title">⌨️ Navigation rapide</div>
+    <ul>
+      <li>Touches <strong>← →</strong> : passer au jour précédent / suivant (même ressource).</li>
+      <li>Touches <strong>↑ ↓</strong> ou <strong>Entrée</strong> : passer à la ressource précédente / suivante (même jour).</li>
+      <li>La saisie courante est validée automatiquement avant de naviguer.</li>
+    </ul>
+  </div>
+</template>
+
+<template id="tpl-absences">
+  <div class="detail-header">
+    <div class="detail-icon">🏖️</div>
+    <div>
+      <div class="detail-title">Comment saisir des absences ?</div>
+      <div class="detail-sub">Menu Absences</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <div class="step-title">Accéder au menu Absences</div>
+      <div class="step-desc">Le menu <strong>Absences</strong> affiche un tableau par ressource sur 4 semaines glissantes. Utilisez les flèches pour changer de période ou le bouton <strong>Aujourd'hui</strong> pour revenir à la semaine courante.</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <div class="step-title">Saisir une absence</div>
+      <div class="step-desc">Cliquez sur la cellule correspondant à la ressource et au jour. Sélectionnez le type d'absence (Congés, Maladie, RTT, Formation), renseignez le nombre d'heures (par défaut 8h) et validez.</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <div class="step-title">Types d'absence disponibles</div>
+      <div class="step-desc">
+        <span class="tag">Congés</span> Congés payés<br>
+        <span class="tag" style="background:#f59e0b">Maladie</span> Arrêt maladie
       </div>
     </div>
+  </div>
 
-    <!-- ══════════════ DASHBOARD ══════════════ -->
-    <div id="sec-dashboard" class="section">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-icon" style="background:#e8f0f8; font-size:20px">📊</div>
-          <div>
-            <div class="card-title">Tableau de bord</div>
-            <div class="card-subtitle">Vue d'ensemble en temps réel</div>
-          </div>
-        </div>
-        <p>Le tableau de bord est la page d'accueil de l'application. Il affiche des <strong>indicateurs clés</strong> calculés à partir des données du moment.</p>
+  <div class="info-block">
+    <div class="info-block-title">⚠️ Gestion des surcharges</div>
+    <ul>
+      <li>Si le total journalier (absence + heures projet + hors projet) dépasse <strong>8h</strong>, une alerte s'affiche.</li>
+      <li>Vous pouvez choisir de <strong>forcer l'enregistrement</strong> malgré la surcharge ou d'annuler.</li>
+    </ul>
+  </div>
+</template>
 
-        <h3>Cartes disponibles</h3>
-        <table>
-          <thead><tr><th>Carte</th><th>Contenu</th></tr></thead>
-          <tbody>
-            <tr><td><span class="badge navy">Projets en cours</span></td><td>Nombre total de projets avec statut "En cours", ventilé par type (LA / LS / Mixte)</td></tr>
-            <tr><td><span class="badge orange">Heures à venir</span></td><td>Total des heures planifiées sur les prochaines semaines</td></tr>
-            <tr><td><span class="badge green">Ressources actives</span></td><td>Nombre de ressources enregistrées dans la base</td></tr>
-            <tr><td><span class="badge grey">Jalons à venir</span></td><td>Prochains jalons de tous les projets actifs</td></tr>
-          </tbody>
-        </table>
-
-        <div class="tip">
-          <span class="tip-icon">ℹ️</span>
-          <span>Les données du tableau de bord se mettent à jour automatiquement à chaque fois que vous accédez à la page. Aucune action manuelle n'est nécessaire.</span>
-        </div>
-      </div>
+<template id="tpl-tableaux">
+  <div class="detail-header">
+    <div class="detail-icon">📊</div>
+    <div>
+      <div class="detail-title">Quels tableaux et rapports sont disponibles ?</div>
+      <div class="detail-sub">Vues de synthèse — lecture seule</div>
     </div>
+  </div>
 
-    <!-- ══════════════ PROJETS ══════════════ -->
-    <div id="sec-projets" class="section">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-icon" style="background:#e8f0f8; font-size:20px">📁</div>
-          <div>
-            <div class="card-title">Gestion des projets</div>
-            <div class="card-subtitle">Création, suivi et fiche projet</div>
-          </div>
-        </div>
+  <div class="info-block">
+    <div class="info-block-title">📅 Planning hebdomadaire</div>
+    <ul>
+      <li>Vue semaine par semaine, <strong>une colonne par jour ouvré</strong>, une ligne par ressource.</li>
+      <li>Affiche en une vue toutes les activités : heures projet, absences, hors projets et jours fériés.</li>
+      <li>Filtrable par entreprise et par poste (LA, LS, CONV).</li>
+    </ul>
+  </div>
 
-        <h3>Créer un nouveau projet</h3>
-        <div class="steps">
-          <div class="step"><div class="step-num"></div><div class="step-body"><strong>Accéder à la liste des projets</strong><p>Cliquez sur « Projets » dans la navigation latérale.</p></div></div>
-          <div class="step"><div class="step-num"></div><div class="step-body"><strong>Cliquer sur « + Nouveau projet »</strong><p>Le bouton se trouve en haut à droite de la liste.</p></div></div>
-          <div class="step"><div class="step-num"></div><div class="step-body"><strong>Renseigner la fiche projet</strong><p>Complétez les champs obligatoires : Nom, Type, Entité, Responsable et Statut.</p></div></div>
-          <div class="step"><div class="step-num"></div><div class="step-body"><strong>Enregistrer</strong><p>Le projet apparaît immédiatement dans la liste et dans le tableau de bord.</p></div></div>
-        </div>
+  <div class="info-block">
+    <div class="info-block-title">📈 Plan de charge par ressource</div>
+    <ul>
+      <li>Vue <strong>16 semaines glissantes</strong>, une colonne par semaine, une ligne par ressource.</li>
+      <li>Affiche le <strong>taux de charge en %</strong> par rapport à la capacité (40h/semaine).</li>
+      <li>Code couleur : <strong style="color:var(--green)">vert</strong> &lt; 80% · <strong style="color:var(--orange)">orange</strong> entre 80 et 100% · <strong style="color:#cc2020">rouge</strong> ≥ 100%.</li>
+    </ul>
+  </div>
 
-        <h3>Champs de la fiche projet</h3>
-        <table>
-          <thead><tr><th>Champ</th><th>Description</th><th>Obligatoire</th></tr></thead>
-          <tbody>
-            <tr><td>N° Commande</td><td>Numéro de commande interne ou client</td><td>—</td></tr>
-            <tr><td>EOTP</td><td>Code EOTP du projet (format monospace)</td><td>—</td></tr>
-            <tr><td>Nom du projet</td><td>Nom complet, affiché dans toutes les vues</td><td>✅</td></tr>
-            <tr><td>Type</td><td><span class="badge navy">LA</span> <span class="badge green">LS</span> <span class="badge purple">Mixte</span> <span class="badge grey">Autre</span></td><td>✅</td></tr>
-            <tr><td>Entité</td><td>Eqos Energie ou Atlantique Etudes</td><td>✅</td></tr>
-            <tr><td>Responsable</td><td>Chef de projet interne</td><td>—</td></tr>
-            <tr><td>Client</td><td>Nom du client</td><td>—</td></tr>
-            <tr><td>Statut</td><td>En cours / Offre / Non démarré / Stand-by / Terminé</td><td>✅</td></tr>
-            <tr><td>Lot / Fiabilité</td><td>Lot de travaux, niveau de fiabilité estimé</td><td>—</td></tr>
-            <tr><td>Date début</td><td>Date de démarrage du projet</td><td>—</td></tr>
-            <tr><td>Déb. travaux</td><td>Date de démarrage effectif des travaux</td><td>—</td></tr>
-            <tr><td>Descriptif</td><td>Résumé libre du projet</td><td>—</td></tr>
-          </tbody>
-        </table>
+  <div class="info-block">
+    <div class="info-block-title">🕐 Timeline</div>
+    <ul>
+      <li>Vue Gantt consolidée de <strong>tous les projets actifs</strong> sur une même ligne de temps.</li>
+      <li>Visualisation des périodes et des jalons contractuels par projet.</li>
+    </ul>
+  </div>
 
-        <h3>Page d'accueil projet (fiche détaillée)</h3>
-        <p>En cliquant sur un projet depuis la liste, la <strong>fiche détaillée</strong> s'ouvre et affiche :</p>
-        <ul>
-          <li>Les informations complètes du projet</li>
-          <li>Les heures planifiées <em>à venir</em>, par ressource</li>
-          <li>Les prochains jalons</li>
-          <li>L'avancement des tâches (taux d'achèvement)</li>
-          <li>Un graphique des heures planifiées sur 6 mois par ressource</li>
-        </ul>
-      </div>
+  <div class="info-block">
+    <div class="info-block-title">📋 Tableau RTE</div>
+    <ul>
+      <li>Tableau de synthèse au format attendu par RTE, <strong>semaine par semaine</strong>.</li>
+      <li>Intègre les heures projets, absences et hors projets par entreprise et par poste.</li>
+      <li>Exportable en fichier Excel (voir la question sur les exports).</li>
+    </ul>
+  </div>
+</template>
+
+<template id="tpl-exports">
+  <div class="detail-header">
+    <div class="detail-icon">📤</div>
+    <div>
+      <div class="detail-title">Puis-je exporter des fichiers ?</div>
+      <div class="detail-sub">Exports PDF et Excel disponibles</div>
     </div>
+  </div>
 
-    <!-- ══════════════ PLANNING ══════════════ -->
-    <div id="sec-planning" class="section">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-icon" style="background:#e8f0f8; font-size:20px">📅</div>
-          <div>
-            <div class="card-title">Planning & Gantt</div>
-            <div class="card-subtitle">Tâches, jalons, vue temporelle</div>
-          </div>
-        </div>
+  <div class="info-block">
+    <div class="info-block-title">📄 Export PDF — Gantt projet</div>
+    <ul>
+      <li>Depuis le <strong>Gantt d'un projet</strong>, cliquez sur le bouton <strong>Export PDF</strong>.</li>
+      <li>Choisissez l'échelle : <strong>hebdomadaire</strong> (3 à 6 mois) ou <strong>mensuelle</strong> (1 à 2 ans).</li>
+      <li>Le PDF généré est au format A3 paysage, avec les barres Gantt et les jalons.</li>
+      <li>Si le nombre de tâches est important, le PDF est automatiquement <strong>paginé</strong>.</li>
+    </ul>
+  </div>
 
-        <p>Le module Planning offre une vue <strong>Gantt interactive</strong> par projet, permettant de visualiser et gérer les tâches dans le temps.</p>
+  <div class="info-block">
+    <div class="info-block-title">📊 Export Excel — Tableau RTE</div>
+    <ul>
+      <li>Depuis le menu <strong>Tableau RTE</strong>, cliquez sur le bouton <strong>Export Excel</strong>.</li>
+      <li>Le fichier généré reprend le <strong>template officiel RTE</strong> avec toutes les données de la période.</li>
+      <li>Les formules et graphiques présents dans le template sont conservés à l'export.</li>
+      <li>Le fichier couvre les données de <strong>S1 2026 jusqu'en 2031</strong>.</li>
+    </ul>
+  </div>
 
-        <h3>Tâches</h3>
-        <div class="steps">
-          <div class="step"><div class="step-num"></div><div class="step-body"><strong>Sélectionner un projet</strong><p>Choisissez le projet dans la liste déroulante en haut du planning.</p></div></div>
-          <div class="step"><div class="step-num"></div><div class="step-body"><strong>Ajouter une tâche</strong><p>Cliquez sur « + Tâche » — renseignez le nom, la date de début et la date de fin.</p></div></div>
-          <div class="step"><div class="step-num"></div><div class="step-body"><strong>Déclarer un jalon</strong><p>Cochez l'option « Jalon » et entrez la date cible. Les jalons apparaissent en orange dans le Gantt.</p></div></div>
-        </div>
-
-        <div class="tip green">
-          <span class="tip-icon">✅</span>
-          <span>Les tâches dont la date de fin est passée sont automatiquement comptabilisées comme « terminées » dans l'avancement de la fiche projet.</span>
-        </div>
-
-        <h3>Lecture du Gantt</h3>
-        <table>
-          <thead><tr><th>Élément</th><th>Signification</th></tr></thead>
-          <tbody>
-            <tr><td>Barre bleue (navy)</td><td>Tâche en cours ou à venir</td></tr>
-            <tr><td>Barre grisée</td><td>Tâche terminée (date fin dépassée)</td></tr>
-            <tr><td>Losange orange ◆</td><td>Jalon</td></tr>
-            <tr><td>Ligne rouge verticale</td><td>Date du jour</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- ══════════════ CHARGE ══════════════ -->
-    <div id="sec-charge" class="section">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-icon" style="background:#e8f0f8; font-size:20px">👥</div>
-          <div>
-            <div class="card-title">Saisie des charges</div>
-            <div class="card-subtitle">Affecter les heures ressources aux projets</div>
-          </div>
-        </div>
-
-        <p>La saisie des charges permet de <strong>planifier le temps de travail</strong> de chaque ressource sur les projets, semaine par semaine.</p>
-
-        <h3>Principe de fonctionnement</h3>
-        <div class="flow">
-          <div class="flow-box">Projet</div>
-          <span class="flow-arrow">→</span>
-          <div class="flow-box">Ligne de charge<br><small>(projet + ressource)</small></div>
-          <span class="flow-arrow">→</span>
-          <div class="flow-box orange">Entrée horaire<br><small>(date + nb d'heures)</small></div>
-        </div>
-
-        <h3>Ajouter une ligne de charge</h3>
-        <div class="steps">
-          <div class="step"><div class="step-num"></div><div class="step-body"><strong>Sélectionner le projet</strong><p>Dans la vue charges, choisissez le projet concerné.</p></div></div>
-          <div class="step"><div class="step-num"></div><div class="step-body"><strong>Choisir la ressource</strong><p>Sélectionnez la ressource à partir de la liste des ressources actives.</p></div></div>
-          <div class="step"><div class="step-num"></div><div class="step-body"><strong>Saisir les heures</strong><p>Pour chaque date, entrez le nombre d'heures planifiées. Les valeurs décimales sont acceptées (ex: 3.5h).</p></div></div>
-        </div>
-
-        <div class="tip orange">
-          <span class="tip-icon">⚠️</span>
-          <span>Les heures passées (antérieures à aujourd'hui) ne sont <em>pas</em> comptabilisées dans les totaux « à venir » de la fiche projet. Seules les heures futures sont affichées dans le récapitulatif.</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══════════════ RTE ══════════════ -->
-    <div id="sec-rte" class="section">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-icon" style="background:var(--orange-l); font-size:20px">📋</div>
-          <div>
-            <div class="card-title">Tableau RTE</div>
-            <div class="card-subtitle">Rapport hebdomadaire de charge — Export Excel</div>
-          </div>
-        </div>
-
-        <p>Le tableau RTE est le <strong>rapport de charge hebdomadaire</strong> transmis à RTE. Il synthétise, pour chaque ressource et chaque type de poste (LA, LS, CONV), les heures planifiées semaine par semaine.</p>
-
-        <h3>Structure du tableau</h3>
-        <table>
-          <thead><tr><th>Ligne</th><th>Contenu</th><th>Entité</th></tr></thead>
-          <tbody>
-            <tr><td>Lignes 1–8</td><td>En-têtes et capacités (nb de ressources par poste)</td><td>—</td></tr>
-            <tr><td>Lignes 9–11</td><td>Congés/absences LA · LS · CONV</td><td>Eqos Energie</td></tr>
-            <tr><td>Lignes 12–14</td><td>Hors-projets LA · LS · CONV</td><td>Eqos Energie</td></tr>
-            <tr><td>Lignes 15–17</td><td>Congés/absences LA · LS · CONV</td><td>Atlantique Etudes</td></tr>
-            <tr><td>Lignes 18–20</td><td>Hors-projets LA · LS · CONV</td><td>Atlantique Etudes</td></tr>
-            <tr><td>Lignes 21+</td><td>Heures par projet (une ligne = une ressource × projet)</td><td>Les deux</td></tr>
-          </tbody>
-        </table>
-
-        <h3>Exporter en Excel</h3>
-        <div class="steps">
-          <div class="step"><div class="step-num"></div><div class="step-body"><strong>Accéder au tableau RTE</strong><p>Cliquez sur « Tableau RTE » dans la navigation.</p></div></div>
-          <div class="step"><div class="step-num"></div><div class="step-body"><strong>Choisir la semaine</strong><p>Sélectionnez la semaine de début du rapport via le sélecteur de semaine.</p></div></div>
-          <div class="step"><div class="step-num"></div><div class="step-body"><strong>Cliquer sur « Export Excel »</strong><p>Le bouton orange génère le fichier <code>RTE_SEMAINE_XX.xlsx</code> basé sur le template.</p></div></div>
-          <div class="step"><div class="step-num"></div><div class="step-body"><strong>Ouvrir dans Excel</strong><p>Le fichier s'ouvre avec toutes les données pré-remplies. Les formules et graphiques du 2e onglet sont préservés.</p></div></div>
-        </div>
-
-        <div class="tip green">
-          <span class="tip-icon">✅</span>
-          <span>L'export utilise le template <code>Template_RTE.xlsx</code>. Les formules et graphiques placés dans ce template sont automatiquement conservés lors de l'export.</span>
-        </div>
-
-        <div class="tip">
-          <span class="tip-icon">ℹ️</span>
-          <span>La capacité (nombre de ressources par poste) est calculée au moment de l'export, en comptant les ressources présentes dans la base. Si une ressource arrive en cours d'année, ajoutez-la dans le module Ressources avant de lancer l'export.</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══════════════ RESSOURCES ══════════════ -->
-    <div id="sec-ressources" class="section">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-icon" style="background:#e8f0f8; font-size:20px">🧑‍💼</div>
-          <div>
-            <div class="card-title">Ressources</div>
-            <div class="card-subtitle">Gestion des collaborateurs</div>
-          </div>
-        </div>
-
-        <p>Le module Ressources centralise les informations sur les <strong>collaborateurs des deux entités</strong> qui apparaissent dans les charges et les tableaux de reporting.</p>
-
-        <h3>Fiche ressource</h3>
-        <table>
-          <thead><tr><th>Champ</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td>Nom / Prénom</td><td>Affiché sous la forme <code>NOM Prénom</code> dans toutes les vues</td></tr>
-            <tr><td>Entreprise</td><td><span class="badge navy">Eqos Energie</span> ou <span class="badge orange">Atlantique Etudes</span></td></tr>
-            <tr><td>Poste</td><td><span class="badge navy">LA</span> <span class="badge green">LS</span> <span class="badge orange">CONV</span></td></tr>
-            <tr><td>Heures hebdo</td><td>Durée contractuelle par semaine (ex: 40h)</td></tr>
-            <tr><td>Pays</td><td>Luxembourg ou autre</td></tr>
-          </tbody>
-        </table>
-
-        <div class="tip orange">
-          <span class="tip-icon">⚠️</span>
-          <span>Le nombre de ressources par poste est utilisé pour calculer la <strong>capacité</strong> dans le tableau RTE. Mettez à jour la base avant chaque export RTE si l'équipe a évolué.</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══════════════ ABSENCES ══════════════ -->
-    <div id="sec-absences" class="section">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-icon" style="background:var(--green-l); font-size:20px">🌴</div>
-          <div>
-            <div class="card-title">Absences</div>
-            <div class="card-subtitle">Congés et absences des collaborateurs</div>
-          </div>
-        </div>
-
-        <p>Le module Absences enregistre les <strong>congés et absences</strong> de chaque ressource, par journée ou demi-journée.</p>
-
-        <h3>Types d'absences</h3>
-        <table>
-          <thead><tr><th>Type</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td><span class="badge green">Congés</span></td><td>Congés payés annuels</td></tr>
-            <tr><td><span class="badge grey">Maladie</span></td><td>Arrêt maladie</td></tr>
-            <tr><td><span class="badge purple">Autres</span></td><td>Tout autre type d'absence</td></tr>
-          </tbody>
-        </table>
-
-        <h3>Saisir une absence</h3>
-        <div class="steps">
-          <div class="step"><div class="step-num"></div><div class="step-body"><strong>Sélectionner la ressource</strong><p>Choisissez le collaborateur concerné.</p></div></div>
-          <div class="step"><div class="step-num"></div><div class="step-body"><strong>Renseigner la date et la durée</strong><p>Entrez la date et le nombre d'heures (8h = journée complète, 4h = demi-journée).</p></div></div>
-          <div class="step"><div class="step-num"></div><div class="step-body"><strong>Choisir le type</strong><p>Sélectionnez le type d'absence dans la liste.</p></div></div>
-        </div>
-
-        <div class="tip">
-          <span class="tip-icon">ℹ️</span>
-          <span>Les absences sont reprises dans les lignes 9–17 du tableau RTE, ventilées par entité et par type de poste.</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══════════════ HORS PROJETS ══════════════ -->
-    <div id="sec-horsprojets" class="section">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-icon" style="background:var(--purple-l); font-size:20px">🔧</div>
-          <div>
-            <div class="card-title">Hors projets</div>
-            <div class="card-subtitle">Activités non affectées à un projet</div>
-          </div>
-        </div>
-
-        <p>Le module Hors projets enregistre le temps consacré à des <strong>activités internes non rattachées à un projet</strong> facturable (formations, réunions internes, tâches administratives…).</p>
-
-        <h3>Natures possibles</h3>
-        <table>
-          <thead><tr><th>Nature</th><th>Exemple</th></tr></thead>
-          <tbody>
-            <tr><td>Formation</td><td>Session de formation interne ou externe</td></tr>
-            <tr><td>Réunion interne</td><td>Réunion d'équipe, CODIR…</td></tr>
-            <tr><td>Administratif</td><td>Tâches RH, comptabilité…</td></tr>
-            <tr><td>Autre</td><td>Toute autre activité interne</td></tr>
-          </tbody>
-        </table>
-
-        <div class="tip">
-          <span class="tip-icon">ℹ️</span>
-          <span>Les hors-projets alimentent les lignes 12–20 du tableau RTE, ventilées par entité et par poste. Pensez à les saisir régulièrement pour avoir des données RTE complètes.</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══════════════ PARAMÈTRES ══════════════ -->
-    <div id="sec-parametres" class="section">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-icon" style="background:var(--grey-100); font-size:20px">⚙️</div>
-          <div>
-            <div class="card-title">Paramètres</div>
-            <div class="card-subtitle">Configuration de l'application</div>
-          </div>
-        </div>
-
-        <p>La page Paramètres permet d'ajuster les <strong>réglages généraux</strong> de l'application.</p>
-
-        <table>
-          <thead><tr><th>Paramètre</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td>Entités</td><td>Gérer les entités disponibles (Eqos Energie, Atlantique Etudes)</td></tr>
-            <tr><td>Types de poste</td><td>LA, LS, CONV — modifiables si nécessaire</td></tr>
-            <tr><td>Template RTE</td><td>Chemin vers le template Excel utilisé pour l'export</td></tr>
-            <tr><td>Sauvegarde / Import</td><td>Exporter ou importer les données de l'application (JSON)</td></tr>
-          </tbody>
-        </table>
-
-        <div class="tip orange">
-          <span class="tip-icon">⚠️</span>
-          <span>Modifiez les paramètres avec précaution. Une modification des types de poste peut affecter les données existantes dans les charges et le tableau RTE.</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══════════════ WORKFLOW ══════════════ -->
-    <div id="sec-workflow" class="section">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-icon" style="background:var(--orange-l); font-size:20px">🔄</div>
-          <div>
-            <div class="card-title">Workflow de l'application</div>
-            <div class="card-subtitle">Cycle de vie de la donnée</div>
-          </div>
-        </div>
-
-        <p>Le schéma suivant illustre comment les données circulent dans l'application, de la création d'un projet jusqu'à l'export du tableau RTE.</p>
-
-        <h3>Flux principal</h3>
-        <div class="flow" style="flex-direction:column; align-items:flex-start; gap:4px;">
-          <div style="display:flex;align-items:center;gap:8px"><div class="flow-box" style="min-width:180px">1. Créer le projet</div><span style="color:var(--grey-400);font-size:12px">→ Fiche projet complète (nom, type, entité, statut…)</span></div>
-          <div style="padding-left:85px;color:var(--grey-300)">↓</div>
-          <div style="display:flex;align-items:center;gap:8px"><div class="flow-box" style="min-width:180px">2. Ajouter les tâches</div><span style="color:var(--grey-400);font-size:12px">→ Gantt avec dates de début/fin et jalons</span></div>
-          <div style="padding-left:85px;color:var(--grey-300)">↓</div>
-          <div style="display:flex;align-items:center;gap:8px"><div class="flow-box" style="min-width:180px">3. Saisir les charges</div><span style="color:var(--grey-400);font-size:12px">→ Ressource × Projet × Date × Heures</span></div>
-          <div style="padding-left:85px;color:var(--grey-300)">↓</div>
-          <div style="display:flex;align-items:center;gap:8px"><div class="flow-box" style="min-width:180px">4. Saisir absences / HP</div><span style="color:var(--grey-400);font-size:12px">→ Congés, hors-projets par ressource</span></div>
-          <div style="padding-left:85px;color:var(--grey-300)">↓</div>
-          <div style="display:flex;align-items:center;gap:8px"><div class="flow-box orange" style="min-width:180px">5. Générer le tableau RTE</div><span style="color:var(--grey-400);font-size:12px">→ Agrégation hebdomadaire de toutes les données</span></div>
-          <div style="padding-left:85px;color:var(--grey-300)">↓</div>
-          <div style="display:flex;align-items:center;gap:8px"><div class="flow-box green" style="min-width:180px">6. Exporter en Excel</div><span style="color:var(--grey-400);font-size:12px">→ Fichier .xlsx prêt pour transmission à RTE</span></div>
-        </div>
-
-        <div class="tip">
-          <span class="tip-icon">ℹ️</span>
-          <span>Pour voir le diagramme de workflow complet de l'application, cliquez sur le bouton <strong>ℹ</strong> dans la barre supérieure de l'application.</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══════════════ FAQ ══════════════ -->
-    <div id="sec-faq" class="section">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-icon" style="background:var(--navy-l); font-size:20px">💬</div>
-          <div>
-            <div class="card-title">Questions fréquentes</div>
-            <div class="card-subtitle">Aide à la résolution de problèmes</div>
-          </div>
-        </div>
-
-        <div id="faq-list">
-
-          <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">
-              Le tableau de bord affiche un mauvais décompte de projets
-              <i class="chevron">▾</i>
-            </div>
-            <div class="faq-a">
-              Vérifiez que le <strong>statut</strong> du projet est bien « En cours ». Seuls les projets avec ce statut sont comptabilisés dans le compteur du tableau de bord. Les projets en statut « Offre », « Stand-by » ou « Terminé » ne sont pas inclus.
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">
-              Le graphique d'heures de la fiche projet est vide
-              <i class="chevron">▾</i>
-            </div>
-            <div class="faq-a">
-              Cela signifie qu'aucune heure n'est planifiée dans les <strong>6 prochains mois</strong> pour ce projet. Seules les heures futures (date ≥ aujourd'hui) apparaissent dans le graphique. Vérifiez que les lignes de charge ont bien des dates à venir.
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">
-              L'export Excel RTE ne contient pas les bonnes semaines
-              <i class="chevron">▾</i>
-            </div>
-            <div class="faq-a">
-              Assurez-vous d'avoir sélectionné la <strong>bonne semaine de départ</strong> dans le sélecteur avant de cliquer sur « Export Excel ». Le rapport couvre par défaut un nombre de semaines défini dans le template RTE. Si les colonnes paraissent décalées, vérifiez que le template <code>Template_RTE.xlsx</code> commence bien à la semaine 1 de la bonne année.
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">
-              Les graphiques du 2e onglet Excel sont cassés après export
-              <i class="chevron">▾</i>
-            </div>
-            <div class="faq-a">
-              C'est un comportement connu d'ExcelJS : il peut parfois affecter les objets graphiques intégrés. Si le problème persiste, contactez l'administrateur de l'outil pour utiliser la version Python de l'export (<code>serveur_rte_1.py</code>) qui préserve mieux les graphiques.
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">
-              Les lignes absences / hors-projets du RTE sont vides
-              <i class="chevron">▾</i>
-            </div>
-            <div class="faq-a">
-              Vérifiez que les <strong>absences et hors-projets</strong> ont bien été saisis dans les modules correspondants avant de lancer l'export. Ces données doivent être saisies manuellement — elles ne sont pas calculées automatiquement. Les lignes 9–11 (congés Eqos), 12–14 (hors-projets Eqos), 15–17 (congés AE) et 18–20 (hors-projets AE) doivent refléter les saisies correspondantes.
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">
-              Un jalon n'apparaît pas dans la fiche projet
-              <i class="chevron">▾</i>
-            </div>
-            <div class="faq-a">
-              La fiche projet n'affiche que les jalons <strong>à venir</strong> (date ≥ aujourd'hui). Si la date du jalon est passée, il n'apparaît plus dans le récapitulatif. Consultez le Gantt pour voir tous les jalons, y compris les passés.
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">
-              Comment ajouter une nouvelle ressource ?
-              <i class="chevron">▾</i>
-            </div>
-            <div class="faq-a">
-              Accédez au module <strong>Ressources</strong> depuis la navigation latérale, cliquez sur « + Ressource », renseignez les champs (Nom, Prénom, Entreprise, Poste, Heures hebdo) et enregistrez. La ressource sera immédiatement disponible pour la saisie des charges et sera prise en compte lors du prochain export RTE.
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">
-              Les données ne sont pas sauvegardées après fermeture du navigateur
-              <i class="chevron">▾</i>
-            </div>
-            <div class="faq-a">
-              L'application utilise un stockage local (LocalStorage). Les données sont conservées dans votre navigateur tant que vous n'effacez pas le cache. Pour une sauvegarde pérenne, utilisez la fonction <strong>Export JSON</strong> dans les Paramètres, et importez-les en cas de besoin. En mode multi-utilisateurs, assurez-vous que le serveur de données est bien configuré.
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /content -->
-</div><!-- /main -->
+  <div class="tip"><strong>Conseil</strong> — Pour le tableau RTE, assurez-vous que toutes les absences et heures hors projet de la période ont bien été saisies avant de lancer l'export, afin d'obtenir un fichier complet.</div>
+</template>
 
 <script>
   const titles = {
-    'accueil':     'Bienvenue dans le guide utilisateur',
-    'dashboard':   'Tableau de bord',
-    'projets':     'Gestion des projets',
-    'planning':    'Planning & Gantt',
-    'charge':      'Saisie des charges',
-    'rte':         'Tableau RTE & Export Excel',
-    'ressources':  'Ressources',
-    'absences':    'Absences',
-    'horsprojets': 'Hors projets',
-    'parametres':  'Paramètres',
-    'workflow':    'Workflow de l\'application',
-    'faq':         'Questions fréquentes',
+    parametrer: 'Paramétrer l\'outil',
+    projet:     'Créer un projet',
+    horsprojets:'Tâches hors projet',
+    absences:   'Saisir des absences',
+    tableaux:   'Tableaux & rapports',
+    exports:    'Exports de fichiers',
   };
 
-  function show(id) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
-    document.querySelectorAll('.nav-item').forEach(a => a.classList.remove('active'));
-    const sec = document.getElementById('sec-' + id);
-    if (sec) sec.classList.add('visible');
-    const link = document.querySelector(`.nav-item[onclick="show('${id}')"]`);
-    if (link) link.classList.add('active');
-    document.getElementById('page-title').textContent = titles[id] || id;
-    // Scroll to top of main
-    document.querySelector('.main').scrollTo({ top: 0, behavior: 'smooth' });
+  function showDetail(key) {
+    const tpl = document.getElementById('tpl-' + key);
+    if (!tpl) return;
+    document.getElementById('view-cards').style.display = 'none';
+    const det = document.getElementById('view-detail');
+    det.style.display = 'block';
+    det.innerHTML = tpl.innerHTML;
+    document.getElementById('btnBack').style.display = 'flex';
+    document.getElementById('topbarSub').textContent = titles[key] || '';
+    window.scrollTo(0, 0);
   }
 
-  function toggleFaq(el) {
-    const item = el.parentElement;
-    item.classList.toggle('open');
+  function showCards() {
+    document.getElementById('view-cards').style.display = 'block';
+    document.getElementById('view-detail').style.display = 'none';
+    document.getElementById('btnBack').style.display = 'none';
+    document.getElementById('topbarSub').textContent = 'Gestion de la Charge — GEIE AE';
+    window.scrollTo(0, 0);
   }
 </script>
 </body>
