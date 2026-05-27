@@ -231,9 +231,34 @@ function renderRTE() {
     }
   });
 
-  // Synchroniser le scroll vertical entre les deux tables
+  // ── Activer scroll vertical + horizontal ──────────────────────
   const scrollEl = document.getElementById('rteScroll');
   const fixedEl  = document.getElementById('rteFixed');
+
+  // Calculer la hauteur disponible = fenêtre - position top du wrapper
+  const wrapper = scrollEl.closest('div[style*="border:1px solid"]') || scrollEl.parentElement;
+  const wrapperTop = wrapper ? wrapper.getBoundingClientRect().top : 200;
+  const availH = Math.max(200, window.innerHeight - wrapperTop - 32);
+
+  // Appliquer overflow + hauteur max sur les deux divs
+  scrollEl.style.overflowX = 'auto';
+  scrollEl.style.overflowY = 'auto';
+  scrollEl.style.maxHeight = availH + 'px';
+
+  fixedEl.style.overflowX = 'hidden';
+  fixedEl.style.overflowY = 'scroll';
+  fixedEl.style.scrollbarWidth = 'none'; // Firefox
+  fixedEl.style.maxHeight = availH + 'px';
+
+  // Cacher scrollbar webkit sur rteFixed
+  if (!document.getElementById('_rteFixedStyle')) {
+    const s = document.createElement('style');
+    s.id = '_rteFixedStyle';
+    s.textContent = '#rteFixed::-webkit-scrollbar{display:none}';
+    document.head.appendChild(s);
+  }
+
+  // Synchroniser le scroll vertical
   if (scrollEl._syncHandler) scrollEl.removeEventListener('scroll', scrollEl._syncHandler);
   scrollEl._syncHandler = () => { fixedEl.scrollTop = scrollEl.scrollTop; };
   scrollEl.addEventListener('scroll', scrollEl._syncHandler);

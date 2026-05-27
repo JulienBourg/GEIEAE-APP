@@ -83,7 +83,7 @@ function renderPH() {
           items.push({
             type: 'projet',
             label: proj ? proj.Nom : 'Projet',
-            sub: tacheG ? tacheG.nom : '',
+            sub: l.tacheLibre || (tacheG ? tacheG.nom : ''),
             heures: h.heures,
             color: '#d1fae5',
             textColor: 'var(--green)',

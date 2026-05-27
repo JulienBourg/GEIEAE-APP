@@ -74,14 +74,14 @@ function renderPP() {
 
   let html = lignes.map(l => {
     const tache = ganttTaches.find(t => t.id === l.tacheGanttId);
-    const tacheNom = tache ? tache.nom : '?';
+    const tacheNom = l.tacheLibre || (tache ? tache.nom : '?');
     const tacheDebut = tache ? tache.dateDebut : null;
     const tacheFin = tache ? tache.dateFin : null;
     const tacheJalon = tache ? tache.jalon : null;
 
     let row = `<tr>`;
     // Tâche cell (sticky left) — affiche nom depuis Gantt
-    row += `<td style="position:sticky;left:0;z-index:5;background:#fff;min-width:160px;width:160px;max-width:160px;height:36px;padding:0 12px;border-right:1px solid var(--grey-200);font-size:12px;font-weight:500;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer" onclick="openEditLigneModal(${l.id})" title="Cliquer pour modifier/supprimer cette ligne">${tacheNom} <span style="color:var(--grey-400);font-size:10px">✏️</span></td>`;
+    row += `<td style="position:sticky;left:0;z-index:5;background:#fff;min-width:160px;width:160px;max-width:160px;height:36px;padding:0 12px;border-right:1px solid var(--grey-200);font-size:12px;font-weight:500;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer" onclick="openEditLigneModal(${l.id})" title="${tacheNom} — cliquer pour modifier">${tacheNom} <span style="color:var(--grey-400);font-size:10px">✏️</span></td>`;
     // Ressource cell
     row += `<td style="position:sticky;left:160px;z-index:5;background:#fff;min-width:160px;width:160px;max-width:160px;height:36px;padding:0 10px;border-right:2px solid var(--grey-200);font-size:11px;color:var(--grey-600);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${l.ressource}</td>`;
 
@@ -153,41 +153,67 @@ function openAddLigneModal() {
   // Dropdown tâches depuis Gantt
   const taches = ganttTaches.filter(t => t.projetId === currentProjId);
   const selTask = document.getElementById('ligneTask');
-  selTask.innerHTML = taches.length > 0
+  const opts = taches.length > 0
     ? taches.map(t => `<option value="${t.id}">${t.nom}</option>`).join('')
-    : '<option value="">Aucune tâche Gantt — créez d&#39;abord un Gantt</option>';
+    : '';
+  selTask.innerHTML = opts + '<option value="__autre__">— Autre (saisie libre) —</option>';
+  document.getElementById('ligneLibreWrap').style.display = 'none';
+  document.getElementById('ligneLibre').value = '';
   const sel = document.getElementById('ligneRsc');
   sel.innerHTML = ressources.map(r => `<option value="${rscName(r)}">${rscName(r)}</option>`).join('');
   openOverlay('addLigneOverlay');
+}
+
+function onLigneTaskChange() {
+  const v = document.getElementById('ligneTask').value;
+  const wrap = document.getElementById('ligneLibreWrap');
+  if (v === '__autre__') {
+    wrap.style.display = '';
+    document.getElementById('ligneLibre').focus();
+  } else {
+    wrap.style.display = 'none';
+    document.getElementById('ligneLibre').value = '';
+  }
 }
 
 function openEditLigneModal(ligneId) {
   curLigneId = ligneId;
   const l = lignesProjets.find(x => x.id === ligneId);
   const t = ganttTaches.find(x => x.id === l.tacheGanttId);
+  const nomAff = l.tacheLibre || (t ? t.nom : '?');
   document.getElementById('addLigneMTitle').textContent = 'Modifier la ligne';
-  document.getElementById('addLigneMSub').textContent = (t ? t.nom : '?') + ' — ' + l.ressource;
+  document.getElementById('addLigneMSub').textContent = nomAff + ' — ' + l.ressource;
   document.getElementById('delLigneBtn').style.display = 'inline-flex';
   const taches = ganttTaches.filter(t => t.projetId === currentProjId);
   const selTask = document.getElementById('ligneTask');
-  selTask.innerHTML = taches.map(t => `<option value="${t.id}" ${t.id===l.tacheGanttId?'selected':''}>${t.nom}</option>`).join('');
+  const opts = taches.map(t => `<option value="${t.id}" ${t.id===l.tacheGanttId?'selected':''}>${t.nom}</option>`).join('');
+  const autreSelected = l.tacheLibre ? 'selected' : '';
+  selTask.innerHTML = opts + `<option value="__autre__" ${autreSelected}>— Autre (saisie libre) —</option>`;
+  const wrap = document.getElementById('ligneLibreWrap');
+  const inp  = document.getElementById('ligneLibre');
+  if (l.tacheLibre) { wrap.style.display = ''; inp.value = l.tacheLibre; }
+  else { wrap.style.display = 'none'; inp.value = ''; }
   const sel = document.getElementById('ligneRsc');
   sel.innerHTML = ressources.map(r => `<option value="${rscName(r)}" ${rscName(r)===l.ressource?'selected':''}>${rscName(r)}</option>`).join('');
   openOverlay('addLigneOverlay');
 }
 
 function saveLigne() {
-  const tacheId = parseInt(document.getElementById('ligneTask').value);
+  const taskVal = document.getElementById('ligneTask').value;
   const rsc = document.getElementById('ligneRsc').value;
-  if (!tacheId) { showToast('Sélectionner une tâche', 'err'); return; }
+  const isAutre = taskVal === '__autre__';
+  const tacheId = isAutre ? null : parseInt(taskVal);
+  const tacheLibre = isAutre ? document.getElementById('ligneLibre').value.trim() : null;
+  if (!isAutre && !tacheId) { showToast('Sélectionner une tâche', 'err'); return; }
+  if (isAutre && !tacheLibre) { showToast('Saisir une description de tâche', 'err'); return; }
   if (curLigneId) {
     const i = lignesProjets.findIndex(l => l.id === curLigneId);
-    lignesProjets[i] = { ...lignesProjets[i], tacheGanttId: tacheId, ressource: rsc };
+    lignesProjets[i] = { ...lignesProjets[i], tacheGanttId: tacheId, tacheLibre: tacheLibre || null, ressource: rsc };
   } else {
-    // Vérifier doublons tâche+ressource
-    const exists = lignesProjets.find(l => l.projetId===currentProjId && l.tacheGanttId===tacheId && l.ressource===rsc);
+    const exists = lignesProjets.find(l => l.projetId===currentProjId && l.ressource===rsc &&
+      (isAutre ? l.tacheLibre===tacheLibre : l.tacheGanttId===tacheId));
     if (exists) { showToast('Cette combinaison tâche/ressource existe déjà', 'err'); return; }
-    const nl={ id: nextId++, projetId: currentProjId, tacheGanttId: tacheId, ressource: rsc };
+    const nl = { id: nextId++, projetId: currentProjId, tacheGanttId: tacheId, tacheLibre: tacheLibre||null, ressource: rsc };
     lignesProjets.push(nl);
   }
   saveAllData();
