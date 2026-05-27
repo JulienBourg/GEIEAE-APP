@@ -124,6 +124,21 @@ function renderGantt() {
     </th>`;
   });
   dRow += '</tr>';
+
+  // ── Colgroup pour table-layout:fixed (alignement parfait head/body) ──
+  const cg = [
+    `<col style="width:${COL_TASK}px;min-width:${COL_TASK}px">`,
+    `<col style="width:${COL_DATE}px;min-width:${COL_DATE}px">`,
+    `<col style="width:${COL_DATE}px;min-width:${COL_DATE}px">`,
+    `<col style="width:${COL_DATE+20}px;min-width:${COL_DATE+20}px">`
+  ].concat(cols.map(c => `<col style="width:${c.width}px;min-width:${c.width}px">`));
+  const colgroupHtml = '<colgroup>' + cg.join('') + '</colgroup>';
+
+  const ganttTable = document.getElementById('ganttTable');
+  ganttTable.style.tableLayout = 'fixed';
+  ganttTable.querySelectorAll('colgroup').forEach(c => c.remove());
+  ganttTable.insertAdjacentHTML('afterbegin', colgroupHtml);
+
   document.getElementById('ganttHead').innerHTML = mRow + dRow;
 
   // ── Body ────────────────────────────────────────────────────
@@ -139,24 +154,24 @@ function renderGantt() {
       let row = '<tr style="height:38px">';
 
       // Col Tâche (sticky)
-      row += `<td onclick="openEditGanttTache(${t.id})" style="position:sticky;left:0;z-index:5;background:#fff;min-width:${COL_TASK}px;width:${COL_TASK}px;height:38px;padding:0 12px;border-right:1px solid var(--grey-200);font-size:12px;font-weight:500;color:var(--navy);vertical-align:middle;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer">${t.nom} <span style="color:var(--grey-400);font-size:10px">✏️</span></td>`;
+      row += `<td onclick="openEditGanttTache(${t.id})" style="position:sticky;left:0;z-index:5;background:#fff;min-width:${COL_TASK}px;width:${COL_TASK}px;max-width:${COL_TASK}px;height:38px;padding:0 12px;border-right:1px solid var(--grey-200);font-size:12px;font-weight:500;color:var(--navy);vertical-align:middle;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer">${t.nom} <span style="color:var(--grey-400);font-size:10px">✏️</span></td>`;
 
       // Col Début (sticky, input date)
-      row += `<td style="position:sticky;left:${COL_TASK}px;z-index:5;background:#fff;min-width:${COL_DATE}px;width:${COL_DATE}px;height:38px;padding:2px 6px;border-right:1px solid var(--grey-200);vertical-align:middle">
+      row += `<td style="position:sticky;left:${COL_TASK}px;z-index:5;background:#fff;min-width:${COL_DATE}px;width:${COL_DATE}px;max-width:${COL_DATE}px;height:38px;padding:2px 6px;border-right:1px solid var(--grey-200);vertical-align:middle">
         <input type="date" value="${t.dateDebut||''}"
           onchange="updateGanttTache(${t.id},'dateDebut',this.value)"
           style="width:100%;height:30px;border:1px solid var(--grey-300);border-radius:4px;padding:2px 4px;font-size:11px;font-family:'DM Sans',sans-serif;color:var(--navy);background:#fff">
       </td>`;
 
       // Col Fin (sticky, input date)
-      row += `<td style="position:sticky;left:${COL_TASK+COL_DATE}px;z-index:5;background:#fff;min-width:${COL_DATE}px;width:${COL_DATE}px;height:38px;padding:2px 6px;border-right:1px solid var(--grey-200);vertical-align:middle">
+      row += `<td style="position:sticky;left:${COL_TASK+COL_DATE}px;z-index:5;background:#fff;min-width:${COL_DATE}px;width:${COL_DATE}px;max-width:${COL_DATE}px;height:38px;padding:2px 6px;border-right:1px solid var(--grey-200);vertical-align:middle">
         <input type="date" value="${t.dateFin||''}"
           onchange="updateGanttTache(${t.id},'dateFin',this.value)"
           style="width:100%;height:30px;border:1px solid var(--grey-300);border-radius:4px;padding:2px 4px;font-size:11px;font-family:'DM Sans',sans-serif;color:var(--navy);background:#fff">
       </td>`;
 
       // Col Jalon (sticky, input date + bouton suppr)
-      row += `<td style="position:sticky;left:${COL_TASK+COL_DATE*2}px;z-index:5;background:#fff;min-width:${COL_DATE+20}px;width:${COL_DATE+20}px;height:38px;padding:2px 6px;border-right:2px solid var(--grey-300);vertical-align:middle">
+      row += `<td style="position:sticky;left:${COL_TASK+COL_DATE*2}px;z-index:5;background:#fff;min-width:${COL_DATE+20}px;width:${COL_DATE+20}px;max-width:${COL_DATE+20}px;height:38px;padding:2px 6px;border-right:2px solid var(--grey-300);vertical-align:middle">
         <div style="display:flex;align-items:center;gap:4px">
           <input type="date" value="${t.jalon||''}"
             onchange="updateGanttTache(${t.id},'jalon',this.value||null)"
@@ -225,7 +240,7 @@ function renderGantt() {
         }
 
         const todayShadow = col.isToday && ganttScale === 'day' ? 'box-shadow:inset 0 0 0 1px rgba(240,120,0,.4);' : '';
-        row += `<td style="width:${col.width}px;min-width:${col.width}px;text-align:center;vertical-align:middle;border-right:1px solid var(--grey-200);background:${bg};${todayShadow}position:relative">${content}</td>`;
+        row += `<td style="width:${col.width}px;min-width:${col.width}px;max-width:${col.width}px;text-align:center;vertical-align:middle;border-right:1px solid var(--grey-200);background:${bg};${todayShadow}position:relative">${content}</td>`;
       });
 
       row += '</tr>';

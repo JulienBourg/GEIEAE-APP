@@ -81,17 +81,17 @@ function renderPP() {
 
     let row = `<tr>`;
     // Tâche cell (sticky left) — affiche nom depuis Gantt
-    row += `<td style="position:sticky;left:0;z-index:5;background:#fff;min-width:160px;width:160px;height:36px;padding:0 12px;border-right:1px solid var(--grey-200);font-size:12px;font-weight:500;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer" onclick="openEditLigneModal(${l.id})" title="Cliquer pour modifier/supprimer cette ligne">${tacheNom} <span style="color:var(--grey-400);font-size:10px">✏️</span></td>`;
+    row += `<td style="position:sticky;left:0;z-index:5;background:#fff;min-width:160px;width:160px;max-width:160px;height:36px;padding:0 12px;border-right:1px solid var(--grey-200);font-size:12px;font-weight:500;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer" onclick="openEditLigneModal(${l.id})" title="Cliquer pour modifier/supprimer cette ligne">${tacheNom} <span style="color:var(--grey-400);font-size:10px">✏️</span></td>`;
     // Ressource cell
-    row += `<td style="position:sticky;left:160px;z-index:5;background:#fff;min-width:160px;width:160px;height:36px;padding:0 10px;border-right:2px solid var(--grey-200);font-size:11px;color:var(--grey-600);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${l.ressource}</td>`;
+    row += `<td style="position:sticky;left:160px;z-index:5;background:#fff;min-width:160px;width:160px;max-width:160px;height:36px;padding:0 10px;border-right:2px solid var(--grey-200);font-size:11px;color:var(--grey-600);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${l.ressource}</td>`;
 
     dates.forEach(d => {
       const ds = fmtISO(d);
       const rscObj = ressources.find(r => rscName(r) === l.ressource);
       const pays = rscObj ? (rscObj.Pays||'France') : 'France';
       const we = isWE(d); const ferie = isFerie(ds, pays); const td = isToday(ds);
-      if (we) { row += `<td class="td-cell we"></td>`; return; }
-      if (ferie) { row += `<td class="td-cell ferie" title="${ferie.Libelle}">🎌</td>`; return; }
+      if (we) { row += `<td class="td-cell we" style="width:48px;min-width:48px;max-width:48px"></td>`; return; }
+      if (ferie) { row += `<td class="td-cell ferie" style="width:48px;min-width:48px;max-width:48px" title="${ferie.Libelle}">🎌</td>`; return; }
 
       // Zone verte = dans la période de la tâche Gantt
       const inGanttRange = tacheDebut && tacheFin && ds >= tacheDebut && ds <= tacheFin;
@@ -105,13 +105,13 @@ function renderPP() {
       const todayShadow = td ? 'box-shadow:inset 0 0 0 1px rgba(240,120,0,.4);' : '';
 
       if (h && h.heures > 0) {
-        row += `<td class="td-cell" style="${bg}${todayShadow}" id="pp_${l.id}_${ds}" onclick="openPPH(${l.id},'${ds}','pp_${l.id}_${ds}')">
+        row += `<td class="td-cell" style="${bg}${todayShadow}width:48px;min-width:48px;max-width:48px" id="pp_${l.id}_${ds}" onclick="openPPH(${l.id},'${ds}','pp_${l.id}_${ds}')">
           <span class="chip chip-heures" style="pointer-events:none">${h.heures}</span>
           ${isJalonDay ? '<span style="position:absolute;top:2px;right:2px;font-size:8px;pointer-events:none">🔶</span>' : ''}
         </td>`;
       } else {
         const jalIcon = isJalonDay ? '<span style="font-size:10px;pointer-events:none">🔶</span>' : '';
-        row += `<td class="td-cell" style="${bg}${todayShadow};position:relative" id="pp_${l.id}_${ds}" onclick="openPPH(${l.id},'${ds}','pp_${l.id}_${ds}')">${jalIcon}</td>`;
+        row += `<td class="td-cell" style="${bg}${todayShadow}position:relative;width:48px;min-width:48px;max-width:48px" id="pp_${l.id}_${ds}" onclick="openPPH(${l.id},'${ds}','pp_${l.id}_${ds}')">${jalIcon}</td>`;
       }
     });
     row += `</tr>`;
@@ -121,14 +121,14 @@ function renderPP() {
   // Total row
   if (lignes.length > 0) {
     let totRow = `<tr style="background:var(--navy-dark)">
-      <td style="position:sticky;left:0;z-index:5;background:var(--navy-dark);min-width:160px;width:160px;height:36px;padding:0 12px;font-size:11px;font-weight:700;color:#fff">TOTAL</td>
-      <td style="position:sticky;left:160px;z-index:5;background:var(--navy-dark);min-width:160px;width:160px;border-right:2px solid rgba(255,255,255,.2)"></td>`;
+      <td style="position:sticky;left:0;z-index:5;background:var(--navy-dark);min-width:160px;width:160px;max-width:160px;height:36px;padding:0 12px;font-size:11px;font-weight:700;color:#fff">TOTAL</td>
+      <td style="position:sticky;left:160px;z-index:5;background:var(--navy-dark);min-width:160px;width:160px;max-width:160px;border-right:2px solid rgba(255,255,255,.2)"></td>`;
     dates.forEach(d => {
       const ds = fmtISO(d);
-      if (isWE(d)) { totRow += `<td style="background:var(--navy-dark);border-right:1px solid rgba(255,255,255,.1)"></td>`; return; }
+      if (isWE(d)) { totRow += `<td style="background:var(--navy-dark);border-right:1px solid rgba(255,255,255,.1);width:48px;min-width:48px;max-width:48px"></td>`; return; }
       const tot = heuresProjets.filter(x => x.projetId === currentProjId && x.date === ds)
         .reduce((s, x) => s + x.heures, 0);
-      totRow += `<td style="background:var(--navy-dark);text-align:center;border-right:1px solid rgba(255,255,255,.1);font-family:'DM Mono',monospace;font-size:11px;font-weight:600;color:${tot>0?'#fff':'rgba(255,255,255,.2)'}">${tot>0?tot:''}</td>`;
+      totRow += `<td style="background:var(--navy-dark);text-align:center;border-right:1px solid rgba(255,255,255,.1);font-family:'DM Mono',monospace;font-size:11px;font-weight:600;color:${tot>0?'#fff':'rgba(255,255,255,.2)'};width:48px;min-width:48px;max-width:48px">${tot>0?tot:''}</td>`;
     });
     totRow += `</tr>`;
     html += totRow;
