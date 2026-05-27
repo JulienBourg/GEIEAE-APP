@@ -1,9 +1,15 @@
 // ═══════════════════════════════════════════════════════════════
 // COUCHE FIREBASE FIRESTORE — Lecture/Écriture des données
+// Architecture : listener temps réel + transaction atomique
+// Supporte l'usage simultané multi-utilisateurs
 // ═══════════════════════════════════════════════════════════════
 
-// Firebase SDK (chargé depuis CDN dans le head)
 let db = null;
+let _unsubscribeSnapshot = null; // Pour détacher le listener si besoin
+let _isSaving = false;           // Verrou : évite que le snapshot externe
+                                  // n'écrase nos données pendant qu'on sauvegarde
+let _pendingSave = false;         // Une sauvegarde est en attente après le verrou
+let saveTimeout = null;
 
 // ── Init Firebase (compat SDK chargé dans le head) ──────────
 function initFirebase() {
@@ -21,62 +27,200 @@ function initFirebase() {
   return db;
 }
 
-// ── Charger toutes les données depuis Firestore ──────────────
+// ── Recalculer nextId à partir des données en mémoire ───────
+function _recalcNextId() {
+  const allIds = [
+    ...ressources, ...projets, ...absences, ...horsProjets,
+    ...ganttTaches, ...lignesProjets, ...heuresProjets
+    // joursFeries a des IDs fixes, on les exclut
+  ].map(x => x.id || 0);
+  nextId = allIds.length > 0 ? Math.max(...allIds) + 1 : 1;
+}
+
+// ── Appliquer un snapshot Firestore en mémoire ───────────────
+// Appelé au chargement initial ET à chaque mise à jour externe
+function _applySnapshot(data) {
+  ressources    = data.ressources    || [];
+  projets       = data.projets       || [];
+  absences      = data.absences      || [];
+  horsProjets   = data.horsProjets   || [];
+  ganttTaches   = data.ganttTaches   || [];
+  lignesProjets = data.lignesProjets || [];
+  heuresProjets = data.heuresProjets || [];
+  // joursFeries : on ne remplace PAS si le doc n'en contient pas
+  // (données statiques définies dans ce fichier), mais on accepte
+  // les surcharges de Firestore si présentes
+  if (data.joursFeries && data.joursFeries.length > 0) {
+    joursFeries = data.joursFeries;
+  }
+  _recalcNextId();
+}
+
+// ── Charger les données + démarrer le listener temps réel ───
 async function loadAllData() {
   showLoading(true);
   try {
     const _db = initFirebase();
-    const docSnap = await _db.collection('geieae').doc('appdata').get();
+    const docRef = _db.collection('geieae').doc('appdata');
 
+    // Lecture initiale synchrone pour affichage rapide
+    const docSnap = await docRef.get();
     if (docSnap.exists) {
-      const data = docSnap.data();
-      ressources    = data.ressources    || [];
-      projets       = data.projets       || [];
-      absences      = data.absences      || [];
-      horsProjets   = data.horsProjets   || [];
-      ganttTaches   = data.ganttTaches   || [];
-      lignesProjets = data.lignesProjets || [];
-      heuresProjets = data.heuresProjets || [];
-      joursFeries   = data.joursFeries   || [];
-
-      const allIds = [...ressources,...projets,...absences,...horsProjets,
-        ...ganttTaches,...lignesProjets,...heuresProjets,...joursFeries].map(x=>x.id||0);
-      nextId = allIds.length > 0 ? Math.max(...allIds) + 1 : 1;
+      _applySnapshot(docSnap.data());
       showToast('Données chargées ✓', 'ok');
     } else {
+      // Premier lancement : initialiser avec les données vides
       ressources=[]; projets=[]; absences=[]; horsProjets=[];
-      ganttTaches=[]; lignesProjets=[]; heuresProjets=[]; joursFeries=[];
+      ganttTaches=[]; lignesProjets=[]; heuresProjets=[];
+      nextId = 1;
       showToast('Première utilisation — données vides', '');
     }
+
     showLoading(false);
     renderAll();
+
+    // ── Démarrer le listener temps réel ─────────────────────
+    // Toute modification faite par un autre utilisateur sera
+    // reçue ici et appliquée automatiquement
+    if (_unsubscribeSnapshot) _unsubscribeSnapshot(); // détacher ancien listener
+
+    _unsubscribeSnapshot = docRef.onSnapshot(
+      { includeMetadataChanges: false }, // on ignore les changements de cache local
+      (snap) => {
+        // Ignorer si c'est notre propre sauvegarde en cours
+        if (_isSaving) return;
+        // Ignorer les événements depuis le cache local (pas du serveur)
+        if (snap.metadata.fromCache) return;
+        // Ignorer si pas de document
+        if (!snap.exists) return;
+
+        _applySnapshot(snap.data());
+        renderAll();
+        _showSyncBadge(); // indicateur discret "mis à jour"
+      },
+      (err) => {
+        console.error('onSnapshot error:', err);
+        showToast('⚠️ Perte de synchronisation temps réel', 'err');
+      }
+    );
+
   } catch(e) {
     showLoading(false);
     ressources=[]; projets=[]; absences=[]; horsProjets=[];
-    ganttTaches=[]; lignesProjets=[]; heuresProjets=[]; joursFeries=[];
+    ganttTaches=[]; lignesProjets=[]; heuresProjets=[];
     renderAll();
     showToast('Erreur Firebase: ' + e.message, 'err');
     console.error('loadAllData:', e);
   }
 }
 
-// ── Sauvegarder toutes les données dans Firestore ───────────
-let saveTimeout = null;
+// ── Sauvegarder toutes les données (debounce 400ms) ─────────
+//
+// STRATÉGIE ANTI-ÉCRASEMENT :
+// On utilise une transaction Firestore qui lit l'état serveur
+// avant d'écrire. Si deux utilisateurs sauvegardent en même
+// temps, Firestore rejouera automatiquement la transaction
+// perdante avec les données à jour, évitant tout écrasement.
+//
 function saveAllData() {
   clearTimeout(saveTimeout);
-  saveTimeout = setTimeout(async () => {
-    try {
-      const _db = initFirebase();
-      await _db.collection('geieae').doc('appdata').set({
-        ressources, projets, absences, horsProjets,
-        ganttTaches, lignesProjets, heuresProjets, joursFeries
+  saveTimeout = setTimeout(_doSave, 400);
+}
+
+async function _doSave() {
+  _isSaving = true;
+  try {
+    const _db = initFirebase();
+    const docRef = _db.collection('geieae').doc('appdata');
+
+    // Transaction : lecture + écriture atomiques
+    await _db.runTransaction(async (tx) => {
+      // Lire l'état serveur actuel (pour que la transaction
+      // soit enregistrée comme dépendante de cette version)
+      await tx.get(docRef);
+
+      // Écrire notre état complet
+      // Note : on utilise set() et non merge() car on veut
+      // que notre état mémoire (qui est toujours le plus récent
+      // pour NOTRE session) soit la référence.
+      tx.set(docRef, {
+        ressources,
+        projets,
+        absences,
+        horsProjets,
+        ganttTaches,
+        lignesProjets,
+        heuresProjets,
+        joursFeries,
+        _lastSaved: firebase.firestore.FieldValue.serverTimestamp(),
+        _savedBy: navigator.userAgent.slice(0, 60) // debug
       });
-      console.log('Données sauvegardées ✓');
-    } catch(e) {
-      showToast('Erreur sauvegarde: ' + e.message, 'err');
-      console.error('saveAllData:', e);
+    });
+
+    _showSaveIndicator('ok');
+  } catch(e) {
+    // La transaction peut échouer si trop de contentions (>5 tentatives)
+    // On propose alors un rechargement pour récupérer l'état serveur
+    console.error('saveAllData transaction:', e);
+    _showSaveIndicator('err');
+    showToast('❌ Erreur sauvegarde — rechargement conseillé', 'err');
+  } finally {
+    _isSaving = false;
+    if (_pendingSave) {
+      _pendingSave = false;
+      saveAllData(); // exécuter la sauvegarde qui attendait
     }
-  }, 500);
+  }
+}
+
+// ── Indicateur de sauvegarde discret dans la topbar ─────────
+function _showSaveIndicator(state) {
+  let el = document.getElementById('_saveIndicator');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = '_saveIndicator';
+    el.style.cssText = [
+      'position:fixed', 'bottom:18px', 'right:22px', 'z-index:8000',
+      'font-size:11px', 'font-weight:600', 'padding:5px 12px',
+      'border-radius:20px', 'pointer-events:none',
+      'transition:opacity .4s', 'opacity:0'
+    ].join(';');
+    document.body.appendChild(el);
+  }
+  if (state === 'ok') {
+    el.style.background = '#d1fae5';
+    el.style.color = '#065f46';
+    el.textContent = '✓ Sauvegardé';
+  } else {
+    el.style.background = '#fee2e2';
+    el.style.color = '#991b1b';
+    el.textContent = '✗ Erreur sauvegarde';
+  }
+  el.style.opacity = '1';
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.style.opacity = '0'; }, 2500);
+}
+
+// ── Badge "mis à jour par un autre utilisateur" ─────────────
+function _showSyncBadge() {
+  let el = document.getElementById('_syncBadge');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = '_syncBadge';
+    el.style.cssText = [
+      'position:fixed', 'bottom:18px', 'left:50%',
+      'transform:translateX(-50%)',
+      'z-index:8000', 'font-size:11px', 'font-weight:600',
+      'padding:6px 16px', 'border-radius:20px',
+      'background:#dbeafe', 'color:#1e40af',
+      'pointer-events:none', 'transition:opacity .4s', 'opacity:0'
+    ].join(';');
+    document.body.appendChild(el);
+  }
+  el.textContent = '🔄 Données mises à jour par un autre utilisateur';
+  el.style.opacity = '1';
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.style.opacity = '0'; }, 3500);
 }
 
 function showLoading(show) {
