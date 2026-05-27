@@ -217,4 +217,4 @@ textarea.form-c{resize:vertical;min-height:60px;line-height:1.5}
 .stat-card{background:var(--grey-50);border:1px solid var(--grey-200);border-radius:var(--r);padding:10px 16px;min-width:120px}
 .stat-label{font-size:10px;color:var(--grey-600);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
 .stat-value{font-size:20px;font-weight:600;color:var(--navy);font-family:'DM Mono',monospace;margin-top:2px}
-.stat-sub{font-size:10px;color:var(--grey-500);margin-top:1px}
+.stat-sub{font-size:10px;color:var(--grey-500);margin-top:1px}#rteFixed::-webkit-scrollbar{display:none}
