@@ -87,7 +87,11 @@
     </div>
     <div class="form-g">
       <label class="form-l">Tâche (depuis le Gantt)</label>
-      <select class="form-c" id="ligneTask"></select>
+      <select class="form-c" id="ligneTask" onchange="onLigneTaskChange()"></select>
+    </div>
+    <div class="form-g" id="ligneLibreWrap" style="display:none">
+      <label class="form-l">Description de la tâche</label>
+      <input class="form-c" id="ligneLibre" type="text" placeholder="Ex : Réunion de chantier, Formation…" maxlength="80">
     </div>
     <div class="form-g">
       <label class="form-l">Ressource</label>

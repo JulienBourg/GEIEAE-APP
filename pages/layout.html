@@ -454,13 +454,13 @@
     </div>
     <!-- Onglet 1 : Projets -->
     <div id="rtePanel1" style="padding:0 24px 28px;flex:1;overflow:hidden;display:flex;flex-direction:column">
-      <div style="display:flex;align-items:flex-start;overflow:hidden;border:1px solid var(--grey-200);border-radius:6px">
-        <!-- Colonnes fixes (jamais bougent) -->
-        <div id="rteFixed" style="flex-shrink:0;overflow:hidden;border-right:3px solid var(--grey-400);z-index:2;background:#fff">
+      <div id="rteTableWrap" style="display:flex;align-items:flex-start;border:1px solid var(--grey-200);border-radius:6px;overflow:hidden">
+        <!-- Colonnes fixes (scroll vertical synchronise, scrollbar cachee) -->
+        <div id="rteFixed" style="flex-shrink:0;overflow-x:hidden;overflow-y:scroll;scrollbar-width:none;border-right:3px solid var(--grey-400);z-index:2;background:#fff">
           <table id="rteTableFixed" style="border-collapse:collapse;font-size:11px;white-space:nowrap;table-layout:fixed"></table>
         </div>
-        <!-- Colonnes scrollantes (semaines) -->
-        <div id="rteScroll" style="flex:1;overflow-x:auto;overflow-y:hidden">
+        <!-- Colonnes scrollantes (semaines) scroll horizontal ET vertical -->
+        <div id="rteScroll" style="flex:1;overflow-x:auto;overflow-y:auto">
           <table id="rteTableScroll" style="border-collapse:collapse;font-size:11px;white-space:nowrap;table-layout:fixed"></table>
         </div>
       </div>
