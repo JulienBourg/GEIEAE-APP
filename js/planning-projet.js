@@ -36,15 +36,15 @@ function renderPP() {
   const mb = monthBlocks(ppStart, PP_DAYS);
   // Ligne mois : 2 cols fixes + blocs mois
   let mRow = '<tr class="month-hdr">' +
-    '<th class="col-ressource" style="min-width:160px;width:160px"></th>' +
-    '<th style="position:sticky;left:160px;z-index:21;background:var(--navy-dark);min-width:160px;width:160px"></th>';
+    '<th class="col-ressource" style="min-width:220px;width:220px"></th>' +
+    '<th style="position:sticky;left:220px;z-index:21;background:var(--navy-dark);min-width:160px;width:160px"></th>';
   mb.forEach(b => { mRow += `<th colspan="${b.n}" style="text-align:center;padding:0 6px">${MONTHS_FR[b.m]} ${b.y}</th>`; });
   mRow += '</tr>';
 
   // Ligne jours : 2 cols fixes + un th par jour
   let dRow = '<tr>' +
-    '<th class="col-ressource" style="min-width:160px;width:160px;position:sticky;left:0;z-index:20;background:var(--navy);text-align:left;padding-left:12px;font-size:11px;font-weight:600;height:32px">Tâche</th>' +
-    '<th style="position:sticky;left:160px;z-index:20;background:var(--navy);min-width:160px;width:160px;padding:0 10px;font-size:11px;font-weight:600;white-space:nowrap">Ressource</th>';
+    '<th class="col-ressource" style="min-width:220px;width:220px;position:sticky;left:0;z-index:20;background:var(--navy);text-align:left;padding-left:12px;font-size:11px;font-weight:600;height:32px">Tâche</th>' +
+    '<th style="position:sticky;left:220px;z-index:20;background:var(--navy);min-width:160px;width:160px;padding:0 10px;font-size:11px;font-weight:600;white-space:nowrap">Ressource</th>';
   dates.forEach(d => {
     const ds = fmtISO(d);
     const we = isWE(d); const td = isToday(ds);
@@ -54,7 +54,7 @@ function renderPP() {
   dRow += '</tr>';
   // Colgroup identique dans les deux tables pour forcer table-layout:fixed
   const ppCols = [
-    '<col style="width:160px;min-width:160px">',
+    '<col style="width:220px;min-width:220px">',
     '<col style="width:160px;min-width:160px">'
   ].concat(dates.map(() => '<col style="width:48px;min-width:48px">'));
   const colgroupHtml = '<colgroup>' + ppCols.join('') + '</colgroup>';
@@ -81,9 +81,9 @@ function renderPP() {
 
     let row = `<tr>`;
     // Tâche cell (sticky left) — affiche nom depuis Gantt
-    row += `<td style="position:sticky;left:0;z-index:5;background:#fff;min-width:160px;width:160px;max-width:160px;height:36px;padding:0 12px;border-right:1px solid var(--grey-200);font-size:12px;font-weight:500;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer" onclick="openEditLigneModal(${l.id})" title="${tacheNom} — cliquer pour modifier">${tacheNom} <span style="color:var(--grey-400);font-size:10px">✏️</span></td>`;
+    row += `<td style="position:sticky;left:0;z-index:5;background:#fff;min-width:220px;width:220px;max-width:220px;height:36px;padding:0 12px;border-right:1px solid var(--grey-200);font-size:12px;font-weight:500;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer" onclick="openEditLigneModal(${l.id})" title="${tacheNom} — cliquer pour modifier">${tacheNom} <span style="color:var(--grey-400);font-size:10px">✏️</span></td>`;
     // Ressource cell
-    row += `<td style="position:sticky;left:160px;z-index:5;background:#fff;min-width:160px;width:160px;max-width:160px;height:36px;padding:0 10px;border-right:2px solid var(--grey-200);font-size:11px;color:var(--grey-600);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${l.ressource}</td>`;
+    row += `<td style="position:sticky;left:220px;z-index:5;background:#fff;min-width:160px;width:160px;max-width:160px;height:36px;padding:0 10px;border-right:2px solid var(--grey-200);font-size:11px;color:var(--grey-600);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${l.ressource}</td>`;
 
     dates.forEach(d => {
       const ds = fmtISO(d);
@@ -121,8 +121,8 @@ function renderPP() {
   // Total row
   if (lignes.length > 0) {
     let totRow = `<tr style="background:var(--navy-dark)">
-      <td style="position:sticky;left:0;z-index:5;background:var(--navy-dark);min-width:160px;width:160px;max-width:160px;height:36px;padding:0 12px;font-size:11px;font-weight:700;color:#fff">TOTAL</td>
-      <td style="position:sticky;left:160px;z-index:5;background:var(--navy-dark);min-width:160px;width:160px;max-width:160px;border-right:2px solid rgba(255,255,255,.2)"></td>`;
+      <td style="position:sticky;left:0;z-index:5;background:var(--navy-dark);min-width:220px;width:220px;max-width:220px;height:36px;padding:0 12px;font-size:11px;font-weight:700;color:#fff">TOTAL</td>
+      <td style="position:sticky;left:220px;z-index:5;background:var(--navy-dark);min-width:160px;width:160px;max-width:160px;border-right:2px solid rgba(255,255,255,.2)"></td>`;
     dates.forEach(d => {
       const ds = fmtISO(d);
       if (isWE(d)) { totRow += `<td style="background:var(--navy-dark);border-right:1px solid rgba(255,255,255,.1);width:48px;min-width:48px;max-width:48px"></td>`; return; }
