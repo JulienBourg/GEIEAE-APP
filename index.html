@@ -266,8 +266,26 @@
       <table class="data-table" id="projTable">
         <thead>
           <tr>
-            <th>N° Commande</th><th>Nom du projet</th><th>Type</th>
-            <th>Entité</th><th>Responsable</th><th>Client</th><th>Statut</th><th>Actions</th>
+            <th>N° Interne</th><th>Nom du projet</th><th>Date commande</th><th>Type</th>
+            <th>Entité</th><th>Chargé d'affaire</th><th>Client</th><th>Interlocuteur client</th><th>Statut</th><th>Actions</th>
+          </tr>
+          <tr id="projFilterRow">
+            <th><input class="proj-filter" id="fNumInterne"  placeholder="Filtrer…" oninput="renderProj()"></th>
+            <th><input class="proj-filter" id="fNom"         placeholder="Filtrer…" oninput="renderProj()"></th>
+            <th><input class="proj-filter" id="fDate"        placeholder="Filtrer…" oninput="renderProj()"></th>
+            <th><select class="proj-filter" id="fType"       onchange="renderProj()">
+              <option value="">Tous</option><option>LA</option><option>LS</option><option>Mixte</option><option>Autre</option>
+            </select></th>
+            <th><select class="proj-filter" id="fEntite"     onchange="renderProj()">
+              <option value="">Toutes</option><option value="AE">AE</option><option value="EQOS">EQOS</option>
+            </select></th>
+            <th><input class="proj-filter" id="fResp"        placeholder="Filtrer…" oninput="renderProj()"></th>
+            <th><input class="proj-filter" id="fClient"      placeholder="Filtrer…" oninput="renderProj()"></th>
+            <th><input class="proj-filter" id="fInterlocuteur" placeholder="Filtrer…" oninput="renderProj()"></th>
+            <th><select class="proj-filter" id="fStatut"     onchange="renderProj()">
+              <option value="">Tous</option><option>En cours</option><option>Offre</option><option>Non démarré</option><option>Stand-by</option><option>Terminé</option>
+            </select></th>
+            <th></th>
           </tr>
         </thead>
         <tbody id="projBody"></tbody>
@@ -952,9 +970,10 @@
       <button class="modal-x" onclick="closeOverlay('projOverlay')">×</button>
     </div>
     <div style="overflow-y:auto;flex:1">
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px">
         <div class="form-g"><label class="form-l">N° Commande</label><input class="form-c" id="projCmd" placeholder="4500XXXXXX"></div>
         <div class="form-g"><label class="form-l">EOTP</label><input class="form-c" id="projEOTP" placeholder="Ex: 100.123456"></div>
+        <div class="form-g"><label class="form-l">N° Interne</label><input class="form-c" id="projNumInterne" placeholder="Ex: 2024-001"></div>
         <div class="form-g"><label class="form-l">Nom du projet</label><input class="form-c" id="projNom" placeholder="Nom du projet"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
@@ -969,8 +988,9 @@
         </div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div class="form-g"><label class="form-l">Responsable</label><input class="form-c" id="projResp"></div>
+        <div class="form-g"><label class="form-l">Chargé d'affaire</label><select class="form-c" id="projResp"></select></div>
         <div class="form-g"><label class="form-l">Client</label><input class="form-c" id="projClient" placeholder="RTE CDI NANTES"></div>
+        <div class="form-g"><label class="form-l">Interlocuteur client</label><input class="form-c" id="projInterlocuteur" placeholder="Nom du contact client"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
         <div class="form-g"><label class="form-l">Date de début</label><input type="date" class="form-c" id="projDate"></div>
