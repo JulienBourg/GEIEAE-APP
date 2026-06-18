@@ -31,7 +31,7 @@ function isFerie(s, pays) {
   if (s === '2026-06-23') console.log('isFerie 23/06 pays='+pays+' result='+JSON.stringify(result));
   return result;
 }
-function rscName(r){return r.Nom+' '+r.Prenom;}
+function rscName(r){return r.Prenom+' '+r.Nom;}
 
 function monthBlocks(start,n){
   const blocks=[];let cur=new Date(start);let cm=cur.getMonth();let cnt=0;

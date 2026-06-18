@@ -157,8 +157,10 @@ function openAddLigneModal() {
     ? taches.map(t => `<option value="${t.id}">${t.nom}</option>`).join('')
     : '';
   selTask.innerHTML = opts + '<option value="__autre__">— Autre (saisie libre) —</option>';
-  document.getElementById('ligneLibreWrap').style.display = 'none';
+  const noTaches = taches.length === 0;
+  document.getElementById('ligneLibreWrap').style.display = noTaches ? '' : 'none';
   document.getElementById('ligneLibre').value = '';
+  if (noTaches) setTimeout(() => document.getElementById('ligneLibre').focus(), 50);
   const sel = document.getElementById('ligneRsc');
   sel.innerHTML = ressources.map(r => `<option value="${rscName(r)}">${rscName(r)}</option>`).join('');
   openOverlay('addLigneOverlay');

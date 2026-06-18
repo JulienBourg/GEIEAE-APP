@@ -47,6 +47,26 @@ function _applySnapshot(data) {
   ganttTaches   = data.ganttTaches   || [];
   lignesProjets = data.lignesProjets || [];
   heuresProjets = data.heuresProjets || [];
+
+  // ── Migration format ressource : "NOM Prenom" → "Prenom NOM" ──
+  // Construit un dictionnaire de correspondance depuis les ressources chargées
+  const _rscMap = {};
+  ressources.forEach(r => {
+    const ancien = r.Nom + ' ' + r.Prenom;
+    const nouveau = r.Prenom + ' ' + r.Nom;
+    if (ancien !== nouveau) _rscMap[ancien] = nouveau;
+  });
+  if (Object.keys(_rscMap).length > 0) {
+    lignesProjets = lignesProjets.map(l =>
+      ({ ...l, ressource: _rscMap[l.ressource] || l.ressource }));
+    absences = absences.map(a =>
+      ({ ...a, Ressource: _rscMap[a.Ressource] || a.Ressource }));
+    horsProjets = horsProjets.map(h =>
+      ({ ...h, Ressource: _rscMap[h.Ressource] || h.Ressource }));
+    projets = projets.map(p =>
+      ({ ...p, Responsable: _rscMap[p.Responsable] || p.Responsable }));
+  }
+  // ── Fin migration ──
   // joursFeries : on ne remplace PAS si le doc n'en contient pas
   // (données statiques définies dans ce fichier), mais on accepte
   // les surcharges de Firestore si présentes
